@@ -1,11 +1,8 @@
 import pool from "../db/index.js"
-/**
- *
- * TODO: IMPLEMENT FUNCTIONALITY TO CLOSE MYSQL CONNECTIONS IN ALL FUNCTIONS
- */
-export const getGigs = async () => {
+
+export const getMusicians = async () => {
     try {
-        const allGigs = pool.query("SELECT * FROM gigs")
+        const allGigs = pool.query("SELECT * FROM musicians")
         console.log("worked")
         return allGigs
     } catch (e) {
@@ -13,17 +10,19 @@ export const getGigs = async () => {
     }
 }
 
-export const getGig = async (gigId) => {
+export const getMusician = async (musicianId) => {
     try {
-        const gigById = pool.query("SELECT * FROM gigs WHERE id = $1", [gigId])
-        console.log("worked")
-        return gigById
+        const musicianById = pool.query(
+            "SELECT * FROM musicians WHERE id = $1",
+            [musicianId]
+        )
+        return musicianById
     } catch (e) {
         console.error(e)
     }
 }
 
-export const createCustomer = async (customerId, firstName, lastName) => {
+export const createMusician = async (customerId, firstName, lastName) => {
     try {
         const connection = await mysql.createConnection(mysqlConfig)
         const [rows, fields] = await connection.execute(
@@ -35,7 +34,14 @@ export const createCustomer = async (customerId, firstName, lastName) => {
     }
 }
 
-export const deleteCustomerById = async (customerId) => {
+export const updateMusician = async () => {
+    try {
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const deleteMusicianById = async (customerId) => {
     try {
         const connection = await mysql.createConnection(mysqlConfig)
         const [rows, fields] = await connection.execute(
@@ -46,12 +52,3 @@ export const deleteCustomerById = async (customerId) => {
         console.error(e)
     }
 }
-
-// const customers = {
-//     getCustomers,
-//     getCustomerById,
-//     createCustomer,
-//     deleteCustomerById,
-// }
-
-// module.exports = customers
