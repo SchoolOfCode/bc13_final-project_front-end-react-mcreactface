@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getGigs } from "../../../methods/gigs.js"
+import { getGigs } from "../../../models/gigs.js"
 
 type Data = {
   name: string
