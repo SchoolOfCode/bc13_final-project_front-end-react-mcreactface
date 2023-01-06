@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getGig, deleteGig, updateGig, createGig } from "../../../methods/gigs.js"
+import { getGig, deleteGig, updateGig, createGig } from "../../../models/gigs.js"
 
 type Data = {
   name: string

@@ -4,7 +4,7 @@ import {
     createMusician,
     updateMusician,
     deleteMusicianById,
-} from "../../../methods/musicians.js"
+} from "../../../models/musicians.js.js"
 
 type Data = {
     name: string
