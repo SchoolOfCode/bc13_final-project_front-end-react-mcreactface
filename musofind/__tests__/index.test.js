@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 //import Home from '../pages/portal';
-import { getGigs, getGig } from "../methods/musicians.js"
+import { getGigs, getGig } from "../methods/gigs.js"
 import '@testing-library/jest-dom';
 
 
