@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import navbar from "@/components/navbar"
 
 
 import styles from '@/pages/index.module.css'
+import Navbar from '@/components/navbar'
 
 export default function Home() {
   return (
@@ -12,7 +14,7 @@ export default function Home() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+<Navbar />
       <main>
       <Link href="/login"><p>Login</p></Link>
 
