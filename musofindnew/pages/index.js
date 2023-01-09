@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <Navbar />
       <main>
-      <GigsDisplay></GigsDisplay>
+      <GigsDisplay />
       <Link href="/login"><p>Login</p></Link>
       </main>
     </div>
