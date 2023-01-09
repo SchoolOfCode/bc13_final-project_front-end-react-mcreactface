@@ -16,9 +16,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <GigsDisplay />
       <main>
-      
+      <GigsDisplay></GigsDisplay>
       <Link href="/login"><p>Login</p></Link>
       </main>
     </div>

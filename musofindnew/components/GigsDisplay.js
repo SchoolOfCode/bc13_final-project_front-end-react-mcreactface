@@ -5,40 +5,34 @@ import  GigItem from './GigItem.js'
 
 export default function GigsDisplay() {
     let loading = useRef(false)
+    const [gigarray, setGigarray] = useState([])
 
     async function getGigs() {
         let gigs = useRef([])
         const supabase = useSupabaseClient()
 
         try {
-          loading = true;
-    
           let { data: gigs, error } = await supabase
             .from('gigs')
             .select('*')
-            .eq("id", 1)
+
 
           if (error) {
             throw error
           }
     
           if (gigs) {
-            console.log("gigs",gigs)
-            return (
-                gigs.map((gig) => {
-                    (<GigItem gig={gig}></GigItem>)
-                })
-            )
+            setGigarray([...gigs]);
           } else {
             console.log("No Data")
-            return (<p>oh dear</p>)
+            return ("<p>oh dear</p>")
           }
         } catch (error) {
           console.log(error)
-        } finally {
-          loading = false;
         }
       }
-    
+
     getGigs();
+
+    return( {gigarray.map(gig) => <div></div>})
 }

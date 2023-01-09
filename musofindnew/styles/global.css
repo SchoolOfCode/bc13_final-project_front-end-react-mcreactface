@@ -25,6 +25,10 @@ body {
   background-color: var(--custom-bg-color);
 }
 
+h1 {
+  color: white;
+}
+
 * {
   color: var(--custom-color);
   font-family: var(--custom-font-family);
