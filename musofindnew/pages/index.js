@@ -16,7 +16,6 @@ export default function Home() {
       </Head>
 <Navbar />
       <main>
-      <Link href="/login"><p>Login</p></Link>
 
       </main>
     </div>
