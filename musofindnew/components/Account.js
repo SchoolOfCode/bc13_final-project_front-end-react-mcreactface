@@ -6,7 +6,18 @@ export default function Account({ session }) {
   const user = useUser()
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState(null)
-
+  const [fullname, setFullname] = useState(null)
+  const [phoneNumber, setPhoneNumber] = useState(null)
+  const [address1stline, setAddress1stline] = useState(null)
+  const [address2ndline, setAddress2ndline] = useState(null)
+  const [town, setTown] = useState(null)
+  const [city, setCity] = useState(null)
+  const [postcode, setPostcode] = useState(null)
+  const [travelradius, setTravelRadius] = useState(null)
+  const [cashMinimum, setCashMinimum] = useState(null)
+  const [instruments, setInstruments] = useState(null)
+  const [genres, setGenres] = useState(null)
+  const [rating, setRating] = useState(null)
 //   const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
 
@@ -20,7 +31,7 @@ export default function Account({ session }) {
 
       let { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`username, full_name, phone_number, address1stline, address2ndline, town, city, postcode, travelradius, cashminimum, instruments, genres, avatar_url`)
         .eq('id', user.id)
         .single()
 
@@ -30,7 +41,17 @@ export default function Account({ session }) {
 
       if (data) {
         setUsername(data.username)
-        // setWebsite(data.website)
+        setFullname(data.full_name)
+        setPhoneNumber(data.phone_number)
+        setAddress1stline(data.address1stline)
+        setAddress2ndline(data.address2ndline)
+        setTown(data.town)
+        setCity(data.city)
+        setPostcode(data.postcode)
+        setTravelRadius(data.travelradius)
+        setCashMinimum(data.cashminimum)
+        setInstruments(data.instruments)
+        setGenres(data.genres)
         setAvatarUrl(data.avatar_url)
       }
     } catch (error) {
@@ -41,14 +62,24 @@ export default function Account({ session }) {
     }
   }
 
-  async function updateProfile({ username, avatar_url }) {
+  async function updateProfile({ username, full_name, phone_number, address1stline, address2ndline, town, city, postcode, travelradius, cashminimum, instruments, genres, avatar_url }) {
     try {
       setLoading(true)
 
       const updates = {
         id: user.id,
         username,
-        // website,
+        full_name,
+        phone_number,
+        address1stline,
+        address2ndline,
+        town,
+        city,
+        postcode,
+        travelradius,
+        cashminimum,
+        instruments,
+        genres,
         avatar_url,
         updated_at: new Date().toISOString(),
       }
@@ -79,7 +110,17 @@ export default function Account({ session }) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      {/* <div>
+      {/* Email input */}
+      <div>
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="text"
+          value={email || ''}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
         <label htmlFor="website">Website</label>
         <input
           id="website"
@@ -87,7 +128,7 @@ export default function Account({ session }) {
           value={website || ''}
           onChange={(e) => setWebsite(e.target.value)}
         />
-      </div> */}
+      </div>
 
       <div>
         <button
