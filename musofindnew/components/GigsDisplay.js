@@ -21,7 +21,7 @@ export default function GigsDisplay() {
     
           if (gigs) {
             console.log("getGigs(): gigs: ",gigs)
-            //setGigarray([...gigs])
+            setGigarray(gigs)
           } else {
             console.log("No Data")
            // return ("<p>oh dear</p>")
@@ -34,12 +34,24 @@ export default function GigsDisplay() {
 
     getGigs();
     console.log("Gigs is still ", gigs)
-}
-/*
-    return(gigarray.map((gig) => {
-        <div>{gig}</div>
-    }))
+  //   return (<div>
+  //     {gigarray.map((gig) => (
+  //         <div>{JSON.stringify(gig)}</div>
+  //     ))}
+  // </div>);
 
-    console.log(gigs);
+return (<div>
+  {gigarray.map((gig) => (
+      <div>{JSON.stringify(gig)}<br /><br /></div>
+  ))}
+</div>);
+
+    // return(gigarray.map((gig) => {
+    //     <div>{gig}</div>
+    // return JSON.stringify(gigarray)
+    // }))
+}
+
+
+    // console.log(gigs);
    // return(<div>{gigarray[1].city}</div>)
-}*/
