@@ -7,8 +7,10 @@ import styles from "./GigItem.module.css"
 export default function GigsDisplay() {
     let loading = useRef(false)
     let gigs = useRef([])
+    let filteredArray = useRef([])
     const [gigarray, setGigarray] = useState([])
     const supabase = useSupabaseClient()
+    const user = useUser()
 
     async function getGigs() {
       try {
@@ -32,10 +34,19 @@ export default function GigsDisplay() {
       }
     }
 
+
+
   useEffect(() => {
     getGigs();
   }, [])
 
+  if (user){
+    console.log("the id of the person logged in", user.id)
+    console.log("array of bookees", gigarray.map((gig)=> gig.bookee))
+    gigs = gigarray.filter((gig)=> gig.bookee !== user.id)
+  }
+  console.log(gigs)
+  setGigarray(gigs)
   gigs = JSON.stringify(gigs);
 
   return (<div className={styles.gigParent}>

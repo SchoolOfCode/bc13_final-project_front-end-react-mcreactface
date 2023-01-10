@@ -1,32 +1,43 @@
 .gigCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     --black: #242424;
     --lightorange: #FF5722;
     ---darkorange: #CC4C4C;
     --green: #5ACB5E;
     --grey: #9A9A9A;
     --beige: #FFDEC7;
-
     background-color: var(--beige);
     border-radius: 3vh;
+    width: 20vw;
+    height: 20vh;
 }
 
 .gigCard ol {
     margin: 0;
+    
+}
+
+.gigCard li {
+    list-style-type: none;
 }
 
 .gigCard img {
-   display: relative;
-   width: 30%;
-   min-width:100px;
-   max-width: 350px; /*actual image width*/
-   height: auto; /* maintain aspect ratio*/
-   margin: auto; /*optional centering of image*/
+   min-width: 7vh;
+   min-height: 7vh;
+   max-width: 7vh;
+   max-height: 7vh;
+   
 }
 
 .gigCardSub {
+    bottom: 0;
     background-color: var(--lightorange);
     border-radius: 3vh;
-    margin: 0;
+    
+  /*  flex-grow: 1;
+    box-sizing: content-box;*/
 }
 
 .gigParent {
