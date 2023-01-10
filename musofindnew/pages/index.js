@@ -4,7 +4,6 @@ import Link from 'next/link'
 import navbar from "@/components/navbar"
 import GigsDisplay from '../components/GigsDisplay'
 
-
 import styles from '@/pages/index.module.css'
 import Navbar from '@/components/navbar'
 
