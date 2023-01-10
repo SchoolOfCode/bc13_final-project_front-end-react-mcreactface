@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useState, useEffect, useRef } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import  GigItem from './GigItem.js'
+import styles from "./GigItem.module.css"
 
 export default function GigsDisplay() {
     let loading = useRef(false)
@@ -10,48 +11,36 @@ export default function GigsDisplay() {
     const supabase = useSupabaseClient()
 
     async function getGigs() {
-        try {
-          let { data: gigs, error } = await supabase
-            .from('gigs')
-            .select('*')
+      try {
+        let { data: gigs, error } = await supabase
+          .from('gigs')
+          .select('*')
 
-          if (error) {
-            throw error
-          }
-    
-          if (gigs) {
-            console.log("getGigs(): gigs: ",gigs)
-            setGigarray(gigs)
-          } else {
-            console.log("No Data")
-           // return ("<p>oh dear</p>")
-          }
-        } catch (error) {
-          console.log(error)
-         // return (<div></div>);
+        if (error) {
+          throw error
         }
+    
+        if (gigs) {
+          console.log("getGigs(): gigs: ",gigs)
+          setGigarray(gigs)
+        } else {
+          console.log("No Data")
+         // return ("<p>oh dear</p>")
+        }
+      } catch (error) {
+        console.log(error)
       }
+    }
 
+  useEffect(() => {
     getGigs();
-    console.log("Gigs is still ", gigs)
-  //   return (<div>
-  //     {gigarray.map((gig) => (
-  //         <div>{JSON.stringify(gig)}</div>
-  //     ))}
-  // </div>);
+  }, [])
 
-return (<div>
-  {gigarray.map((gig) => (
-      <div>{JSON.stringify(gig)}<br /><br /></div>
-  ))}
-</div>);
+  gigs = JSON.stringify(gigs);
 
-    // return(gigarray.map((gig) => {
-    //     <div>{gig}</div>
-    // return JSON.stringify(gigarray)
-    // }))
+  return (<div className={styles.gigParent}>
+    {gigarray.map((gig) => (
+        <GigItem gig={gig}></GigItem>
+    ))}
+  </div>);
 }
-
-
-    // console.log(gigs);
-   // return(<div>{gigarray[1].city}</div>)

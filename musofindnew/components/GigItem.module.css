@@ -1,0 +1,23 @@
+.gigCard {
+    --black: #242424;
+    --lightorange: #FF5722;
+    ---darkorange: #CC4C4C;
+    --green: #5ACB5E;
+    --grey: #9A9A9A;
+    --beige: #FFDEC7;
+
+    background-color: var(--lightorange);
+    border-radius: 3vh;
+}
+
+.gigParent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    column-gap: 5vh;
+    row-gap: 5vh;
+}
+
+.data {
+    color: var(--black);
+}
