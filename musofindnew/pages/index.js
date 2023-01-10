@@ -17,7 +17,6 @@ export default function Home() {
       <Navbar />
       <main>
       <GigsDisplay />
-      <Link href="/login"><p>Login</p></Link>
       </main>
     </div>
   )
