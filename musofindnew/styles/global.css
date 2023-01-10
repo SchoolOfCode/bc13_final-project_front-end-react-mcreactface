@@ -12,10 +12,21 @@ body {
   --custom-border-radius: 5px;
   --custom-spacing: 5px;
 
+  --black: #242424;
+  --lightorange: #FF5722;
+  ---darkorange: #CC4C4C;
+  --green: #5ACB5E;
+  --grey: #9A9A9A;
+  --beige: #FFDEC7;
+
   padding: 0;
   margin: 0;
   font-family: var(--custom-font-family);
   background-color: var(--custom-bg-color);
+}
+
+h1 {
+  color: white;
 }
 
 * {
