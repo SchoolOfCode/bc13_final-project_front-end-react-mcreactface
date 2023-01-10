@@ -1,9 +1,11 @@
 import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
+import { useSession } from "@supabase/auth-helpers-react"
 
 function Navbar() {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
+    const session = useSession()
     return (
         <nav>
             <Link href="/">
@@ -74,6 +76,11 @@ function Navbar() {
                 </li>
                 <li>
                     <Link href={"/contact"}>Contact</Link>
+                </li>
+                <li>
+                {!session ? (
+                    <Link href={"/login"}>Login</Link>
+                    ) : (<Link href={"/login"}>Account</Link>)}
                 </li>
             </ul>
         </nav>

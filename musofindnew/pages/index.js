@@ -12,7 +12,7 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>Welcome to MusoFind</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/musoLogo.png" />
       </Head>
       <Navbar />
       <main>
