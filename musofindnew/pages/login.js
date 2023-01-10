@@ -7,14 +7,14 @@ import { AccountPage } from '../components/AccountPage'
 const Login = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
-  
+
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+        <Auth providers={["apple", "google", "github"]} supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
       ) : (
-        <AccountPage session={session}/>
+        <AccountPage session={session} />
       )}
     </div>
   )

@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Muso-Find</title>
+        <link rel="icon" href="/musoLogo.png" />
       </Head>
-<Navbar />
+      <Navbar />
       <main>
 
       </main>
