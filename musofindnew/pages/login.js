@@ -12,10 +12,16 @@ const Login = () => {
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? (
-        <Auth providers={["apple", "google", "github"]} supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
-      ) : (
-        <AccountPage session={session} />
-      )}
+        <Auth providers={["apple", "google", "github"]} supabaseClient={supabase} theme="dark" appearance={{
+          theme: ThemeSupa,
+          style: {
+            button: { background: '#ff5722', color: 'white' },
+            anchor: { color: 'blue' }
+          },
+        }} />)
+        : (
+          <AccountPage session={session} />
+        )}
     </div>
   )
 }
