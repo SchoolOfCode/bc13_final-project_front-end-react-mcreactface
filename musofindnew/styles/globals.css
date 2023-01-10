@@ -6,7 +6,7 @@ body {
   --custom-panel-color: #222;
   --custom-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.8);
   --custom-color: #fff;
-  --custom-color-brand: #FF5722;
+  --custom-color-brand: #24b47e;
   --custom-color-secondary: #666;
   --custom-border: 1px solid #333;
   --custom-border-radius: 5px;
@@ -29,51 +29,15 @@ body,
 #__next {
   height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: flex-start;
   overflow-x: hidden;
 }
 
 /* Grid */
 
 .container {
-  display: flex;
-  width: 100vw;
-  margin: 0px;
-
-}
-.profile-page {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 200px;
-}
-.form-widget {
-  width: 60vw;
-
-}
-.sidebar {
-  background-color: var(--custom-color-brand);
-  width: max-content;
-  height: max-content;
-  display: flex;
-  position: sticky;
-  top: 30vh;
-  border-radius: 5px;
-}
-.sidebar > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  list-style-type: none;
-  margin: 30px;
-  padding-left: 0px;
-}
-.sidebar > ul > li:hover {
-  background-color: var(--custom-bg-color);
-  color: var(--custom-color-brand);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .row {
   position: relative;
@@ -196,8 +160,8 @@ body,
 @media only screen and (min-width: 60em) {
   /* 960px */
   .container {
-    width: 100%;
-    max-width: 100vw;
+    width: 75%;
+    max-width: 60rem;
   }
 }
 
@@ -288,7 +252,7 @@ button,
 }
 
 button.primary,
-.button.primary{
+.button.primary {
   background-color: var(--custom-color-brand);
   border: 1px solid var(--custom-color-brand);
 }
