@@ -72,7 +72,10 @@ export default function Navbar() {
                     <Link href={"/gigs"}>Gigs</Link>
                 </li>
                 <li className={styles.li}>
-                    <Link href={"/musicians"}>Articles</Link>
+                    <Link href={"/musicians"}>Musicians</Link>
+                </li>
+                <li className={styles.li}>
+                    <Link href={"/about"}>About</Link>
                 </li>
                 <li className={styles.li}>
                     <Link href={"/contact"}>Contact</Link>
