@@ -39,15 +39,15 @@ export default function GigsDisplay() {
   useEffect(() => {
     getGigs();
   }, [])
-
+  let filtered
   if (user){
     console.log("the id of the person logged in", user.id)
     console.log("array of bookees", gigarray.map((gig)=> gig.bookee))
-    gigs = gigarray.filter((gig)=> gig.bookee !== user.id)
+    filtered = gigarray.filter((gig)=> gig.bookee !== user.id)
   }
-  console.log(gigs)
-  setGigarray(gigs)
-  gigs = JSON.stringify(gigs);
+  console.log(filtered)
+  // setGigarray([...filtered])
+  // gigs = JSON.stringify(gigs);
 
   return (<div className={styles.gigParent}>
     {gigarray.map((gig) => (
