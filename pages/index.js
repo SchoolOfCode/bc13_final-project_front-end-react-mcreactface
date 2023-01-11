@@ -13,7 +13,6 @@ export default function Home() {
                 <title>Welcome to MusoFind</title>
                 <link rel="icon" href="/musoLogo.png" />
             </Head>
-            <Navbar />
             <main>
                 <GigsDisplay />
             </main>
