@@ -43,6 +43,11 @@
     display: none;
 }
 
+.authentication {
+    display: flex;
+}
+
+
 @media screen and (max-width: 768px) {
     .icon {
         display: flex;
