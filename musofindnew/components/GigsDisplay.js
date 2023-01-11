@@ -9,6 +9,7 @@ export default function GigsDisplay() {
     let gigs = useRef([])
     const [gigarray, setGigarray] = useState([])
     const supabase = useSupabaseClient()
+    const user = useUser()
 
     async function getGigs() {
       try {
@@ -32,10 +33,12 @@ export default function GigsDisplay() {
       }
     }
 
+
+
   useEffect(() => {
     getGigs();
   }, [])
-
+ 
   gigs = JSON.stringify(gigs);
 
   return (<div className={styles.gigParent}>
