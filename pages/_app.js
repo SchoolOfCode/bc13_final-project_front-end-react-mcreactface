@@ -8,14 +8,14 @@ function MyApp({ Component, pageProps }) {
     const [supabase] = useState(() => createBrowserSupabaseClient())
 
     return (
-        <Layout>
             <SessionContextProvider
                 supabaseClient={supabase}
                 initialSession={pageProps.initialSession}
             >
-                <Component {...pageProps} />
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </SessionContextProvider>
-        </Layout>
     )
 }
 export default MyApp

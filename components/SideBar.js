@@ -1,9 +1,8 @@
+import styles from './SideBar.module.css'
 export function SideBar({ createdClick, bookedClick, personalClick }){
-    return <div className="sidebar">
-    <ul>
-        <li onClick={personalClick}>Personal Information</li>
-        <li onClick={createdClick}>Gigs Created</li>
-        <li onClick={bookedClick}>Gigs Booked</li>
-    </ul>
+    return <div className={styles.sidebar}>
+        <button onClick={personalClick}>Personal Information</button>
+        <button onClick={createdClick}>Gigs Created</button>
+        <button onClick={bookedClick}>Gigs Booked</button>
     </div>
 }
