@@ -1,6 +1,7 @@
 import styles from "/styles/about.module.css"
 
 const about = () => (
+
     <div className={styles.container}>
       <h1 className={styles.aboutus}>MusoFind's Vision</h1>
       <p className={styles.brief}>Specializing in connecting musicians from all around the country by providing an easy-to-use platform for posting and searching gigs, fostering a vibrant and dynamic music scene.</p>
