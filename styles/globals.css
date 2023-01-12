@@ -23,6 +23,10 @@ body {
     font-family: var(--custom-font-family);
     background-color: var(--custom-bg-color);
 }
+::placeholder { 
+    color: black;
+    opacity: 0.2; 
+  }
 
 * {
     color: var(--custom-color);
