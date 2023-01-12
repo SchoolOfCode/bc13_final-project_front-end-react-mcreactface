@@ -33,17 +33,25 @@ export default function GigsDisplay() {
       }
     }
 
-
-
   useEffect(() => {
     getGigs();
   }, [])
  
   gigs = JSON.stringify(gigs);
 
-  return (<div className={styles.gigParent}>
+  if(user) {
+    gigs = gigarray.filter((gig) => gig.bookee !== user.id)
+
+    return (<div className={styles.gigParent}>
+      {gigarray.map((gig) => (
+          <GigItem gig={gig}></GigItem>
+      ))}
+      </div>)
+  } else {
+    return (<div className={styles.gigParent}>
     {gigarray.map((gig) => (
         <GigItem gig={gig}></GigItem>
     ))}
-  </div>);
+   </div>)
+  }
 }
