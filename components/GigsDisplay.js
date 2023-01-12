@@ -6,15 +6,22 @@ import styles from "./GigItem.module.css"
 
 
 export default function GigsDisplay() {
-  async function getGigs() {
-    const supabase = useSupabaseClient()
-    const user = useUser()
+  const supabase = useSupabaseClient()
+  const user = useUser()
+  const [output, setOutput] = useState([])
 
-// get the userID ✅
-// get the genres from the profiles table based on the userID and call it userGenres ✅
-// get the gigs ✅
-// filter the gigs based on whether genres matches userGenres (optional show all button) 
-// filter the gigs to remove any gig where gig.id matches userID (optional show my gigs with css styling)
+  useEffect(() => {
+    getGigs()
+  }, [])
+
+  async function getGigs() {
+
+
+    // get the userID ✅
+    // get the genres from the profiles table based on the userID and call it userGenres ✅
+    // get the gigs ✅
+    // filter the gigs based on whether genres matches userGenres (optional show all button) 
+    // filter the gigs to remove any gig where gig.id matches userID (optional show my gigs with css styling)
 
     /* this has to be defined outside of the next block */
     let { data: gigs, gigsTableError } = await supabase
@@ -36,10 +43,16 @@ export default function GigsDisplay() {
         return gig.genres.some(r=> userGenres.genres.indexOf(r) >= 0)
       })
 
-      console.log("Filtered",gigs)
+      setOutput(gigs)
     } else {
-      console.log("Unfiltered",gigs)
+      setOutput(gigs)
     }
   }
-  getGigs()
+  
+
+    return (<div className={styles.gigParent}>
+    {output.map((gig) => (
+        <GigItem key={gig.id} gig={gig}></GigItem>
+    ))}
+    </div>)
 }
