@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "../styles/Footer.module.css"
-
+// trying to merge bruh 
 
 export default function footer() {
     return <footer className={styles.footerMain}>
