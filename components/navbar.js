@@ -120,12 +120,6 @@ export default function Navbar() {
                         <Link href={"/login"}>Login</Link>
                     ) : (
                         <>
-                            <Image
-                                url={avatar_url}
-                                alt={username}
-                                width={75}
-                                height={75}
-                            />
                             <div className={styles.authentication}>
                                 <li className={styles.li}>
                                     <Link href={"/login"}><AvatarIcon size={20} avatarUrl={avatarUrl} />{username}</Link>
