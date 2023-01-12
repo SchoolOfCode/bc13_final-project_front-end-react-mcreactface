@@ -1,0 +1,67 @@
+.container {
+    text-align: center;
+    padding: 20px;
+    height:80%;
+    /* background-image: url=(images/about/guitarist.jpg) ; */
+    /* background: url('C:\Users\Abdiqani\OneDrive\Documents\SchoolOfCodeDirectory\MusoFindnew\bc13_final-project_front-end-react-mcreactface\public\images\classical.jpg'); */
+    /* background-image: -webkit-linear-gradient(150deg, white 50%, rgb(45, 45, 45) 50%); */
+    background-image: -webkit-linear-gradient(150deg, white 50%, rgb(40, 40, 40) 50%);
+  }
+
+  .aboutus {
+    font-size: 70px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    max-width: 1200px;
+    position:relative;
+    /* left: 5vh; */
+    right: 30vh;
+    top:10vh;
+  }
+  
+  .brief {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: white;
+    max-width: 30vw;
+    position:relative;
+    /* text-align: left; */
+    left: 17vh;
+    top:12vh;
+  }
+  
+  .info {
+    font-size: 16px;
+    font: Helvetica;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: rgb(50, 49, 49);
+    position:relative;
+    left: 125vh;
+    max-width: 30vw;
+    text-align: left;
+    bottom:36vh;
+  }
+  
+  .aboutimgs {
+    display: flex;
+    display: inline-block;
+    position:relative;
+    left: -54vh;
+    bottom:-14vh;
+    border-radius: 40%;
+    height: auto;
+    width: 7%;
+    max-width: 100%;
+  }
+ 
+
+  @media screen and (max-width: 480px) {
+    .aboutus {
+      font-size: 16px;
+      position:relative;
+      /* left: 5vh; */
+      right: 30vh;
+    }
+  }
+  
