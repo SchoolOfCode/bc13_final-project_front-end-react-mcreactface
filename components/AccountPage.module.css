@@ -1,0 +1,7 @@
+.accountPage {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 200px;
+    width: 100%
+}

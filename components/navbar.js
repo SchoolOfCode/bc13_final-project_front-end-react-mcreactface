@@ -1,6 +1,8 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
+
+import AvatarIcon from "./AvatarIcon"
 import {
     useSession,
     useUser,
@@ -14,28 +16,32 @@ export default function Navbar() {
     const supabase = useSupabaseClient()
     const session = useSession()
     const user = useUser()
-
     const [username, setUsername] = useState("")
-    const [avatar_url, setAvatarUrl] = useState("")
-
-    if (session) {
-        async function getUsername() {
-            let { data, error } = await supabase
-                .from("profiles")
-                .select("username")
-                .eq("id", user.id)
-            if (data) {
-                console.log(data)
-                setUsername(data[0].username)
-                setAvatarUrl(data[0].avatar_url)
-            }
-            if (error) {
-                alert("fetch failed")
-            }
-        }
-        getUsername()
+    const [avatarUrl, setAvatarUrl] = useState(null)
+    async function getUsername(){
+        try {
+    let { data, error } = await supabase
+      .from('profiles')
+      .select('username, avatar_url')
+      .eq('id', user.id)
+    if (data){
+        console.log(data[0].username)
+        console.log(data)
+        console.log(data[0].avatar_url)
+        setUsername(data[0].username)
+        setAvatarUrl(data[0].avatar_url)
     }
-
+    if (error){
+        alert("fetch failed")
+    }
+} catch (error) {
+    alert(error.message)
+    console.log("error")
+    }
+}
+    if (user) {
+    getUsername()
+    }
     return (
         <nav className={styles.nav}>
             <Link href="/">
@@ -122,7 +128,7 @@ export default function Navbar() {
                             />
                             <div className={styles.authentication}>
                                 <li className={styles.li}>
-                                    <Link href={"/login"}>{username}</Link>
+                                    <Link href={"/login"}><AvatarIcon size={20} avatarUrl={avatarUrl} />{username}</Link>
                                 </li>
                                 <li className={styles.li}>
                                     <Link

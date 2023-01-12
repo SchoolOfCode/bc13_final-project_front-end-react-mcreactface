@@ -441,3 +441,6 @@ button.primary,
     margin-bottom: 10px;
     text-decoration: none;
 }
+.form-widget {
+    min-width: 60vw;
+}
