@@ -1,11 +1,40 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
-import { useSession } from "@supabase/auth-helpers-react"
+import { useSession, useUser, useSupabaseClient } from "@supabase/auth-helpers-react"
+import AvatarIcon from "./AvatarIcon"
 
 function Navbar() {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
+    const supabase = useSupabaseClient()
     const session = useSession()
+    const user = useUser()
+    const [username, setUsername] = useState("")
+    const [avatarUrl, setAvatarUrl] = useState(null)
+    async function getUsername(){
+        try {
+    let { data, error } = await supabase
+      .from('profiles')
+      .select('username, avatar_url')
+      .eq('id', user.id)
+    if (data){
+        console.log(data[0].username)
+        console.log(data)
+        console.log(data[0].avatar_url)
+        setUsername(data[0].username)
+        setAvatarUrl(data[0].avatar_url)
+    }
+    if (error){
+        alert("fetch failed")
+    }
+} catch (error) {
+    alert(error.message)
+    console.log("error")
+    }
+}
+    if (user) {
+    getUsername()
+    }
     return (
         <nav>
             <Link href="/">
@@ -80,7 +109,7 @@ function Navbar() {
                 <li>
                 {!session ? (
                     <Link href={"/login"}>Login</Link>
-                    ) : (<Link href={"/login"}>Account</Link>)}
+                    ) : (<Link href={"/login"}><AvatarIcon size={20} avatarUrl={avatarUrl} />{username}</Link>)}
                 </li>
             </ul>
         </nav>
