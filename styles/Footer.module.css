@@ -1,22 +1,33 @@
 .footerMain {
     color: white;
-    background-color: #070707;
+    background-color: #000000;
+    min-height: 80px;
+    padding: 0px;
+    align-items: center;
+    font-size: 20px;
+}
+.footerDiv {
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    bottom: 5vh;
+}
+
+.footerCright {
+    color: white;
     min-height: 100px;
     padding: 0px;
-    position: relative;
-    bottom: -10vh;
-    justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 20px;
 }
 
 .footerSpan {
-    color: rgb(255, 191, 0);
+    color: #2fe5e5;
 }
 
-.links {
-    background-color: azure;
-    width: 20px;
-    height: 20px;
+.linksLogo {
+    width: 80px;
+    height: 80px;
+    filter: brightness(0) invert(1);
 }
