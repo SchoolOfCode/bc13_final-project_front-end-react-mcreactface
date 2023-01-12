@@ -30,18 +30,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /*
-    border-radius: 50%;
-    background-color: #283b8b;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    /* positions the icon to the right and center aligns it vertically */
-    /* position: absolute;
-    top: 50%;
-    right: 25px;
-    transform: translateY(-50%);*/
     display: none;
 }
+
+.authentication {
+    display: flex;
+}
+
 
 @media screen and (max-width: 768px) {
     .icon {
