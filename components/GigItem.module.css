@@ -66,3 +66,8 @@
 h1 .title {
     padding: 5vh;
 }
+
+.itemsheader {
+    margin-left: 3vh;
+    padding-bottom: 3vh;
+}

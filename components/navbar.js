@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import Image from "next/image"
 
 import AvatarIcon from "./AvatarIcon"
@@ -9,6 +9,7 @@ import {
     useSupabaseClient,
 } from "@supabase/auth-helpers-react"
 import styles from "../styles/Navbar.module.css"
+import { useRouter } from "next/router"
 
 export default function Navbar() {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
@@ -17,30 +18,36 @@ export default function Navbar() {
     const user = useUser()
     const [username, setUsername] = useState("")
     const [avatarUrl, setAvatarUrl] = useState(null)
+    const router = useRouter()
+
     async function getUsername() {
-        try {
-            let { data, error } = await supabase
-                .from("profiles")
-                .select("username, avatar_url")
-                .eq("id", user.id)
-            if (data) {
-                console.log(data[0].username)
-                console.log(data)
-                console.log(data[0].avatar_url)
-                setUsername(data[0].username)
-                setAvatarUrl(data[0].avatar_url)
+        if (user) {
+            try {
+                let { data, error } = await supabase
+                    .from("profiles")
+                    .select("username, avatar_url")
+                    .eq("id", user.id)
+                if (data) {
+                    console.log(data[0].username)
+                    console.log(data)
+                    console.log(data[0].avatar_url)
+                    setUsername(data[0].username)
+                    setAvatarUrl(data[0].avatar_url)
+                }
+                if (error) {
+                    console.log("getUserName error: ", user)
+                    alert("fetch failed")
+                }
+            } catch (error) {
+                alert(error.message)
+                console.log("error")
             }
-            if (error) {
-                alert("fetch failed")
-            }
-        } catch (error) {
-            alert(error.message)
-            console.log("error")
         }
     }
     if (user) {
         getUsername()
     }
+
     return (
         <nav className={styles.nav}>
             <Link href="/">
@@ -128,7 +135,11 @@ export default function Navbar() {
                         <li className={styles.li}>
                             <Link
                                 href="/"
-                                onClick={() => supabase.auth.signOut()}
+                                onClick={async () => {
+                                    setUsername("")
+                                    await supabase.auth.signOut()
+                                    router.reload(window.location.pathname)
+                                }}
                             >
                                 Sign Out
                             </Link>
