@@ -4,6 +4,7 @@
     justify-content: space-between;
     background-color: var(--custom-color-brand);
     padding: 10px 20px 10px 20px;
+    border-bottom:8px solid black;
 }
 
 .ul {
@@ -12,8 +13,12 @@
 }
 
 .li a:hover {
-    text-decoration: underline;
+    border-bottom: 1px solid;
 
+}
+
+.li a{
+    text-decoration: none;
 }
 
 .li {
