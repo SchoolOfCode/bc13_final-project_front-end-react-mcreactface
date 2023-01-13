@@ -4,7 +4,7 @@
     justify-content: space-between;
     background-color: var(--custom-color-brand);
     padding: 10px 20px 10px 20px;
-    border-bottom:8px solid black;
+    border-bottom: 8px solid black;
 }
 
 .ul {
@@ -17,7 +17,7 @@
 
 }
 
-.li a{
+.li a {
     text-decoration: none;
 }
 
@@ -38,9 +38,16 @@
     display: none;
 }
 
-.authentication {
+
+.avataricon {
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 
 
 @media screen and (max-width: 768px) {
@@ -59,10 +66,11 @@
     .ul {
         display: flex;
         position: absolute;
-        top: 90px;
-        left: -47px;
+        top: 98px;
+        left: -40px;
         flex-direction: column;
         margin: 0px;
+        outline: 1px solid gray;
     }
 
     .hide {
@@ -77,5 +85,10 @@
         width: 90vw;
         display: flex;
         background-color: var(--custom-color-brand);
+        padding-bottom: 3px;
+    }
+
+    .avataricon {
+        display: none;
     }
 }
