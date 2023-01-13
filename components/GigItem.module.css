@@ -14,6 +14,13 @@
     height: 20vh;
 }
 
+.gigCard:hover {
+    width: 20vw;
+    outline: 5px solid cyan;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
 .gigCard ol {
     margin: 0;
     
@@ -28,7 +35,7 @@
    min-height: 7vh;
    max-width: 7vh;
    max-height: 7vh;
-   
+   border-radius: 3vh;
 }
 
 .gigCardSub {
