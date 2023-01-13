@@ -1,6 +1,7 @@
 import styles from "/styles/about.module.css"
 
 const about = () => (
+
     <div className={styles.container}>
     <div className={styles.header}>
     <div className={styles.aboutusside}>

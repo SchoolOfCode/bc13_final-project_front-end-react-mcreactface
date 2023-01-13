@@ -3,6 +3,7 @@ import GigsBooked from './GigsBooked'
 import GigsCreated from './GigsCreated'
 import { SideBar } from "./SideBar"
 import Account from "./Account"
+import styles from "./AccountPage.module.css"
 
  
 export function AccountPage ({ session }){
@@ -21,18 +22,18 @@ export function AccountPage ({ session }){
         setGigsBooked(false)
     }
    if (gigsCreated){
-    return <div className='profile-page'>
+    return <div className={styles.accountPage}>
         <SideBar createdClick={handleCreated} bookedClick={handleBooked} personalClick={handlePersonal}/>
         <GigsCreated/>
     </div> 
    }
    if (gigsBooked){
-    return <div className='profile-page'>
+    return <div className={styles.accountPage}>
     <SideBar createdClick={handleCreated} bookedClick={handleBooked} personalClick={handlePersonal}/>
     <GigsBooked/>
     </div>
    }
-   else {return <div className='profile-page'>
+   else {return <div className={styles.accountPage}>
    <SideBar createdClick={handleCreated} bookedClick={handleBooked} personalClick={handlePersonal}/>
    <Account session={session}/>
    </div>
