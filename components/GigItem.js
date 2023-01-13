@@ -3,9 +3,13 @@ import { useState, useEffect } from "react"
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react"
 import styles from "./GigItem.module.css"
 
-export default function GigItem({ gig }) {
+export default function GigItem({ gig, gigs }) {
     console.log("GigItem: ", gig)
     console.log(gig.address1stline)
+
+    function clicked(gig) {
+        console.log("in clicked")
+    }
 
     let thedate = new Date(gig.starttime)
 
@@ -20,7 +24,7 @@ export default function GigItem({ gig }) {
         thedate.getFullYear()
 
     return (
-        <div className={styles.gigCard}>
+        <div className={styles.gigCard} onClick={clicked()}>
             {gig.instrumentreq && (
                 <img
                     width="75vh"
