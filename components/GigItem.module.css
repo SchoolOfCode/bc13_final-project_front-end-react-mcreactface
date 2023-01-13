@@ -1,3 +1,15 @@
+  @keyframes example {
+    from { height: 20vh;}
+    to {  height: 40vh; }
+  }
+
+  .gigCard:hover {
+    width: 20vw;
+    outline: 5px solid cyan;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
 .gigCard {
     display: flex;
     flex-direction: column;
@@ -9,7 +21,7 @@
     --grey: #9A9A9A;
     --beige: #FFDEC7;
     background-color: var(--beige);
-    border-radius: 3vh;
+    border-radius: 2vh;
     width: 20vw;
     height: 20vh;
 }
@@ -28,17 +40,20 @@
    min-height: 7vh;
    max-width: 7vh;
    max-height: 7vh;
-   
+   border-top-left-radius: 2vh;
 }
+
+
 
 .gigCardSub {
     bottom: 0;
     background-color: var(--lightorange);
-    border-radius: 3vh;
+    border-radius: 2vh;
     
   /*  flex-grow: 1;
     box-sizing: content-box;*/
 }
+
 
 .gigParent {
     display: flex;
