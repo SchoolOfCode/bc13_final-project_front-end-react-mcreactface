@@ -14,6 +14,7 @@ export default function GigsDisplay() {
     }, [])
 
     async function getGigs() {
+        console.log("in getGigs()")
         // get the userID ✅
         // get the genres from the profiles table based on the userID and call it userGenres ✅
         // get the gigs ✅

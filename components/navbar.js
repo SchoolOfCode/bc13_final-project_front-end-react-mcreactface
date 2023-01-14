@@ -36,7 +36,7 @@ export default function Navbar() {
                 }
                 if (error) {
                     console.log("getUserName error: ", user)
-                    alert("fetch failed")
+                    // alert("fetch failed")
                 }
             } catch (error) {
                 alert(error.message)
@@ -128,7 +128,15 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li className={`${styles.avataricon} ${styles.li}`}>
-                            <Link href={"/login"}>
+                            {/* passing the session into the linked page with
+                            data, retrieve it on the other end with userRouter()
+                            from nextjs - Jay */}
+                            <Link
+                                href={{
+                                    pathname: "/account",
+                                    query: session,
+                                }}
+                            >
                                 <AvatarIcon size={50} avatarUrl={avatarUrl} />
                             </Link>
                         </li>
