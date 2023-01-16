@@ -3,11 +3,11 @@
     flex-direction: column;
     justify-content: space-between;
     --black: #242424;
-    --lightorange: #FF5722;
-    ---darkorange: #CC4C4C;
-    --green: #5ACB5E;
-    --grey: #9A9A9A;
-    --beige: #FFDEC7;
+    --lightorange: #ff5722;
+    --darkorange: #cc4c4c;
+    --green: #5acb5e;
+    --grey: #9a9a9a;
+    --beige: #ffdec7;
     background-color: var(--beige);
     border-radius: 3vh;
     width: 20vw;
@@ -23,7 +23,6 @@
 
 .gigCard ol {
     margin: 0;
-    
 }
 
 .gigCard li {
@@ -31,19 +30,19 @@
 }
 
 .gigCard img {
-   min-width: 7vh;
-   min-height: 7vh;
-   max-width: 7vh;
-   max-height: 7vh;
-   border-radius: 3vh;
+    min-width: 7vh;
+    min-height: 7vh;
+    max-width: 7vh;
+    max-height: 7vh;
+    border-radius: 3vh;
 }
 
 .gigCardSub {
     bottom: 0;
     background-color: var(--lightorange);
     border-radius: 3vh;
-    
-  /*  flex-grow: 1;
+
+    /*  flex-grow: 1;
     box-sizing: content-box;*/
 }
 
@@ -80,4 +79,43 @@ h1 .title {
     margin-left: 1vh;
     color: white;
     background: grey;
+}
+
+.monthParent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.month {
+    width: 11vw;
+    background-color: white;
+    color: #242424;
+    position: relative;
+    top: -5vh;
+}
+.longMonthBox {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5vw;
+    height: 50vh;
+    background-color: #ff5722;
+    margin: 1.5vw;
+}
+
+.gigDates {
+    background-color: white;
+    color: rgb(0, 0, 0);
+    margin-bottom: 0.6vh;
+}
+
+.upArrow {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.downArrow {
+    display: flex;
+    align-content: flex-end;
+    justify-content: center;
 }

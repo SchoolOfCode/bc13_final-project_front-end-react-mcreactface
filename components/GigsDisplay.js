@@ -19,8 +19,11 @@ export default function GigsDisplay() {
     const [tableState, setTableState] = useState({})
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [monthPageOne, setMonthPageOne] = useState(true)
     const router = useRouter()
     const data = router.query
+
+
 
     useEffect(() => {
         supabase.auth.getUser().then((response) => {
@@ -55,28 +58,31 @@ export default function GigsDisplay() {
                 .eq("id", user.id)
                 .single()
 
-            console.log("Pre-filtered", gigs)
-
-            gigs = gigs.filter((gig) => {
-                //console.log("FILTERING: gig.genres: ",gig.genres," + profileTable.genres: ",profileTable.genres)
-                return gig.genres.some(
-                    (r) => profileTable.genres.indexOf(r) >= 0
-                )
-            })
-
             setOutput(gigs)
             setGenres(profileTable.genres)
             console.log("profileTable.instruments: ", profileTable.instruments)
+
             setTableState({
                 genres: profileTable.genres,
                 instruments: profileTable.instruments,
             })
+            console.log("Pre-filtered", gigs)
+            if (profileTable.genres) {
+                gigs = gigs.filter((gig) => {
+                    //console.log("FILTERING: gig.genres: ",gig.genres," + profileTable.genres: ",profileTable.genres)
+                    return gig.genres.some(
+                        (r) => profileTable.genres.indexOf(r) >= 0
+                    )
+                })
+            }
         } else {
             setOutput(gigs)
         }
     }
     if (loading) return <p>Loading...</p>
     //   if (!userData) return <NoSessionWarn />
+
+    let theYear = new Date().getFullYear()
 
     return (
         <>
@@ -88,7 +94,7 @@ export default function GigsDisplay() {
                         {tableState.instruments ? (
                             <h3>
                                 {"Showing Instruments: " +
-                                <button>{tableState.instruments}</button>}
+                                    <button>{tableState.instruments}</button>}
                             </h3>
                         ) : (
                             "All Instruments"
@@ -96,8 +102,38 @@ export default function GigsDisplay() {
                     </>
                 ) : (
                     "No filters applied"
-                )} 
+                )}
             </h3>
+
+            <div className={styles.ylarrow}>⬅️</div><div className={styles.year}>{theYear}</div><div className={styles.yrarrow}>➡️</div>
+            <div>
+                {monthPageOne ?
+                    <div className={styles.monthParent}>
+
+                        <div className={styles.longMonthBox}>
+                            <div className={styles.month}>Jan</div>
+                            <div className={styles.upArrow}>⬆️</div>
+                            <div className={styles.gigDates}>Item One</div>
+                            <div className={styles.gigDates}>Item Two</div>
+                            <div className={styles.gigDates}>Item Three</div>
+                            <div className={styles.gigDates}>Item Four</div>
+                            <div className={styles.downArrow}>⬇️</div>
+                        </div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Feb</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Mar</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Apr</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>May</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Jun</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                    </div> :
+                    <div className={styles.monthParent}><div className={styles.longMonthBox}><div className={styles.month}>Jul</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Aug</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Sep</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Oct</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Nov</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                        <div className={styles.longMonthBox}><div className={styles.month}>Dec</div><div className={styles.uparrow}>⬆️</div><div className={styles.gigDates}><div className={styles.downarrow}>⬇️</div></div></div>
+                    </div>
+                }
+            </div>
             <div className={styles.gigParent}>
                 {output.map((gig) => (
                     <GigItem key={gig.id} gig={gig}></GigItem>
@@ -108,6 +144,7 @@ export default function GigsDisplay() {
                     {output.length ? output.length + " Items" : ""}
                 </h2>
             }
+
         </>
     )
 }
