@@ -7,6 +7,10 @@ export default function GigItem({ gig }) {
     //  console.log("GigItem: ", gig)
     //  console.log(gig.address1stline)
 
+    function clicked(gig) {
+        console.log("in clicked")
+    }
+
     let thedate = new Date(gig.starttime)
 
     //let mystart = new Date(gig.starttime).toLocaleString('uk');
@@ -20,7 +24,7 @@ export default function GigItem({ gig }) {
         thedate.getFullYear()
 
     return (
-        <div className={styles.gigCard}>
+        <div className={styles.gigCard} onClick={clicked()}>
             {gig.instrumentreq && (
                 <img
                     width="75vh"
