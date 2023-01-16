@@ -19,7 +19,7 @@ const Login = () => {
           },
         }} redirectTo={['http://localhost:3000/gigs']} /> </div>)
         : (
-          <AccountPage session={session} />
+          <Account session={session} />
         )}
     </>
   )
