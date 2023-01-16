@@ -1,10 +1,6 @@
 import Head from "next/head"
-import Image from "next/image"
-import Link from "next/link"
 import GigsDisplay from "../components/GigsDisplay"
-
 import styles from "/pages/index.module.css"
-import Navbar from "/components/navbar"
 
 export default function Home() {
     return (

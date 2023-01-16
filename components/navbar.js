@@ -12,35 +12,34 @@ import styles from "../styles/Navbar.module.css"
 
 export default function Navbar() {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
-
     const supabase = useSupabaseClient()
     const session = useSession()
     const user = useUser()
     const [username, setUsername] = useState("")
     const [avatarUrl, setAvatarUrl] = useState(null)
-    async function getUsername(){
+    async function getUsername() {
         try {
-    let { data, error } = await supabase
-      .from('profiles')
-      .select('username, avatar_url')
-      .eq('id', user.id)
-    if (data){
-        console.log(data[0].username)
-        console.log(data)
-        console.log(data[0].avatar_url)
-        setUsername(data[0].username)
-        setAvatarUrl(data[0].avatar_url)
+            let { data, error } = await supabase
+                .from("profiles")
+                .select("username, avatar_url")
+                .eq("id", user.id)
+            if (data) {
+                console.log(data[0].username)
+                console.log(data)
+                console.log(data[0].avatar_url)
+                setUsername(data[0].username)
+                setAvatarUrl(data[0].avatar_url)
+            }
+            if (error) {
+                alert("fetch failed")
+            }
+        } catch (error) {
+            alert(error.message)
+            console.log("error")
+        }
     }
-    if (error){
-        alert("fetch failed")
-    }
-} catch (error) {
-    alert(error.message)
-    console.log("error")
-    }
-}
     if (user) {
-    getUsername()
+        getUsername()
     }
     return (
         <nav className={styles.nav}>
@@ -115,27 +114,27 @@ export default function Navbar() {
                 <li className={styles.li}>
                     <Link href={"/contact"}>Contact</Link>
                 </li>
-                <li className={styles.li}>
-                    {!session ? (
+                {!session ? (
+                    <li className={styles.li}>
                         <Link href={"/login"}>Login</Link>
-                    ) : (
-                        <>
-                            <div className={styles.authentication}>
-                                <li className={styles.li}>
-                                    <Link href={"/login"}><AvatarIcon size={20} avatarUrl={avatarUrl} />{username}</Link>
-                                </li>
-                                <li className={styles.li}>
-                                    <Link
-                                        href="/"
-                                        onClick={() => supabase.auth.signOut()}
-                                    >
-                                        Sign Out
-                                    </Link>
-                                </li>
-                            </div>
-                        </>
-                    )}
-                </li>
+                    </li>
+                ) : (
+                    <>
+                        <li className={`${styles.avataricon} ${styles.li}`}>
+                            <Link href={"/login"}>
+                                <AvatarIcon size={50} avatarUrl={avatarUrl} />
+                            </Link>
+                        </li>
+                        <li className={styles.li}>
+                            <Link
+                                href="/"
+                                onClick={() => supabase.auth.signOut()}
+                            >
+                                Sign Out
+                            </Link>
+                        </li>
+                    </>
+                )}
             </ul>
         </nav>
     )
