@@ -96,7 +96,7 @@ export default function GigsDisplay() {
                     </>
                 ) : (
                     "No filters applied"
-                )}
+                )} 
             </h3>
             <div className={styles.gigParent}>
                 {output.map((gig) => (
