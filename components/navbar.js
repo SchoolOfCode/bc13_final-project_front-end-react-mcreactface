@@ -131,13 +131,13 @@ export default function Navbar() {
                             {/* passing the session into the linked page with
                             data, retrieve it on the other end with userRouter()
                             from nextjs - Jay */}
-                            <Link
-                                href={{
-                                    pathname: "/account",
-                                    query: session,
-                                }}
-                            >
-                                <AvatarIcon size={50} avatarUrl={avatarUrl} />
+                            <Link href={"/login"}>
+                                <div>
+                                    <AvatarIcon
+                                        size={50}
+                                        avatarUrl={avatarUrl}
+                                    />
+                                </div>
                             </Link>
                         </li>
                         <li className={styles.li}>

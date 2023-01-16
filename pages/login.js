@@ -30,12 +30,12 @@ const Login = () => {
                                 anchor: { color: "grey" },
                             },
                         }}
-                        redirectTo={["http://localhost:3000/gigs"]}
+                        redirectTo={"http://localhost:3000/gigs"}
                     />{" "}
                 </div>
             ) : (
-                <GigsDisplay></GigsDisplay>
-                //<AccountPage session={session} />
+                //<GigsDisplay></GigsDisplay>
+                <AccountPage session={session} />
             )}
         </>
     )
