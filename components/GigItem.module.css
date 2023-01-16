@@ -67,7 +67,17 @@ h1 .title {
     padding: 5vh;
 }
 
+.itemsfooter {
+    margin-left: 3vh;
+}
+
 .itemsheader {
     margin-left: 3vh;
     padding-bottom: 3vh;
+}
+
+.itemsheader button {
+    margin-left: 1vh;
+    color: white;
+    background: grey;
 }

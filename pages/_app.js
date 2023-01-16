@@ -6,9 +6,10 @@ import Layout from "../components/layout"
 
 function MyApp({ Component, pageProps }) {
     const [supabase] = useState(() => createBrowserSupabaseClient())
+    //const supabase = useSupabaseClient()
+    //const user = useUser()
 
     return (
-
         <SessionContextProvider
             supabaseClient={supabase}
             initialSession={pageProps.initialSession}
