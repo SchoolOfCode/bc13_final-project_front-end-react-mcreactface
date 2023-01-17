@@ -9,19 +9,20 @@ const Login = () => {
   const supabase = useSupabaseClient()
 
 
-  return (<>
-    {!session ? (<div className="container" style={{ padding: '50px 0 100px 0' }}>
+  return (<div className="container" style={{ padding: '50px 0 100px 0' }}>
+    {!session ? (
         <Auth providers={["apple", "google", "github"]} supabaseClient={supabase} theme="dark" appearance={{
           theme: ThemeSupa,
           style: {
             button: { background: '#ff5722', color: 'black'},
             anchor: { color: 'grey' }
           },
-        }} redirectTo={['http://localhost:3000/gigs']} /> </div>)
-        : (
+        }} redirectTo={'http://localhost:3000/gigs'} />)
+        : (<div>
           <Account session={session} />
+          </div>
         )}
-    </>
+    </div>
   )
 }
 
