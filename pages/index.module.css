@@ -7,6 +7,32 @@
   align-items: center;
 }
 
+.minipage {
+  width: 100%;
+  height: 100vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.minipage > h2 {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 2rem;
+  max-width: 60vw;
+  text-align: center;
+}
+
+.minipage > p {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 1.5rem;
+  max-width: 60vw;
+  text-align: center;
+}
+
 .title a {
   color: #0070f3;
   text-decoration: none;
@@ -77,6 +103,17 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.largeLogo {
+  height: 12em;
+  margin-left: 0.5rem;
+}
+
+.image {
+  border-radius: 20%;
+  height: 500px;
+  width: 1000px;
 }
 
 @media (max-width: 600px) {

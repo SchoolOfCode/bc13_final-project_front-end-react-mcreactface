@@ -27,6 +27,9 @@
     padding: 8px 5px 0px 10px;
 }
 
+.activelink {
+    border-bottom: 3px solid;
+}
 
 .icon {
     height: 50px;
