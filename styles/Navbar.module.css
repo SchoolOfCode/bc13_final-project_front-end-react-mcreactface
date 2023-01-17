@@ -5,6 +5,7 @@
     background-color: var(--custom-color-brand);
     padding: 10px 20px 10px 20px;
     border-bottom: 8px solid black;
+    position: relative;
 }
 
 .ul {
@@ -69,12 +70,14 @@
     .ul {
         display: flex;
         position: absolute;
-        top: 98px;
-        left: -40px;
+        top: 99px;
+        left: 0px;
         flex-direction: column;
         margin: 0px;
-        outline: 1px solid gray;
+        width: 100vw;
+        background-color: var(--custom-color-brand);
     }
+
 
     .hide {
         display: none;
@@ -85,9 +88,8 @@
     }
 
     .li {
-        width: 90vw;
         display: flex;
-        background-color: var(--custom-color-brand);
+
         padding-bottom: 3px;
     }
 
