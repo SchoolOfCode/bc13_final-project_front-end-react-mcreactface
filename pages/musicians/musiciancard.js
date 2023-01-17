@@ -1,4 +1,4 @@
-export function Musician(musician) {
+export default function Musician(musician) {
     console.log(musician)
     return (
         <div>
