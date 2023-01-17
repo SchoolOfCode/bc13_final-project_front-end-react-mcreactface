@@ -2,7 +2,7 @@ import Head from "next/head"
 import styles from "../../styles/musicians.module.css"
 import { useEffect, useState } from "react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { Musician } from "./musiciancard.js"
+import Musician from "./musiciancard.js"
 
 export default function Musicians() {
     const [musicians, setMusicians] = useState([])
