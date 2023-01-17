@@ -168,11 +168,9 @@ export default function Navbar() {
                         </li>
                         <li className={styles.li}>
                             <Link
-                                href={"/my-gigs"}
+                                href={"/mygigs"}
                                 className={
-                                    asPath == "/my-gigs"
-                                        ? styles.activelink
-                                        : ""
+                                    asPath == "/mygigs" ? styles.activelink : ""
                                 }
                             >
                                 My Gigs
