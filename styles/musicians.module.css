@@ -1,0 +1,8 @@
+.pagecontainer {
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  justify-content: space-around;
+  /* outline: 1px solid red; */
+}
