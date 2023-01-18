@@ -5,8 +5,6 @@
     padding: 0px;
     align-items: center;
     font-size: 20px;
-    position: bottom;
-    bottom: 0;
 }
 .footerDiv {
     display: flex;
