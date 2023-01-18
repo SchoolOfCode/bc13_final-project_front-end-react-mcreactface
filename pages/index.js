@@ -2,6 +2,7 @@ import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import GigsDisplay from "../components/GigsDisplay"
+import {SimpleSlider} from "../components/SimpleSlider/carousel.js";
 
 import styles from "/pages/index.module.css"
 import Navbar from "/components/navbar"
@@ -16,6 +17,7 @@ export default function Home() {
             <main>
                 <GigsDisplay />
             </main>
+            <SimpleSlider />
         </div>
     )
 }
