@@ -1,5 +1,5 @@
 import Navbar from "./navbar"
-import RealFooter from "./footer"
+import Footer from "./footer"
 
 
 export default function Layout({ children }) {
@@ -7,7 +7,7 @@ export default function Layout({ children }) {
         <>
             <Navbar />
             {children}
-            <RealFooter />
+            <Footer />
         </>
     )
 }

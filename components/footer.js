@@ -2,7 +2,7 @@ import React from "react"
 import styles from "../styles/Footer.module.css"
 // trying to merge bruh 
 
-export default function RealFooter() {
+export default function Footer() {
     return <footer className={styles.footerMain}>
 
         <h3 className={styles.footerText}>Copyright @2022 <span className={styles.footerSpan}> React McReactface</span></h3>
