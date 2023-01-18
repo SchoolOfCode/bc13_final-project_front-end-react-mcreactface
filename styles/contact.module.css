@@ -6,6 +6,7 @@
     align-items: center;
     padding: 10px 20px 10px 20px;
     text-align: center;
+    background-color: rgb(30, 29, 29);
 }
 
 .formcontainer {
@@ -64,9 +65,8 @@
     margin-top: 20px;
     margin-bottom: 8px;
     text-align: center;
-    position:relative;
-    left: 26vh;
+    /* position:relative;
+    left: 26vh; */
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
-
