@@ -4,5 +4,57 @@
   flex-wrap: wrap;
   max-width: 1200px;
   justify-content: space-around;
-  /* outline: 1px solid red; */
+}
+
+.h1 {
+  margin: auto;
+  min-width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.h2 {
+  color: var(--custom-panel-color);
+  border-bottom: 2px solid black;
+}
+
+.p {
+  color: var(--custom-panel-color);
+}
+
+.cardcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  gap: 20px;
+}
+
+
+.musiciancard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 250px;
+  min-height: 300px;
+  padding: 5px;
+  background-color: white;
+
+  border-radius: 4px;
+}
+
+.cashAndRate {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
 }
