@@ -7,22 +7,38 @@
   align-items: center;
 }
 
+.scrolling {
+  flex-basis: 50%;
+  max-height: 100vh;
+  width: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+.scrolling::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
 .minipage {
   width: 100%;
   height: 100vh;
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  scroll-snap-align: start;
 }
 
 .minipage > h2 {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   line-height: 1.15;
   font-size: 2rem;
   max-width: 60vw;
   text-align: center;
+  height: 30vh;
 }
 
 .minipage > p {
@@ -31,6 +47,104 @@
   font-size: 1.5rem;
   max-width: 60vw;
   text-align: center;
+}
+
+.minipage2 {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  scroll-snap-align: start;
+}
+
+.minipage2 > h2 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  line-height: 1.15;
+  font-size: 2rem;
+  max-width: 60vw;
+  text-align: center;
+  height: 30vh;
+}
+
+.minipage3 {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  background-image: url("/images/community.jpeg");
+  background-size: cover;
+}
+
+.minipage3 > h2 {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  line-height: 1.15;
+  font-size: 2rem;
+  max-width: 60vw;
+  text-align: center;
+  height: 30vh;
+  background-color: #101010;
+}
+.sideby {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
+.sidetext {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidetext > p {
+  line-height: 2;
+  font-size: 1rem;
+  width: 90%;
+  text-align: center;
+}
+
+.sidetext2 {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #101010;
+}
+
+.sidetext2 > p {
+  line-height: 2;
+  font-size: 1rem;
+  width: 70%;
+  text-align: center;
+}
+
+.sideimage{
+  width: 40%;
+  height: 100%;
+}
+
+.gigImage {
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
 }
 
 .title a {
