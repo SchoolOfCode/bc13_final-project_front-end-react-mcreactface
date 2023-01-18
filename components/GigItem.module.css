@@ -71,8 +71,10 @@ h1 .title {
 }
 
 .itemsheader {
-    margin-left: 3vh;
+    margin-left: 5vh;
     padding-bottom: 3vh;
+    display: flex;
+    align-items: baseline;
 }
 
 .itemsheader button {
@@ -117,6 +119,11 @@ h1 .title {
     padding: 0.5vh;
     border: solid black 2px;
 }
+
+.gigDates:hover {
+    border: solid black 4px;
+}
+
 
 .upArrow {
     display: flex;
@@ -169,4 +176,8 @@ h1 .title {
 
 .gigType {
     color: black;
+}
+
+.filterEnd {
+    margin-right: 2vw;
 }

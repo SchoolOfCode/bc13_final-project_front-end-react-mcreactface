@@ -16,13 +16,17 @@ export default function GigsDisplay() {
     const user = useUser()
     const [output, setOutput] = useState([])
     const [genres, setGenres] = useState([])
-    const [tableState, setTableState] = useState({})
+    const [tableState, setTableState] = useState({
+        genres: "",
+        instruments: "",
+    })
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [monthPageOne, setMonthPageOne] = useState(true)
     const [searchCurrentYear, setSearchCurrentYear] = useState()
     const [searchInstruments, setSearchInstruments] = useState([])
     const [searchGenres, setSearchGenres] = useState([])
+
     const router = useRouter()
     const data = router.query
     const moy = [
@@ -42,7 +46,6 @@ export default function GigsDisplay() {
 
     useEffect(() => {
         supabase.auth.getUser().then((response) => {
-            console.log("in useEffect, userdata: ", response.data.user)
             setUserData(response.data.user)
             setLoading(false)
         })
@@ -52,75 +55,57 @@ export default function GigsDisplay() {
             setSearchCurrentYear(theYear)
         }
 
+        getUser(userData)
         getGigs(userData)
     }, [user])
 
-    async function getGigs(userData) {
+    useEffect(() => {
+        getGigs()
+    }, [searchGenres, searchInstruments])
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
+    async function getUser(userData) {
         if (user) {
-            /* this has to be defined within the if(user) block otherwise the component can't render */
             let { data: profileTable, profileTableError } = await supabase
                 .from("profiles")
                 .select("genres, instruments")
                 .eq("id", user.id)
                 .single()
 
-            const splitGenres = profileTable.genres[0].split(",")
-            console.log("splitGenres: ", splitGenres)
+            setSearchGenres(profileTable.genres[0].split(","))
+            setSearchInstruments(profileTable.instruments[0].split(","))
+        }
+    }
 
-          /* this is not a very good way to do it but I did it anyway :( - J */
-          let gigs = [];
+    async function getGigs(userData) {
+        if (user) {
+            console.log("genres: ", searchGenres)
+            console.log("instruments: ", searchInstruments)
 
-            for (let thisGenre of splitGenres) {
-              let { data: gigsdata, gigsTableError } = await supabase
-                .from("gigs")
-                .select("*")
-                .gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
-                .lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
-                .contains("genres", [thisGenre])
-
-                
-                gigs.push(...gigs, ...gigsdata)
-                console.log("gigs: ", gigs)
-            }
-/*
             let { data: gigs, gigsTableError } = await supabase
                 .from("gigs")
                 .select("*")
                 .gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
                 .lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
-                .contains("genres", splitGenres)
-                //.in  .contains("genres", [splitGenres[0] || splitGenres[1]])
+                // .eq("instrumentreq", searchInstruments[0])
+                .contains("genres", searchGenres)
+                .contains("instrumentreq", searchInstruments)
 
-                .order("starttime", { ascending: true })
-*/
-            for (let eachGig of gigs) {
-                let newDate = new Date(eachGig.starttime)
-                eachGig.startday = newDate.getDate()
-                eachGig.startmonth = newDate.getMonth()
-                eachGig.startyear = newDate.getFullYear()
+            if (gigs) {
+                for (let eachGig of gigs) {
+                    let newDate = new Date(eachGig.starttime)
+                    eachGig.startday = newDate.getDate()
+                    eachGig.startmonth = newDate.getMonth()
+                    eachGig.startyear = newDate.getFullYear()
+                }
             }
-
             setOutput(gigs)
-            setGenres(profileTable.genres)
-
-            setTableState({
-                genres: profileTable.genres,
-                instruments: profileTable.instruments,
-            })
-            /*
-            if (genres.length != 0) {
-                gigs = gigs.filter((gig) => {
-                    //console.log("FILTERING: gig.genres: ",gig.genres," + profileTable.genres: ",profileTable.genres)
-                    return gig.genres.some(
-                        (r) => profileTable.genres.indexOf(r) >= 0
-                    )
-                })
-                setOutput(gigs)
-            }*/
-        } else {
-            //setOutput(gigs)
         }
     }
+
     if (loading) return <p>Loading...</p>
     //   if (!userData) return <NoSessionWarn />
 
@@ -129,21 +114,53 @@ export default function GigsDisplay() {
             <h3 className={styles.itemsheader}>
                 {user ? (
                     <>
-                        Showing Gigs:
-                        <button>{genres + " ✖️"}</button> <button>+</button>
-                        {tableState.instruments ? (
-                            <h3>
-                                {"Showing Instruments: " +
-                                <button>{tableState.instruments}</button>}
-                            </h3>
-                        ) : (
-                            "All Instruments"
-                        )}
+                        Finding Gigs:
+                        {searchGenres.length
+                            ? searchGenres.map((genre, key) => (
+                                  <div>
+                                      <button
+                                          onClick={(e) => {
+                                              setSearchGenres(
+                                                  searchGenres.filter(
+                                                      (genre, gkey) =>
+                                                          key !== gkey
+                                                  )
+                                              )
+                                          }}
+                                      >
+                                          {genre} ✖️
+                                      </button>
+                                  </div>
+                              ))
+                            : " [All Genres]"}
+                        <button className={styles.filterEnd}>+</button>
+                        Who Are Looking for:
+                        {searchInstruments.length
+                            ? searchInstruments.map((instrument, key) => (
+                                  <div>
+                                      <button
+                                          onClick={(e) => {
+                                              setSearchInstruments(
+                                                  searchInstruments.filter(
+                                                      (instrument, gkey) =>
+                                                          key !== gkey
+                                                  )
+                                              )
+                                          }}
+                                      >
+                                          {instrument} ✖️
+                                      </button>
+                                  </div>
+                              ))
+                            : " [All Instruments]"}
+                        <button className={styles.filterEnd}>+</button>
+                        <button onClick={() => getUser()}>RESET</button>
                     </>
                 ) : (
                     "No filters applied"
                 )}
             </h3>
+
             <div className={styles.ycomponents}>
                 <div
                     className={styles.yarrow}
