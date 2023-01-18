@@ -1,5 +1,6 @@
 import Head from "next/head"
 import GigsDisplay from "../components/GigsDisplay"
+import {SimpleSlider} from "../components/SimpleSlider/carousel.js";
 import styles from "/pages/index.module.css"
 
 export default function Home() {
@@ -69,6 +70,7 @@ export default function Home() {
                     </p>
                 </div>
             </main>
+            <SimpleSlider />
         </div>
     )
 }
