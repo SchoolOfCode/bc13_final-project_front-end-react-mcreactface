@@ -75,15 +75,15 @@ export default function GigsDisplay() {
                 .eq("id", user.id)
                 .single()
 
-            setSearchGenres(profileTable.genres[0].split(","))
-            setSearchInstruments(profileTable.instruments[0].split(","))
+            setSearchGenres(profileTable.genres)
+            setSearchInstruments(profileTable.instruments)
         }
     }
 
     async function getGigs(userData) {
         if (user) {
-            console.log("genres: ", searchGenres)
-            console.log("instruments: ", searchInstruments)
+            //  console.log("genres: ", searchGenres)
+            //  console.log("instruments: ", searchInstruments)
 
             let { data: gigs, gigsTableError } = await supabase
                 .from("gigs")
@@ -133,7 +133,7 @@ export default function GigsDisplay() {
                                   </div>
                               ))
                             : " [All Genres]"}
-                        <button className={styles.filterEnd}>+</button>
+                        <button className={styles.filterEnd}>➕</button>
                         Who Are Looking for:
                         {searchInstruments.length
                             ? searchInstruments.map((instrument, key) => (
@@ -153,7 +153,7 @@ export default function GigsDisplay() {
                                   </div>
                               ))
                             : " [All Instruments]"}
-                        <button className={styles.filterEnd}>+</button>
+                        <button className={styles.filterEnd}>➕</button>
                         <button onClick={() => getUser()}>RESET</button>
                     </>
                 ) : (
