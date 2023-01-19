@@ -5,13 +5,12 @@ export default function Musician(profile) {
     return (
         <div className={styles.musiciancard}>
             <h2 className={styles.h2}>{profile.full_name}</h2>
-            {/*             <Image
+            <Image
                 src={`https://mrtlmherhdiqarnmtiyx.supabase.co/storage/v1/object/public/avatars/${profile.avatar_url}`}
                 alt="Logo"
-                width={200}
-                height={170}
-            /> */}
-            <Image src={"/band.jpg"} alt="Logo" width={250} height={170} />
+                width={100}
+                height={100}
+            />
 
             <div>
                 <p className={styles.p}>Proficient with:</p>
