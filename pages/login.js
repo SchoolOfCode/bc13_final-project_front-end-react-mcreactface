@@ -9,36 +9,21 @@ const Login = () => {
     const session = useSession()
     const supabase = useSupabaseClient()
 
-    return (
-        <>
-            {!session ? (
-                <div
-                    className="container"
-                    style={{ padding: "50px 0 100px 0" }}
-                >
-                    <Auth
-                        providers={["apple", "google", "github"]}
-                        supabaseClient={supabase}
-                        theme="dark"
-                        appearance={{
-                            theme: ThemeSupa,
-                            style: {
-                                button: {
-                                    background: "#ff5722",
-                                    color: "black",
-                                },
-                                anchor: { color: "grey" },
-                            },
-                        }}
-                        redirectTo={"http://localhost:3000/gigs"}
-                    />{" "}
-                </div>
-            ) : (
-                //<GigsDisplay></GigsDisplay>
-                <AccountPage session={session} />
-            )}
-        </>
-    )
+
+  return (<div className="container" style={{ padding: '50px 0 100px 0' }}>
+    {!session ? (
+        <Auth providers={["apple", "google", "github"]} supabaseClient={supabase} theme="dark" appearance={{
+          theme: ThemeSupa,
+          style: {
+            button: { background: '#ff5722', color: 'black'},
+            anchor: { color: 'grey' }
+          },
+        }} redirectTo={'http://localhost:3000/gigs'}/>)
+        : (
+          <Account session={session} />
+        )}
+    </div>
+  )
 }
 
 export default Login

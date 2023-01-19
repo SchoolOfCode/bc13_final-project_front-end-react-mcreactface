@@ -5,7 +5,15 @@
     background-color: var(--custom-color-brand);
     padding: 10px 20px 10px 20px;
     border-bottom: 8px solid black;
+    position: relative;
 }
+
+.logotitle {
+    display: flex;
+    gap: 30px;
+    font-size: 30px;
+}
+
 
 .ul {
     display: flex;
@@ -27,6 +35,9 @@
     padding: 8px 5px 0px 10px;
 }
 
+.activelink {
+    border-bottom: 3px solid;
+}
 
 .icon {
     height: 50px;
@@ -66,12 +77,14 @@
     .ul {
         display: flex;
         position: absolute;
-        top: 98px;
-        left: -40px;
+        top: 99px;
+        left: 0px;
         flex-direction: column;
         margin: 0px;
-        outline: 1px solid gray;
+        width: 100vw;
+        background-color: var(--custom-color-brand);
     }
+
 
     .hide {
         display: none;
@@ -82,13 +95,17 @@
     }
 
     .li {
-        width: 90vw;
         display: flex;
-        background-color: var(--custom-color-brand);
+
         padding-bottom: 3px;
     }
 
     .avataricon {
         display: none;
+    }
+
+    .logotitle {
+
+        gap: 20px;
     }
 }

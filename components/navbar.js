@@ -1,17 +1,21 @@
 import Link from "next/link"
 import { useEffect, useState, useContext } from "react"
 import Image from "next/image"
-
+import { useRouter } from "next/router"
 import AvatarIcon from "./AvatarIcon"
 import {
     useSession,
     useUser,
     useSupabaseClient,
 } from "@supabase/auth-helpers-react"
+
 import styles from "../styles/Navbar.module.css"
 import { useRouter } from "next/router"
 
 export default function Navbar() {
+    const { asPath } = useRouter()
+    /* https://nextjs.org/docs/api-reference/next/router */
+
     const [isNavExpanded, setIsNavExpanded] = useState(false)
     const supabase = useSupabaseClient()
     const session = useSession()
@@ -21,27 +25,21 @@ export default function Navbar() {
     const router = useRouter()
 
     async function getUsername() {
-        if (user) {
-            try {
-                let { data, error } = await supabase
-                    .from("profiles")
-                    .select("username, avatar_url")
-                    .eq("id", user.id)
-                if (data) {
-                    console.log(data[0].username)
-                    console.log(data)
-                    console.log(data[0].avatar_url)
-                    setUsername(data[0].username)
-                    setAvatarUrl(data[0].avatar_url)
-                }
-                if (error) {
-                    console.log("getUserName error: ", user)
-                    // alert("fetch failed")
-                }
-            } catch (error) {
-                alert(error.message)
-                console.log("error")
+
+        try {
+            let { data, error } = await supabase
+                .from("profiles")
+                .select("username, avatar_url")
+                .eq("id", user.id)
+            if (data) {
+                setUsername(data[0].username)
+                setAvatarUrl(data[0].avatar_url)
             }
+            if (error) {
+                alert("fetch failed")
+            }
+        } catch (error) {
+            alert(error.message)
         }
     }
     if (user) {
@@ -50,9 +48,17 @@ export default function Navbar() {
 
     return (
         <nav className={styles.nav}>
-            <Link href="/">
-                <Image src="/musoLogo.png" alt="Logo" width={75} height={75} />
-            </Link>
+            <div className={styles.logotitle}>
+                <Link href="/">
+                    <Image
+                        src="/musoLogo.png"
+                        alt="Logo"
+                        width={75}
+                        height={75}
+                    />
+                </Link>
+                <p>Musofind</p>
+            </div>
             <div>
                 <div className={isNavExpanded ? styles.hide : styles.display}>
                     <button
@@ -107,47 +113,91 @@ export default function Navbar() {
                 }`}
             >
                 <li className={styles.li}>
-                    <Link href={"/"}>Home</Link>
+                    <Link
+                        href={"/"}
+                        className={asPath == "/" ? styles.activelink : ""}
+                    >
+                        Home
+                    </Link>
                 </li>
                 <li className={styles.li}>
-                    <Link href={"/gigs"}>Gigs</Link>
+                    <Link
+                        href={"/gigs"}
+                        className={asPath == "/gigs" ? styles.activelink : ""}
+                    >
+                        Gigs
+                    </Link>
                 </li>
                 <li className={styles.li}>
-                    <Link href={"/musicians"}>Musicians</Link>
+                    <Link
+                        href={"/musicians"}
+                        className={
+                            asPath == "/musicians" ? styles.activelink : ""
+                        }
+                    >
+                        Musicians
+                    </Link>
                 </li>
                 <li className={styles.li}>
-                    <Link href={"/about"}>About</Link>
+                    <Link
+                        href={"/about"}
+                        className={asPath == "/about" ? styles.activelink : ""}
+                    >
+                        About
+                    </Link>
                 </li>
                 <li className={styles.li}>
-                    <Link href={"/contact"}>Contact</Link>
+                    <Link
+                        href={"/contact"}
+                        className={
+                            asPath == "/contact" ? styles.activelink : ""
+                        }
+                    >
+                        Contact
+                    </Link>
                 </li>
                 {!session ? (
                     <li className={styles.li}>
-                        <Link href={"/login"}>Login</Link>
+                        <Link
+                            href={"/login"}
+                            className={
+                                asPath == "/login" ? styles.activelink : ""
+                            }
+                        >
+                            Login
+                        </Link>
                     </li>
                 ) : (
                     <>
                         <li className={`${styles.avataricon} ${styles.li}`}>
-                            {/* passing the session into the linked page with
-                            data, retrieve it on the other end with userRouter()
-                            from nextjs - Jay */}
-                            <Link href={"/login"}>
-                                <div>
-                                    <AvatarIcon
-                                        size={50}
-                                        avatarUrl={avatarUrl}
-                                    />
-                                </div>
+
+                            <Link
+                                href={"/login"}
+                                className={
+                                    asPath == "/login" ? styles.activelink : ""
+                                }
+                            >
+                                <AvatarIcon size={50} avatarUrl={avatarUrl} />
+
+                            </Link>
+                        </li>
+                        <li className={styles.li}>
+                            <Link
+                                href={"/mygigs"}
+                                className={
+                                    asPath == "/mygigs" ? styles.activelink : ""
+                                }
+                            >
+                                My Gigs
                             </Link>
                         </li>
                         <li className={styles.li}>
                             <Link
                                 href="/"
-                                onClick={async () => {
-                                    setUsername("")
-                                    await supabase.auth.signOut()
-                                    router.reload(window.location.pathname)
-                                }}
+                                onClick={() => supabase.auth.signOut()}
+                                className={
+                                    asPath == "/" ? styles.activelink : ""
+                                }
                             >
                                 Sign Out
                             </Link>

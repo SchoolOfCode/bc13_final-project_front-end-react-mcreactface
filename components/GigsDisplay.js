@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
+
 import { useRouter } from "next/router"
 import {
     useUser,
@@ -102,6 +103,7 @@ export default function GigsDisplay() {
                     eachGig.startyear = newDate.getFullYear()
                 }
             }
+            
             setOutput(gigs)
         }
     }
