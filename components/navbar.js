@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import AvatarIcon from "./AvatarIcon"
@@ -21,7 +21,10 @@ export default function Navbar() {
     const user = useUser()
     const [username, setUsername] = useState("")
     const [avatarUrl, setAvatarUrl] = useState(null)
+    const router = useRouter()
+
     async function getUsername() {
+
         try {
             let { data, error } = await supabase
                 .from("profiles")
@@ -41,6 +44,7 @@ export default function Navbar() {
     if (user) {
         getUsername()
     }
+
     return (
         <nav className={styles.nav}>
             <div className={styles.logotitle}>
@@ -165,6 +169,7 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li className={`${styles.avataricon} ${styles.li}`}>
+
                             <Link
                                 href={"/login"}
                                 className={
@@ -172,6 +177,7 @@ export default function Navbar() {
                                 }
                             >
                                 <AvatarIcon size={50} avatarUrl={avatarUrl} />
+
                             </Link>
                         </li>
                         <li className={styles.li}>

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import styles from "./GigItem.module.css"
 
-
 export default function GigItem({gig}) {
     const [isHovering, setIsHovering] = useState(false)
 
