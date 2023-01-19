@@ -10,7 +10,6 @@ import {
 } from "@supabase/auth-helpers-react"
 
 import styles from "../styles/Navbar.module.css"
-import { useRouter } from "next/router"
 
 export default function Navbar() {
     const { asPath } = useRouter()
