@@ -1,5 +1,6 @@
 import styles from "../../styles/musicians.module.css"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Musician(profile) {
     return (
@@ -37,8 +38,16 @@ export default function Musician(profile) {
             </div>
 
             <div className={styles.buttons}>
-                <button>Contact Me!</button>
-                <button href="/">See Profile</button>
+                <div className={styles.contactbutton}>
+                    <Link href="/contact">
+                        <p>Contact Us!</p>
+                    </Link>
+                </div>
+                <div className={styles.profilebutton}>
+                    <Link href={`/${profile.username}`}>
+                        <p>See Profile</p>
+                    </Link>
+                </div>
             </div>
         </div>
     )
