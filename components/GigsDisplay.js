@@ -81,6 +81,13 @@ export default function GigsDisplay() {
         }
     }
 
+
+    // If we have no instrument type set but we have a genre then we should see only the gigs with that genre type ✅
+    // If we have no instrument type set but we have multiple genres then we should see all the gigs with any of those genres ✅
+    // If we have a single instrument type set (Guitar) and have a genre (Rock) then we should see ONLY rock gigs that need guitar 📛
+    // If we have a single instrument type set (Guitar) and multiple genres (Rock, Pop) then we should see all the gigs of type Rock/Pop that also have instrument of Guitar 📛
+    // If we have multiple instruments and multiple genres then we should see a matrix of those filter inputs 📛
+
     async function getGigs(userData) {
         if (user) {
             console.log("genres.length: ", searchGenres.length)
@@ -139,6 +146,8 @@ export default function GigsDisplay() {
                         qstring += ",instrumentreq.eq."
                     }
                 })
+
+                // .in_('name', ['Rio de Janeiro', 'San Francisco']);
 
                 console.log("qstring: ", qstring)
                 query = query.or(qstring)
@@ -288,7 +297,7 @@ export default function GigsDisplay() {
                                                                     styles.gigPostCode
                                                                 }
                                                             >
-                                                                {gig.postcode}
+                                                                {gig.instrumentreq}
                                                             </div>
                                                         </div>
                                                     )
@@ -342,7 +351,7 @@ export default function GigsDisplay() {
                                                                     styles.gigPostCode
                                                                 }
                                                             >
-                                                                {gig.postcode}
+                                                                {gig.instrumentreq}
                                                             </div>
                                                         </div>
                                                     )
