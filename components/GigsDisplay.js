@@ -83,17 +83,48 @@ export default function GigsDisplay() {
 
     async function getGigs(userData) {
         if (user) {
-            //  console.log("genres: ", searchGenres)
-            //  console.log("instruments: ", searchInstruments)
+            //     console.log("genres.length: ", searchGenres.length)
+            //     console.log("instruments.length: ", searchInstruments.length)
 
-            let { data: gigs, gigsTableError } = await supabase
-                .from("gigs")
-                .select("*")
-                .gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
-                .lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
-                // .eq("instrumentreq", searchInstruments[0])
-                .contains("genres", searchGenres)
-                .contains("instrumentreq", searchInstruments)
+            let query = supabase.from("gigs").select("*")
+
+            query = query.gte(
+                "starttime",
+                `${searchCurrentYear}-01-01 00:00:00`
+            )
+            query = query.lte(
+                "starttime",
+                `${searchCurrentYear}-12-12 23:59:59`
+            )
+
+            if (searchGenres.length) {
+                let qstring = "genres.eq."
+
+                searchGenres.forEach((element, index) => {
+                    qstring += "{"
+                    qstring += element
+                    qstring += "}"
+                    if (index < searchGenres.length - 1) {
+                        qstring += ",genres.eq."
+                    }
+                })
+
+                if (searchInstruments.length) {
+                    let qstring = "instrumentreq.eq."
+
+                    searchInstruments.forEach((element, index) => {
+                        qstring += "{"
+                        qstring += element
+                        qstring += "}"
+                        if (index < searchInstruments.length - 1) {
+                            qstring += ",instrumentsreq.eq."
+                        }
+                    })
+                    query = query.or(qstring)
+                }
+            }
+
+            const { data: gigs, error } = await query
 
             if (gigs) {
                 for (let eachGig of gigs) {
@@ -102,9 +133,9 @@ export default function GigsDisplay() {
                     eachGig.startmonth = newDate.getMonth()
                     eachGig.startyear = newDate.getFullYear()
                 }
+
+                setOutput(gigs)
             }
-            
-            setOutput(gigs)
         }
     }
 
@@ -156,7 +187,14 @@ export default function GigsDisplay() {
                               ))
                             : " [All Instruments]"}
                         <button className={styles.filterEnd}>➕</button>
-                        <button onClick={() => getUser()}>RESET</button>
+                        <button
+                            onClick={() => {
+                                getUser()
+                                getGigs()
+                            }}
+                        >
+                            RESET
+                        </button>
                     </>
                 ) : (
                     "No filters applied"
@@ -223,7 +261,7 @@ export default function GigsDisplay() {
                                                                     styles.gigType
                                                                 }
                                                             >
-                                                                {gig.eventtype}
+                                                                {gig.genres}
                                                             </div>
                                                             <div
                                                                 className={
@@ -277,7 +315,7 @@ export default function GigsDisplay() {
                                                                     styles.gigType
                                                                 }
                                                             >
-                                                                {gig.eventtype}
+                                                                {gig.genres}
                                                             </div>
                                                             <div
                                                                 className={
