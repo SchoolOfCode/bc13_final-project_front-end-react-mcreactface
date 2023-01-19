@@ -39,7 +39,7 @@ export default function Home() {
                 <link rel="icon" href="/musoLogo.png" />
             </Head>
             <div className={styles.scrolling}>
-                <div className={styles.minipage}>
+                <div className={styles.landingpage}>
                     <img
                         className={styles.largeLogo}
                         src="musoLogo.png"
