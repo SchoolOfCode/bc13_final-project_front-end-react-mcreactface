@@ -35,9 +35,10 @@ export default function GigsCreated({ session }) {
     useEffect(() => {
         getCreatedGigs()
     }, [])
-    if (!creatingGig) {
+
+    if (!creatingGig && user) {
         return (
-            <>
+            <div>
                 {gigsAvailable ? (
                     <div>
                         {createdArray.map((gig) => (
@@ -56,18 +57,18 @@ export default function GigsCreated({ session }) {
                         Create a new gig
                     </button>
                 </div>
-            </>
+            </div>
         )
-    } else {
+    } else if (creatingGig && user) {
         return (
-            <>
+            <div>
                 <GigCreation
                     id={user.id}
                     closeModal={() => {
                         setCreatingGig(false)
                     }}
                 />
-            </>
+            </div>
         )
     }
 }

@@ -17,10 +17,9 @@ const Login = () => {
             button: { background: '#ff5722', color: 'black'},
             anchor: { color: 'grey' }
           },
-        }} redirectTo={'http://localhost:3000/gigs'} />)
-        : (<div>
+        }} redirectTo={'http://localhost:3000/gigs'}/>)
+        : (
           <Account session={session} />
-          </div>
         )}
     </div>
   )

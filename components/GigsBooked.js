@@ -37,7 +37,7 @@ export default function GigsBooked({ session }) {
     }, [])
 
     return (
-        <>
+        <div>
             {gigsAvailable ? (
                 <div>
                     {createdArray.map((gig) => (
@@ -50,12 +50,11 @@ export default function GigsBooked({ session }) {
                         You have not booked any gigs. Please navigate to the
                         gigs page to book a gig
                     </p>
-                    <Link href={"/"}>
+                    <Link href={"/gigs"}>
                         <button>Book a Gig</button>
                     </Link>
-                    <GigCreation />
                 </div>
             )}
-        </>
+        </div>
     )
 }
