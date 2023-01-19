@@ -21,6 +21,27 @@ export default function GigCreation ({ closeModal, id }) {
     const [setLength, setSetLength] = useState('')
     const [genres, setGenres] = useState('')
     const [eventType, setEventType] = useState('')
+    const [boxChecked, setBoxChecked] = useState({
+        Drums: false,
+        Guitar: false,
+        Bass: false,
+        Keys: false,
+        Vocals: false,
+        Saxophone: false,
+        Trumpet: false,
+        Flute: false,
+        Violin: false,
+        Cello: false,
+        Rock: false,
+        "Standard Function": false,
+        Pop: false,
+        Jazz: false,
+        Blues: false,
+        Acoustic: false,
+        Classical: false,
+        Folk: false,
+        Country: false
+    })
     async function createGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType }) {
         try {
         const gig = {
@@ -52,6 +73,32 @@ export default function GigCreation ({ closeModal, id }) {
       console.log(error)
     }
     }
+
+    function editInstruments(e){
+        if (e.currentTarget.checked) {
+        setInstrumentsReq([...instrumentsReq, e.target.value]);
+        setBoxChecked({ ...boxChecked, [e.target.value]: true })
+        console.log(instrumentsReq)
+    }else if (!e.currentTarget.checked) {
+            setInstrumentsReq(instrumentsReq.filter((instrument) => instrument !== e.target.value))
+            setBoxChecked({ ...boxChecked, [e.target.value]: false })
+            console.log(instrumentsReq)
+        }
+    }
+
+
+    function editGenres(e){
+        if (e.currentTarget.checked) {
+        setGenres([...genres, e.target.value]);
+        setBoxChecked({ ...boxChecked, [e.target.value]: true })
+        console.log(genres)
+    } else if (!e.currentTarget.checked) {
+            setGenres(genres.filter((genre) => genre !== e.target.value))
+            setBoxChecked({ ...boxChecked, [e.target.value]: false })
+            console.log(genres)
+        }
+    }
+
     return (
         <div className="form-widget">
             <h1>Create a Gig</h1>
@@ -110,30 +157,69 @@ export default function GigCreation ({ closeModal, id }) {
             />
         </div>
         <div>
-            <label htmlFor="instrumentsReq">Instruments Required</label>
-            <input
-            id="instrumentsReq"
-            type="text"
-            value={ instrumentsReq || ''}
-            onChange={(e) => setInstrumentsReq(e.target.value)}
-            />
-        </div>
+                <label htmlFor="instruments">Instruments required</label>
+                <div className={styles.container}>
+                <div className={boxChecked.Guitar ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="guitar" name="instruments" value="Guitar" onChange={(e)=> editInstruments(e)} />
+                <label htmlFor="guitar">Guitar</label>
+                </div>
+                <div className={boxChecked.Bass ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="bass" name="instruments" value="Bass" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="bass">Bass</label>
+                </div>
+                <div className={boxChecked.Drums ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="drums" name="instruments" value="Drums" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="drums">Drums</label>
+                </div>
+                <div className={boxChecked.Keys ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="keys" name="instruments" value="Keys"  onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="keys">Keys</label>
+                </div>
+                <div className={boxChecked.Violin ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="violin" name="instruments" value="Violin" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="violin">Violin</label>
+                </div>
+                <div className={boxChecked.Cello ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="cello" name="instruments" value="Cello" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="cello">Cello</label>
+                </div>
+                <div className={boxChecked.Trumpet ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="trumpet" name="instruments" value="Trumpet" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="trumpet">Trumpet</label>
+                </div>
+                <div className={boxChecked.Saxophone ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="saxophone" name="instruments" value="Saxophone" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="saxophone">Saxophone</label>
+                </div>
+                <div className={boxChecked.Flute ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="flute" name="instruments" value="Flute" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="flute">Flute</label>
+                </div>
+                <div className={boxChecked.Vocals ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="vocals" name="instruments" value="Vocals" onChange={(e)=> editInstruments(e)}/>
+                <label htmlFor="vocals">Vocals</label>
+                </div>
+                </div>
+            </div>
+
         <div>
             <label htmlFor="startTime">Start Time</label>
             <input
+            className={styles.calendar}
             id="startTime"
-            type="text"
+            type="datetime-local"
             value={ startTime || ''}
-            onChange={(e) => setStartTime(e.target.value)}
+            onChange={(e) => {setStartTime(e.target.value + ":00"); console.log(startTime)}}
             />
         </div>
         <div>
             <label htmlFor="endTime">End Time</label>
             <input
+            className={styles.calendar}
             id="endTime"
-            type="text"
+            type="datetime-local"
             value={ endTime || ''}
-            onChange={(e) => setEndTime(e.target.value)}
+            onChange={(e) => {setEndTime(e.target.value); console.log(endTime)}}
             />
         </div>
         <div className={styles.empty}></div>
@@ -215,15 +301,47 @@ export default function GigCreation ({ closeModal, id }) {
             onChange={(e) => setEventType(e.target.value)}
             />
         </div>
-        <div>
-            <label htmlFor="genres">Genres</label>
-            <input
-            id="genres"
-            type="text"
-            value={ genres || ''}
-            onChange={(e) => setGenres(e.target.value)}
-            />
-        </div>
+            <div>
+            <label htmlFor="genres">Genres played</label>
+                <div className={styles.container}>
+                <div className={boxChecked.Rock ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="rock" name="genres" value="Rock" onChange={(e)=> editGenres(e)} />
+                <label htmlFor="rock">Rock</label>
+                </div>
+                <div className={boxChecked["Standard Function"] ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="standard-function" name="genres" value="Standard Function"  onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="standard-function">Standard Function</label>
+                </div>
+                <div className={boxChecked.Pop ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="pop" name="genres" value="Pop"  onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="pop">Pop</label>
+                </div>
+                <div className={boxChecked.Blues ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="blues" name="genres" value="Blues" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="blues">Blues</label>
+                </div>
+                <div className={boxChecked.Jazz ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="jazz" name="genres" value="Jazz" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="jazz">Jazz</label>
+                </div>
+                <div className={boxChecked.Acoustic ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="acoustic" name="genres" value="Acoustic" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="acoustic">Acoustic</label>
+                </div>
+                <div className={boxChecked.Folk ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="folk" name="genres" value="Folk" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="folk">Folk</label>
+                </div>
+                <div className={boxChecked.Classical ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="classical" name="genres" value="Classical" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="classical">Classical</label>
+                </div>
+                <div className={boxChecked.Country ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="country" name="genres" value="Country" onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="country">Country</label>
+                </div>
+                </div>
+            </div>
         <button onClick={() => createGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType })}>Create Gig</button>
         <button onClick={closeModal}>Close</button>
     </div>
