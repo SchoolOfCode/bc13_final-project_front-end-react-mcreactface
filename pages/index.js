@@ -1,9 +1,37 @@
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Head from "next/head"
+import { useEffect, useState } from "react";
 import GigsDisplay from "../components/GigsDisplay"
 import {SimpleSlider} from "../components/SimpleSlider/carousel.js";
 import styles from "/pages/index.module.css"
 
 export default function Home() {
+    const supabase = useSupabaseClient();
+    const [gigs, setGigs] = useState([]);
+    async function getGigs() {
+        try {
+            let { data: allGigs, error } = await supabase
+                .from("gigs")
+                .select("*")
+
+            if (error) {
+                throw error
+            }
+
+            if (allGigs) {
+                console.log("getCreatedGigs(): gigs: ", allGigs)
+                setGigs([...allGigs])
+            } else {
+                console.log("No Data")
+                // return ("<p>oh dear</p>")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getGigs()
+    }, [])
     return (
         <div className={styles.container}>
             <Head>
@@ -30,6 +58,7 @@ export default function Home() {
                         style. With a simple search system, you can find gigs
                         that are looking for a band or just want to jam.
                     </p>
+                    {gigs ? <div className={styles.sliderContainer}><SimpleSlider gigarray={gigs} /></div> : <p>loading</p>}
                 </div>
                 <div className={styles.minipage2}>
                 <h2>Management made easy</h2>
@@ -74,7 +103,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <SimpleSlider />
+            
 
         </div>
     )

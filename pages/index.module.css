@@ -24,9 +24,10 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   scroll-snap-align: start;
+  gap: 20px;
 }
 
 .minipage > h2 {
@@ -235,4 +236,7 @@
     width: 100%;
     flex-direction: column;
   }
+}
+.sliderContainer {
+  width: 80vw;
 }
