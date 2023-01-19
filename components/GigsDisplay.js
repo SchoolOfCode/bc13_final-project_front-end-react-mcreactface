@@ -83,8 +83,8 @@ export default function GigsDisplay() {
 
     async function getGigs(userData) {
         if (user) {
-            //     console.log("genres.length: ", searchGenres.length)
-            //     console.log("instruments.length: ", searchInstruments.length)
+            console.log("genres.length: ", searchGenres.length)
+            console.log("instruments.length: ", searchInstruments.length)
 
             let query = supabase.from("gigs").select("*")
 
@@ -96,6 +96,8 @@ export default function GigsDisplay() {
                 "starttime",
                 `${searchCurrentYear}-12-12 23:59:59`
             )
+
+            console.log("searchGenres.length: ", searchGenres.length)
 
             if (searchGenres.length) {
                 let qstring = "genres.eq."
@@ -109,19 +111,37 @@ export default function GigsDisplay() {
                     }
                 })
 
+                query = query.or(qstring)
+
                 if (searchInstruments.length) {
-                    let qstring = "instrumentreq.eq."
+                    qstring += ",instrumentreq.eq."
 
                     searchInstruments.forEach((element, index) => {
                         qstring += "{"
                         qstring += element
                         qstring += "}"
                         if (index < searchInstruments.length - 1) {
-                            qstring += ",instrumentsreq.eq."
+                            qstring += ",instrumentreq.eq."
                         }
                     })
+
+                    console.log("qstring: ", qstring)
                     query = query.or(qstring)
                 }
+            } else if (searchInstruments.length) {
+                let qstring = "instrumentreq.eq."
+
+                searchInstruments.forEach((element, index) => {
+                    qstring += "{"
+                    qstring += element
+                    qstring += "}"
+                    if (index < searchInstruments.length - 1) {
+                        qstring += ",instrumentreq.eq."
+                    }
+                })
+
+                console.log("qstring: ", qstring)
+                query = query.or(qstring)
             }
 
             const { data: gigs, error } = await query
