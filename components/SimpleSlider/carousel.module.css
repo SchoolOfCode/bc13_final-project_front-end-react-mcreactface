@@ -1,0 +1,89 @@
+  /* .gigCard:hover {
+    transform: scale(2);
+    box-shadow:rgba(185, 255, 255,3) 0px 0px 24px; 
+    transition: 0.5s;
+} */
+.carousel {
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+}
+
+.gigCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* justify-content: space-around; */
+    /* flex-wrap: wrap; */
+    --black: #242424;
+    --lightorange: #FF5722;
+    ---darkorange: #CC4C4C;
+    --green: #5ACB5E;
+    --grey: #9A9A9A;
+    --beige: #FFDEC7;
+    background-color: var(--lightorange);
+    border-radius: 2vh;
+    width: 20vw;
+    height: 30vh;
+    border-style: solid;
+    border-width: 10px 10px 10px 10px;
+    border-color: var(--custom-bg-color);
+}
+
+.gigCard ol {
+    margin: 0;
+    
+}
+
+.gigCard li {
+    list-style-type: none;
+}
+
+.gigCard img {
+   min-width: 7vh;
+   min-height: 7vh;
+   max-width: 7vh;
+   max-height: 7vh;
+   border-top-left-radius: 2vh;
+}
+
+
+
+.gigCardSub {
+    bottom: 0;
+    background-color: var(---darkorange);
+    border-radius: 2vh;
+    min-height: 10vh;
+  /*  flex-grow: 1;
+    box-sizing: content-box;*/
+}
+
+
+.gigParent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    column-gap: 5vh;
+    row-gap: 5vh;
+}
+
+.title {
+    color: var(--black);
+}
+
+.bigtitle {
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+}
+
+h1 .title {
+    padding: 5vh;
+}
+
+.giginfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: left;
+}

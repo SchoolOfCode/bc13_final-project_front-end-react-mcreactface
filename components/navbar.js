@@ -43,9 +43,17 @@ export default function Navbar() {
     }
     return (
         <nav className={styles.nav}>
-            <Link href="/">
-                <Image src="/musoLogo.png" alt="Logo" width={75} height={75} />
-            </Link>
+            <div className={styles.logotitle}>
+                <Link href="/">
+                    <Image
+                        src="/musoLogo.png"
+                        alt="Logo"
+                        width={75}
+                        height={75}
+                    />
+                </Link>
+                <p>Musofind</p>
+            </div>
             <div>
                 <div className={isNavExpanded ? styles.hide : styles.display}>
                     <button

@@ -8,6 +8,13 @@
     position: relative;
 }
 
+.logotitle {
+    display: flex;
+    gap: 30px;
+    font-size: 30px;
+}
+
+
 .ul {
     display: flex;
 
@@ -95,5 +102,10 @@
 
     .avataricon {
         display: none;
+    }
+
+    .logotitle {
+
+        gap: 20px;
     }
 }
