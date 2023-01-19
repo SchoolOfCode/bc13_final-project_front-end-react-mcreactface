@@ -1,11 +1,11 @@
 import React from "react"
 import styles from "../styles/Footer.module.css"
 // trying to merge bruh 
-
-export default function footer() {
+// thw latest change 
+export default function Footer() {
     return <footer className={styles.footerMain}>
 
-        <h3 className={styles.footerCright}>Copyright @2022 <span className={styles.footerSpan}> React McReactface</span></h3>
+        <h3 className={styles.footerText}>Copyright @2022 <span className={styles.footerSpan}> React McReactface</span></h3>
         <div className={styles.footerDiv}>
             <a
                 data-testid="youtube-link"
