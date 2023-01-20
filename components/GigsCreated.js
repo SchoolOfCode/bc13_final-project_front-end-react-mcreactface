@@ -1,5 +1,5 @@
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import GigCreation from "./GigCreation"
 import GigItem from "./GigItem"
 import { SimpleSlider } from "./SimpleSlider/carousel"
@@ -11,6 +11,8 @@ export default function GigsCreated({ session }) {
     const [createdArray, setCreatedArray] = useState([])
     const [gigsAvailable, setGigsAvailable] = useState(false)
     const [creatingGig, setCreatingGig] = useState(false)
+    const scrl = useRef(null); // For scrolling
+
     async function getCreatedGigs() {
         try {
             let { data: userCreatedGigs, error } = await supabase
@@ -36,26 +38,40 @@ export default function GigsCreated({ session }) {
     }
     useEffect(() => {
         getCreatedGigs()
-    }, [])
+    }, [user])
+    
 
-    if (!creatingGig && user) {
-        return (
-            <div className={styles.sliderContainer}>
-                {gigsAvailable ? (
-                        <SimpleSlider gigarray={createdArray}/>
-                ) : (
-                    <div>"You have not created any gigs"</div>
-                )}
-                <div>
+    //Controls scroll buttons for cards
+  const ref = useRef(null);
+  function scroll(scrollOffset) {
+    ref.current.scrollLeft += scrollOffset;
+  }
+
+    if (user) {
+        return (<>
+            <div className={styles.layout}>
+            <button className={styles.scroll} onClick={() => scroll(-500)}>{"<"}</button>
+            <div className={styles.row}>
+                <div ref={ref} className={styles.rowItems}>
+                    {createdArray.map((gig) => (
+                        <div className={styles.rowItem}>
+                        <GigItem key={gig.id} gig={gig}/>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <button className={styles.scroll} onClick={() => scroll(500)}>{">"}</button>
+            </div>
+            <div className={styles.button}>
                     <button
                         onClick={() => {
                             setCreatingGig(true)
                         }}
                     >
-                        Create a new gig
+                        Create a Gig
                     </button>
                 </div>
-            </div>
+                </>
         )
     } else if (creatingGig && user) {
         return (
