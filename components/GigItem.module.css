@@ -136,6 +136,7 @@ h1 .title {
     margin-bottom: 0.6vh;
     display: flex;
     flex-direction: row;
+    align-content: center;
     justify-content: space-between;
     padding: 0.5vh;
     border: solid black 2px;
@@ -184,11 +185,12 @@ h1 .title {
 .gigPostCode {
     color: black;
     display: flex;
-    align-items: flex-end;
+
 }
 
 .gigDay {
     color: black;
+    padding-right: 1vw;
 }
 
 .gigDate {
@@ -197,6 +199,13 @@ h1 .title {
 
 .gigType {
     color: black;
+    padding-right: 1vw;
+}
+
+.gigImage {
+    bottom: 5px;
+    height: 2vh;
+    padding-left: 1vh;
 }
 
 .filterEnd {

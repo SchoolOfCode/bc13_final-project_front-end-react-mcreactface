@@ -246,21 +246,71 @@ export default function GigsDisplay() {
                                                             >
                                                                 {gig.startday}
                                                             </div>
-                                                            <div
-                                                                className={
-                                                                    styles.gigType
-                                                                }
-                                                            >
-                                                                {gig.genres}
-                                                            </div>
+                                                            {gig.genres &&
+                                                            gig.genres.length &&
+                                                            gig.genres.length >
+                                                                1 ? (
+                                                                <div
+                                                                    className={
+                                                                        styles.gigType
+                                                                    }
+                                                                >
+                                                                    Various
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    className={
+                                                                        styles.gigType
+                                                                    }
+                                                                >
+                                                                    {gig.genres}
+                                                                </div>
+                                                            )}
                                                             <div
                                                                 className={
                                                                     styles.gigPostCode
                                                                 }
                                                             >
                                                                 {
-                                                                    gig.instrumentreq
+                                                                    gig.postcode.split(
+                                                                        " "
+                                                                    )[0]
                                                                 }
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    styles.gigImage
+                                                                }
+                                                            >
+                                                                {gig
+                                                                    .instrumentreq
+                                                                    .length >
+                                                                1 ? (
+                                                                    gig.instrumentreq.map(
+                                                                        (
+                                                                            genre,
+                                                                            index
+                                                                        ) => {
+                                                                            return (
+                                                                                <img
+                                                                                    className={
+                                                                                        styles.gigImage
+                                                                                    }
+                                                                                    src={`images/icons/small${genre}.png`}
+                                                                                    alt={`small${gig.instrumentreq}`}
+                                                                                ></img>
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                ) : (
+                                                                    <img
+                                                                        className={
+                                                                            styles.gigImage
+                                                                        }
+                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
+                                                                        alt={`small${gig.instrumentreq}`}
+                                                                    ></img>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     )
@@ -302,21 +352,71 @@ export default function GigsDisplay() {
                                                             >
                                                                 {gig.startday}
                                                             </div>
-                                                            <div
-                                                                className={
-                                                                    styles.gigType
-                                                                }
-                                                            >
-                                                                {gig.genres}
-                                                            </div>
+                                                            {gig.genres &&
+                                                            gig.genres.length &&
+                                                            gig.genres.length >
+                                                                1 ? (
+                                                                <div
+                                                                    className={
+                                                                        styles.gigType
+                                                                    }
+                                                                >
+                                                                    Various
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    className={
+                                                                        styles.gigType
+                                                                    }
+                                                                >
+                                                                    {gig.genres}
+                                                                </div>
+                                                            )}
                                                             <div
                                                                 className={
                                                                     styles.gigPostCode
                                                                 }
                                                             >
                                                                 {
-                                                                    gig.instrumentreq
+                                                                    gig.postcode.split(
+                                                                        " "
+                                                                    )[0]
                                                                 }
+                                                            </div>
+                                                            <div
+                                                                className={
+                                                                    styles.gigImage
+                                                                }
+                                                            >
+                                                                {gig
+                                                                    .instrumentreq
+                                                                    .length >
+                                                                1 ? (
+                                                                    gig.instrumentreq.map(
+                                                                        (
+                                                                            genre,
+                                                                            index
+                                                                        ) => {
+                                                                            return (
+                                                                                <img
+                                                                                    className={
+                                                                                        styles.gigImage
+                                                                                    }
+                                                                                    src={`images/icons/small${genre}.png`}
+                                                                                    alt={`small${gig.instrumentreq}`}
+                                                                                ></img>
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                ) : (
+                                                                    <img
+                                                                        className={
+                                                                            styles.gigImage
+                                                                        }
+                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
+                                                                        alt={`small${gig.instrumentreq}`}
+                                                                    ></img>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     )
