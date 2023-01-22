@@ -81,7 +81,6 @@ export default function GigsDisplay() {
         }
     }
 
-
     // If we have no instrument type set but we have a genre then we should see only the gigs with that genre type ✅
     // If we have no instrument type set but we have multiple genres then we should see all the gigs with any of those genres ✅
     // If we have a single instrument type set (Guitar) and have a genre (Rock) then we should see ONLY rock gigs that need guitar 📛
@@ -104,53 +103,15 @@ export default function GigsDisplay() {
                 `${searchCurrentYear}-12-12 23:59:59`
             )
 
-            console.log("searchGenres.length: ", searchGenres.length)
-
-            if (searchGenres.length) {
-                let qstring = "genres.eq."
-
-                searchGenres.forEach((element, index) => {
-                    qstring += "{"
-                    qstring += element
-                    qstring += "}"
-                    if (index < searchGenres.length - 1) {
-                        qstring += ",genres.eq."
-                    }
-                })
-
-                query = query.or(qstring)
-
-                if (searchInstruments.length) {
-                    qstring += ",instrumentreq.eq."
-
-                    searchInstruments.forEach((element, index) => {
-                        qstring += "{"
-                        qstring += element
-                        qstring += "}"
-                        if (index < searchInstruments.length - 1) {
-                            qstring += ",instrumentreq.eq."
-                        }
-                    })
-
-                    console.log("qstring: ", qstring)
-                    query = query.or(qstring)
+            if (searchGenres.length || searchInstruments.length) {
+                if (searchGenres.length && searchInstruments.length) {
+                    query = query.overlaps("genres", searchGenres)
+                    query = query.overlaps("instrumentreq", searchInstruments)
+                } else if (searchGenres) {
+                    query = query.overlaps("genres", searchGenres)
+                } else if (searchInstruments) {
+                    query = query.overlaps("instrumentreq", searchInstruments)
                 }
-            } else if (searchInstruments.length) {
-                let qstring = "instrumentreq.eq."
-
-                searchInstruments.forEach((element, index) => {
-                    qstring += "{"
-                    qstring += element
-                    qstring += "}"
-                    if (index < searchInstruments.length - 1) {
-                        qstring += ",instrumentreq.eq."
-                    }
-                })
-
-                // .in_('name', ['Rio de Janeiro', 'San Francisco']);
-
-                console.log("qstring: ", qstring)
-                query = query.or(qstring)
             }
 
             const { data: gigs, error } = await query
@@ -297,7 +258,9 @@ export default function GigsDisplay() {
                                                                     styles.gigPostCode
                                                                 }
                                                             >
-                                                                {gig.instrumentreq}
+                                                                {
+                                                                    gig.instrumentreq
+                                                                }
                                                             </div>
                                                         </div>
                                                     )
@@ -351,7 +314,9 @@ export default function GigsDisplay() {
                                                                     styles.gigPostCode
                                                                 }
                                                             >
-                                                                {gig.instrumentreq}
+                                                                {
+                                                                    gig.instrumentreq
+                                                                }
                                                             </div>
                                                         </div>
                                                     )
