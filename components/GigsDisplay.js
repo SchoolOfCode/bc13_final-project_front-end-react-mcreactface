@@ -107,9 +107,9 @@ export default function GigsDisplay() {
                 if (searchGenres.length && searchInstruments.length) {
                     query = query.overlaps("genres", searchGenres)
                     query = query.overlaps("instrumentreq", searchInstruments)
-                } else if (searchGenres) {
+                } else if (searchGenres.length) {
                     query = query.overlaps("genres", searchGenres)
-                } else if (searchInstruments) {
+                } else if (searchInstruments.length) {
                     query = query.overlaps("instrumentreq", searchInstruments)
                 }
             }
