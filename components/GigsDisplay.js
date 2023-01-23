@@ -28,6 +28,9 @@ export default function GigsDisplay() {
     const [searchInstruments, setSearchInstruments] = useState([])
     const [searchGenres, setSearchGenres] = useState([])
     const [showAll, setShowAll] = useState(true)
+    const [triggerBooking, setTriggerBooking] = useState(false)
+    const [triggerCancellation, setTriggerCancellation] = useState(false)
+    const [selectedGig, setSelectedGig] = useState({})
 
     const router = useRouter()
     const data = router.query
@@ -69,8 +72,40 @@ export default function GigsDisplay() {
         getUser()
     }, [])
 
+    useEffect(() => {
+        doBooking(selectedGig)
+        setShowAll(true)
+    }, [triggerBooking])
+
+    useEffect(() => {
+        doCancellation(selectedGig)
+    }, [triggerCancellation])
+
     function bookGig(gig) {
         setShowAll(false)
+        setSelectedGig(gig)
+    }
+
+    async function doBooking() {
+        if (user) {
+            let query = supabase
+                .from("gigs")
+                .update({ chosen_id: user.id })
+                .match({ id: selectedGig.id })
+
+            const { data: result, error } = await query
+        }
+    }
+
+    async function doCancellation() {
+        if (user) {
+            let query = supabase
+                .from("gigs")
+                .update({ chosen_id: null })
+                .match({ id: selectedGig.id })
+
+            const { data: result, error } = await query
+        }
     }
 
     async function getUser(userData) {
@@ -131,6 +166,11 @@ export default function GigsDisplay() {
             if (gigs) {
                 for (let eachGig of gigs) {
                     let newDate = new Date(eachGig.starttime)
+                    eachGig.starthour = newDate.getHours()
+                    if ((eachGig.startmin = newDate.getMinutes()) == 0) {
+                        eachGig.starmin = "00"
+                    }
+
                     eachGig.startday = newDate.getDate()
                     eachGig.startmonth = newDate.getMonth()
                     eachGig.startyear = newDate.getFullYear()
@@ -245,10 +285,18 @@ export default function GigsDisplay() {
                                                             searchCurrentYear
                                                 )
                                                 .map((gig) => {
+                                                    // I tried wrapping the whole return statement in some conditional rendering but there was a problem
+                                                    // returning twice from within .map so I had to re-write it this way, ugly and repetitive as it is :( - J
                                                     return (
                                                         <div
                                                             className={
-                                                                styles.gigDates
+                                                                user.id ===
+                                                                gig.bookee
+                                                                    ? styles.gigDatesICreated
+                                                                    : user.id ===
+                                                                      gig.chosen_id
+                                                                    ? styles.gigDatesIBooked
+                                                                    : styles.gigDates
                                                             }
                                                             onClick={() => {
                                                                 bookGig(gig)
@@ -256,7 +304,13 @@ export default function GigsDisplay() {
                                                         >
                                                             <div
                                                                 className={
-                                                                    styles.gigDay
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {gig.startday}
@@ -267,7 +321,13 @@ export default function GigsDisplay() {
                                                                 1 ? (
                                                                 <div
                                                                     className={
-                                                                        styles.gigType
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
                                                                     }
                                                                 >
                                                                     Various
@@ -275,7 +335,13 @@ export default function GigsDisplay() {
                                                             ) : (
                                                                 <div
                                                                     className={
-                                                                        styles.gigType
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
                                                                     }
                                                                 >
                                                                     {gig.genres}
@@ -283,7 +349,13 @@ export default function GigsDisplay() {
                                                             )}
                                                             <div
                                                                 className={
-                                                                    styles.gigPostCode
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {
@@ -354,10 +426,19 @@ export default function GigsDisplay() {
                                                             searchCurrentYear
                                                 )
                                                 .map((gig) => {
+                                                    // if the user.id matches gig.bookee then A
+                                                    // if the user.id matches gig.chosen_id then B
+                                                    // if the user.id mathes neither then C
                                                     return (
                                                         <div
                                                             className={
-                                                                styles.gigDates
+                                                                user.id ===
+                                                                gig.bookee
+                                                                    ? styles.gigDatesICreated
+                                                                    : user.id ===
+                                                                      gig.chosen_id
+                                                                    ? styles.gigDatesIBooked
+                                                                    : styles.gigDates
                                                             }
                                                             onClick={() => {
                                                                 bookGig(gig)
@@ -365,7 +446,13 @@ export default function GigsDisplay() {
                                                         >
                                                             <div
                                                                 className={
-                                                                    styles.gigDay
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {gig.startday}
@@ -376,7 +463,13 @@ export default function GigsDisplay() {
                                                                 1 ? (
                                                                 <div
                                                                     className={
-                                                                        styles.gigType
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
                                                                     }
                                                                 >
                                                                     Various
@@ -384,7 +477,13 @@ export default function GigsDisplay() {
                                                             ) : (
                                                                 <div
                                                                     className={
-                                                                        styles.gigType
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
                                                                     }
                                                                 >
                                                                     {gig.genres}
@@ -392,7 +491,13 @@ export default function GigsDisplay() {
                                                             )}
                                                             <div
                                                                 className={
-                                                                    styles.gigPostCode
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {
@@ -456,27 +561,111 @@ export default function GigsDisplay() {
         </>
     ) : (
         /* Confirmation of booking code here */
-        <div className="confirmBooking">
-            <ul>
-                <li>ADDRESS 1ST LINE</li>
-                <li>ADDRESS 2ND LINE</li>
-                <li>TOWN</li>
-                <li>CITY</li>
-                <li>POSTCODE</li>
-                <li>REGION</li>
-                <li>INSTRUMENTS REQUIRED</li>
-                <li>START TIME</li>
-                <li>END TIME</li>
-                <li>FOOD PROVIDED</li>
-                <li>VEGGIE OPTION AVAILABLE</li>
-                <li>PA REQUIRED</li>
+        <>
+            <div className={styles.bookingData}>
+                <ul>
+                    <li>
+                        ADDRESS 1ST LINE:
+                        <text>{selectedGig.address1stline}</text>
+                    </li>
+                    <li>
+                        ADDRESS 2ND LINE:
+                        <text>{selectedGig.address2ndline}</text>
+                    </li>
+                    <li>
+                        TOWN:<text> {selectedGig.town}</text>
+                    </li>
+                    <li>
+                        CITY:<text> {selectedGig.city}</text>
+                    </li>
+                    <li>
+                        POSTCODE:<text> {selectedGig.postcode}</text>
+                    </li>
+                    <li>
+                        REGION:<text> {selectedGig.region}</text>
+                    </li>
+                    <li>
+                        INSTRUMENTS REQUIRED:
+                        <text> {selectedGig.instrumentreq}</text>
+                    </li>
+                    <li>
+                        START TIME:
+                        <text>
+                            {selectedGig.startmin
+                                ? selectedGig.starthour +
+                                  ":" +
+                                  selectedGig.startmin
+                                : selectedGig.starthour + ":00"}
+                        </text>
+                    </li>
+                    <li>
+                        END TIME:<text> {selectedGig.endtime}</text>
+                    </li>
+                    <li>
+                        FOOD PROVIDED:<text> {selectedGig.foodprovided}</text>
+                    </li>
+                    <li>
+                        VEGGIE OPTION AVAILABLE:
+                        <text> {selectedGig.veggieoption ? "Yes" : "No"}</text>
+                    </li>
+                    <li>
+                        PA REQUIRED:
+                        <text> {selectedGig.pa ? "Yes" : "No"}</text>
+                    </li>
 
-                <li>PAYMENT</li>
-                <li>NUMBER OF SETS</li>
-                <li>SET LENGTH</li>
-                <li>EVENT TYPE</li>
-                <li>GENRES</li>
-            </ul>
-        </div>
+                    <li>
+                        PAYMENT:<text> £{selectedGig.payment}</text>
+                    </li>
+                    <li>
+                        NUMBER OF SETS:<text> {selectedGig.numberofsets}</text>
+                    </li>
+                    <li>
+                        SET LENGTH:<text> {selectedGig.setlength}</text>
+                    </li>
+                    <li>
+                        EVENT TYPE:<text> {selectedGig.eventtype}</text>
+                    </li>
+                    <li>
+                        GENRES:<text> {selectedGig.genres}</text>
+                    </li>
+                </ul>
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        alert(
+                            "Are you sure?  Gigs cannot be unbooked without the mutual agreement of both you and the gig owner!"
+                        )
+                        setTriggerBooking(!triggerBooking)
+                        setTimeout(() => {
+                            router.reload(window.location.pathname)
+                        }, 500)
+                        setShowAll(!showAll)
+                    }}
+                >
+                    CONFIRM BOOKING
+                </button>
+
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        setTriggerCancellation(!triggerCancellation)
+                        setTimeout(() => {
+                            router.reload(window.location.pathname)
+                        }, 500)
+                        setShowAll(!showAll)
+                    }}
+                >
+                    CANCEL BOOKING
+                </button>
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        setShowAll(!showAll)
+                    }}
+                >
+                    GO BACK
+                </button>
+            </div>
+        </>
     )
 }
