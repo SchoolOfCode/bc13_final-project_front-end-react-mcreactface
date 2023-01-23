@@ -57,11 +57,12 @@
     margin-top: 100px;
 }
 
-.expansion{
+.expansion {
     background-color: orangered;
     margin: 0;
     padding: 0;
-  }
+}
+
   .card {    
       overflow: hidden;
       transition: all 0.3s ease-in-out;
@@ -118,6 +119,7 @@ h1 .title {
     height: 50vh;
     background-color: #ff5722;
     margin: 1.5vw;
+    max-width: 25vh;
 }
 
 .month {
@@ -143,6 +145,7 @@ h1 .title {
 }
 
 .gigDates:hover {
+    cursor: pointer;
     border: solid black 4px;
 }
 
@@ -205,7 +208,7 @@ h1 .title {
 .gigImage {
     bottom: 5px;
     height: 2vh;
-    padding-left: 1vh;
+    padding-left: 0vh;
 }
 
 .filterEnd {

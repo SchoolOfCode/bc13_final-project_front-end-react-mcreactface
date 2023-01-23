@@ -27,6 +27,7 @@ export default function GigsDisplay() {
     const [searchCurrentYear, setSearchCurrentYear] = useState()
     const [searchInstruments, setSearchInstruments] = useState([])
     const [searchGenres, setSearchGenres] = useState([])
+    const [showAll, setShowAll] = useState(true)
 
     const router = useRouter()
     const data = router.query
@@ -68,6 +69,10 @@ export default function GigsDisplay() {
         getUser()
     }, [])
 
+    function bookGig(gig) {
+        setShowAll(false)
+    }
+
     async function getUser(userData) {
         if (user) {
             let { data: profileTable, profileTableError } = await supabase
@@ -83,9 +88,16 @@ export default function GigsDisplay() {
 
     // If we have no instrument type set but we have a genre then we should see only the gigs with that genre type ✅
     // If we have no instrument type set but we have multiple genres then we should see all the gigs with any of those genres ✅
-    // If we have a single instrument type set (Guitar) and have a genre (Rock) then we should see ONLY rock gigs that need guitar 📛
-    // If we have a single instrument type set (Guitar) and multiple genres (Rock, Pop) then we should see all the gigs of type Rock/Pop that also have instrument of Guitar 📛
-    // If we have multiple instruments and multiple genres then we should see a matrix of those filter inputs 📛
+    // If we have a single instrument type set (Guitar) and have a genre (Rock) then we should see ONLY rock gigs that need guitar ✅
+    // If we have a single instrument type set (Guitar) and multiple genres (Rock, Pop) then we should see all the gigs of type Rock/Pop that also have instrument of Guitar ✅
+    // If we have multiple instruments and multiple genres then we should see a matrix of those filter inputs ✅
+
+    // When we click on a gigdate item we either redirect to a new page/component which displays the gig data and asks if you want to book then confirms, writes to the chosen_id and
+    // then takes you back to the GigsDisplay
+    // or we hide everything on the page and do the same thing
+
+    // ycomponent itemsheader monthParent all need to be hidden
+    // new div with styles.confirmBooking set to flex and centered
 
     async function getGigs(userData) {
         if (user) {
@@ -132,7 +144,7 @@ export default function GigsDisplay() {
     if (loading) return <p>Loading...</p>
     //   if (!userData) return <NoSessionWarn />
 
-    return (
+    return showAll ? (
         <>
             <h3 className={styles.itemsheader}>
                 {user ? (
@@ -238,6 +250,9 @@ export default function GigsDisplay() {
                                                             className={
                                                                 styles.gigDates
                                                             }
+                                                            onClick={() => {
+                                                                bookGig(gig)
+                                                            }}
                                                         >
                                                             <div
                                                                 className={
@@ -344,6 +359,9 @@ export default function GigsDisplay() {
                                                             className={
                                                                 styles.gigDates
                                                             }
+                                                            onClick={() => {
+                                                                bookGig(gig)
+                                                            }}
                                                         >
                                                             <div
                                                                 className={
@@ -435,18 +453,30 @@ export default function GigsDisplay() {
                     ➡️
                 </div>
             </div>
-            {/*
-                <div className={styles.gigParent}>
-                    {output.map((gig) => (
-                        <GigItem key={gig.id} gig={gig}></GigItem>
-                    ))}
-                </div>
-            */}
-            {/*
-                <h2 className={styles.itemsfooter}>
-                    {output.length ? output.length + " Items" : ""}
-                </h2>
-            */}
         </>
+    ) : (
+        /* Confirmation of booking code here */
+        <div className="confirmBooking">
+            <ul>
+                <li>ADDRESS 1ST LINE</li>
+                <li>ADDRESS 2ND LINE</li>
+                <li>TOWN</li>
+                <li>CITY</li>
+                <li>POSTCODE</li>
+                <li>REGION</li>
+                <li>INSTRUMENTS REQUIRED</li>
+                <li>START TIME</li>
+                <li>END TIME</li>
+                <li>FOOD PROVIDED</li>
+                <li>VEGGIE OPTION AVAILABLE</li>
+                <li>PA REQUIRED</li>
+
+                <li>PAYMENT</li>
+                <li>NUMBER OF SETS</li>
+                <li>SET LENGTH</li>
+                <li>EVENT TYPE</li>
+                <li>GENRES</li>
+            </ul>
+        </div>
     )
 }
