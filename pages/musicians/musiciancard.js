@@ -6,11 +6,11 @@ export default function Musician(profile) {
     
     console.log('hello', profile)
  
-    const instruments = profile?.instruments.join(', ')
-    const spacedinstruments = instruments.split(',  ')
+    // const instruments = profile?.instruments.join(', ')
+    // const spacedinstruments = instruments.split(',  ')
    
-    const genres = profile?.genres.join(', ')
-    const spacedgenres = genres.split(',  ')
+    // const genres = profile?.genres.join(', ')
+    // const spacedgenres = genres.split(',  ')
 
 
     return (
@@ -52,11 +52,11 @@ export default function Musician(profile) {
             <div className= {styles.creatingsections}>
             <div className= {styles.makingsectionscolumn}>
                 <p className={styles.reqs}>Instruments:</p>
-                <p className={styles.p}>{spacedinstruments}</p>
+                <p className={styles.p}>{profile && profile.instruments.join(', ')}</p>
             </div>
             <div className= {styles.makingsectionscolumn}>
                 <p className={styles.reqs}>Genres:</p>
-                <p className={styles.p}>{spacedgenres}</p>  
+                <p className={styles.p}>{profile && profile.genres.join(', ')}</p>  
             </div>
          
             </div>
