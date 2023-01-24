@@ -2,6 +2,8 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { useState, useEffect } from "react"
 import GigCreation from "./GigCreation"
 import GigItem from "./GigItem"
+import { SimpleSlider } from "./SimpleSlider/carousel"
+import styles from './GigsCreated.module.css'
 
 export default function GigsCreated({ session }) {
     const supabase = useSupabaseClient()
@@ -38,13 +40,9 @@ export default function GigsCreated({ session }) {
 
     if (!creatingGig && user) {
         return (
-            <div>
+            <div className={styles.sliderContainer}>
                 {gigsAvailable ? (
-                    <div>
-                        {createdArray.map((gig) => (
-                            <GigItem gig={gig}></GigItem>
-                        ))}
-                    </div>
+                        <SimpleSlider gigarray={createdArray}/>
                 ) : (
                     <div>"You have not created any gigs"</div>
                 )}
@@ -72,3 +70,8 @@ export default function GigsCreated({ session }) {
         )
     }
 }
+{/* <div className={styles.gigParent}>
+                    {output.map((gig) => (
+                        <GigItem key={gig.id} gig={gig}></GigItem>
+                    ))}
+                </div> */}

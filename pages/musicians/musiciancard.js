@@ -1,17 +1,17 @@
 import styles from "../../styles/musicians.module.css"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Musician(profile) {
     return (
         <div className={styles.musiciancard}>
             <h2 className={styles.h2}>{profile.full_name}</h2>
-            {/*             <Image
+            <Image
                 src={`https://mrtlmherhdiqarnmtiyx.supabase.co/storage/v1/object/public/avatars/${profile.avatar_url}`}
                 alt="Logo"
-                width={200}
-                height={170}
-            /> */}
-            <Image src={"/band.jpg"} alt="Logo" width={250} height={170} />
+                width={100}
+                height={100}
+            />
 
             <div>
                 <p className={styles.p}>Proficient with:</p>
@@ -38,8 +38,16 @@ export default function Musician(profile) {
             </div>
 
             <div className={styles.buttons}>
-                <button>Contact Me!</button>
-                <button href="/">See Profile</button>
+                <div className={styles.contactbutton}>
+                    <Link href="/contact">
+                        <p>Contact Us!</p>
+                    </Link>
+                </div>
+                <div className={styles.profilebutton}>
+                    <Link href={`/${profile.username}`}>
+                        <p>See Profile</p>
+                    </Link>
+                </div>
             </div>
         </div>
     )
