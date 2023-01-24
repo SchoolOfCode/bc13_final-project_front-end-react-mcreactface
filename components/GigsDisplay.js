@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 
 import { useRouter } from "next/router"
 import {
@@ -31,23 +31,15 @@ export default function GigsDisplay() {
     const [triggerBooking, setTriggerBooking] = useState(false)
     const [triggerCancellation, setTriggerCancellation] = useState(false)
     const [selectedGig, setSelectedGig] = useState({})
+    const [visibleMonths, setVisibleMonths] = useState({})
+    const { ty, sm, md, lg, xl } = useMediaQueries()
+    let pageSize = useRef(0)
+    let pageCurrent = useRef(0)
+    const back = 0
+    const forwards = 1
 
     const router = useRouter()
     const data = router.query
-    const moy = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ]
 
     useEffect(() => {
         supabase.auth.getUser().then((response) => {
@@ -70,7 +62,57 @@ export default function GigsDisplay() {
 
     useEffect(() => {
         getUser()
-    }, [])
+
+        const cloneVisibleMonths = {
+            Jan: false,
+            Feb: false,
+            Mar: false,
+            Apr: false,
+            May: false,
+            Jun: false,
+            Jul: false,
+            Aug: false,
+            Sep: false,
+            Oct: false,
+            Nov: false,
+            Dec: false,
+        }
+
+        if (xl) {
+            pageSize.current = 6
+            cloneVisibleMonths.Jan = true,
+            cloneVisibleMonths.Feb = true,
+            cloneVisibleMonths.Mar = true,
+            cloneVisibleMonths.Apr = true,
+            cloneVisibleMonths.May = true,
+            cloneVisibleMonths.Jun = true
+        } else if (lg && !xl) {
+            pageSize.current = 4
+            cloneVisibleMonths.Jan = true,
+            cloneVisibleMonths.Feb = true,
+            cloneVisibleMonths.Mar = true,
+            cloneVisibleMonths.Apr = true
+        } else if (md && !lg) {
+            pageSize.current = 3
+                cloneVisibleMonths.Jan = true,
+                cloneVisibleMonths.Feb = true,
+                cloneVisibleMonths.Mar = true
+        } else if (sm && !md) {
+            pageSize.current = 2
+            cloneVisibleMonths.Jan = true,
+            cloneVisibleMonths.Feb = true
+        } else if (ty && !sm) {
+            pageSize.current = 1
+            cloneVisibleMonths.Jan = true
+        } else {
+            pageSize.current = 1
+            cloneVisibleMonths.Jan = true
+        }
+
+        console.log("visibleMonths: ",visibleMonths)
+        console.log("pageSize.current: ",pageSize.current)
+        setVisibleMonths(cloneVisibleMonths)
+    }, [ty, sm, md, lg, xl])
 
     useEffect(() => {
         doBooking(selectedGig)
@@ -80,6 +122,32 @@ export default function GigsDisplay() {
     useEffect(() => {
         doCancellation(selectedGig)
     }, [triggerCancellation])
+
+    function useMediaQuery(query) {
+        if (typeof window !== "undefined") {
+            const mediaQuery = useMemo(() => window.matchMedia(query), [query])
+            const [match, setMatch] = useState(mediaQuery.matches)
+
+            useEffect(() => {
+                const onChange = () => setMatch(mediaQuery.matches)
+                mediaQuery.addEventListener("change", onChange)
+
+                return () => mediaQuery.removeEventListener("change", onChange)
+            }, [mediaQuery])
+
+            return match
+        }
+    }
+
+    function useMediaQueries() {
+        const ty = useMediaQuery("(min-width: 300px)")
+        const sm = useMediaQuery("(min-width: 500px)")
+        const md = useMediaQuery("(min-width: 800px)")
+        const lg = useMediaQuery("(min-width: 1000px)")
+        const xl = useMediaQuery("(min-width: 1560px)")
+
+        return { ty, sm, md, lg, xl }
+    }
 
     function bookGig(gig) {
         setShowAll(false)
@@ -119,6 +187,40 @@ export default function GigsDisplay() {
             setSearchGenres(profileTable.genres)
             setSearchInstruments(profileTable.instruments)
         }
+    }
+
+    /* badly named - should be setMonths but then there'd be setSetMonths and we already have setVisibleMonths */
+    /* effectively this is a sort of pagination for the long month boxes */
+    function renderMonths(direction) {
+        const cloneVisibleMonths = JSON.parse(JSON.stringify(visibleMonths))
+        let oldPage = pageCurrent.current
+        let lastPage = 12 / pageSize.current
+
+        if (direction == back) {
+            if (pageCurrent.current !== 0) {
+                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                    cloneVisibleMonths[i] = false
+                }
+                pageCurrent.current -= pageSize.current
+
+                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                    cloneVisibleMonths[i] = true
+                }
+            }
+        } else if (direction == forwards) {
+            if (pageCurrent.current !== lastPage.current) {
+                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                    cloneVisibleMonths[i] = false
+                }
+                pageCurrent.current += pageSize.current
+
+                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                    cloneVisibleMonths[i] = true
+                }
+            }
+        }
+
+        setVisibleMonths(cloneVisibleMonths)
     }
 
     // If we have no instrument type set but we have a genre then we should see only the gigs with that genre type ✅
@@ -270,299 +372,156 @@ export default function GigsDisplay() {
             <div className={styles.monthParent}>
                 <div
                     onClick={() => {
-                        setMonthPageOne(true)
+                        renderMonths(back)
                     }}
                 >
                     ⬅️
                 </div>
-                {monthPageOne
-                    ? moy.map((themonth, index) => {
-                          if (index < 6) {
-                              return (
-                                  <div className={styles.longMonthBox}>
-                                      <div className={styles.month}>
-                                          {themonth}
-                                      </div>
-                                      <div className={styles.upArrow}>⬆️</div>
-                                      {output
-                                          ? output
-                                                .filter(
-                                                    (gig) =>
-                                                        gig.startmonth ==
-                                                            index &&
-                                                        gig.startyear ==
-                                                            searchCurrentYear
-                                                )
-                                                .map((gig) => {
-                                                    // I tried wrapping the whole return statement in some conditional rendering but there was a problem
-                                                    // returning twice from within .map so I had to re-write it this way, ugly and repetitive as it is :( - J
-                                                    return (
-                                                        <div
-                                                            className={
-                                                                user.id ===
-                                                                gig.bookee
-                                                                    ? styles.gigDatesICreated
-                                                                    : user.id ===
-                                                                      gig.chosen_id
-                                                                    ? styles.gigDatesIBooked
-                                                                    : styles.gigDates
-                                                            }
-                                                            onClick={() => {
-                                                                bookGig(gig)
-                                                            }}
-                                                        >
-                                                            <div
-                                                                className={
-                                                                    user.id ===
-                                                                    gig.bookee
-                                                                        ? styles.gigDatesICreatedInner
-                                                                        : user.id ===
-                                                                          gig.chosen_id
-                                                                        ? styles.gigDatesIBookedInner
-                                                                        : styles.gigDatesInner
-                                                                }
-                                                            >
-                                                                {gig.startday}
-                                                            </div>
-                                                            {gig.genres &&
-                                                            gig.genres.length &&
-                                                            gig.genres.length >
-                                                                1 ? (
-                                                                <div
-                                                                    className={
-                                                                        user.id ===
-                                                                        gig.bookee
-                                                                            ? styles.gigDatesICreatedInner
-                                                                            : user.id ===
-                                                                              gig.chosen_id
-                                                                            ? styles.gigDatesIBookedInner
-                                                                            : styles.gigDatesInner
-                                                                    }
-                                                                >
-                                                                    Various
-                                                                </div>
-                                                            ) : (
-                                                                <div
-                                                                    className={
-                                                                        user.id ===
-                                                                        gig.bookee
-                                                                            ? styles.gigDatesICreatedInner
-                                                                            : user.id ===
-                                                                              gig.chosen_id
-                                                                            ? styles.gigDatesIBookedInner
-                                                                            : styles.gigDatesInner
-                                                                    }
-                                                                >
-                                                                    {gig.genres}
-                                                                </div>
-                                                            )}
-                                                            <div
-                                                                className={
-                                                                    user.id ===
-                                                                    gig.bookee
-                                                                        ? styles.gigDatesICreatedInner
-                                                                        : user.id ===
-                                                                          gig.chosen_id
-                                                                        ? styles.gigDatesIBookedInner
-                                                                        : styles.gigDatesInner
-                                                                }
-                                                            >
-                                                                {
-                                                                    gig.postcode.split(
-                                                                        " "
-                                                                    )[0]
-                                                                }
-                                                            </div>
-                                                            <div
-                                                                className={
-                                                                    styles.gigImage
-                                                                }
-                                                            >
-                                                                {gig
-                                                                    .instrumentreq
-                                                                    .length >
-                                                                1 ? (
-                                                                    gig.instrumentreq.map(
-                                                                        (
-                                                                            genre,
-                                                                            index
-                                                                        ) => {
-                                                                            return (
-                                                                                <img
-                                                                                    className={
-                                                                                        styles.gigImage
-                                                                                    }
-                                                                                    src={`images/icons/small${genre}.png`}
-                                                                                    alt={`small${gig.instrumentreq}`}
-                                                                                ></img>
-                                                                            )
-                                                                        }
-                                                                    )
-                                                                ) : (
-                                                                    <img
-                                                                        className={
-                                                                            styles.gigImage
-                                                                        }
-                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
-                                                                        alt={`small${gig.instrumentreq}`}
-                                                                    ></img>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                          : ""}
-                                      <div className={styles.downArrow}>⬇️</div>
-                                  </div>
-                              )
-                          }
-                      })
-                    : moy.map((themonth, index) => {
-                          if (index >= 6) {
-                              // unfortunate duplication of code here (needs refactoring)
-                              return (
-                                  <div className={styles.longMonthBox}>
-                                      <div className={styles.month}>
-                                          {themonth}
-                                      </div>
-                                      <div className={styles.upArrow}>⬆️</div>
-                                      {output
-                                          ? output
-                                                .filter(
-                                                    (gig) =>
-                                                        gig.startmonth ==
-                                                            index &&
-                                                        gig.startyear ==
-                                                            searchCurrentYear
-                                                )
-                                                .map((gig) => {
-                                                    // if the user.id matches gig.bookee then A
-                                                    // if the user.id matches gig.chosen_id then B
-                                                    // if the user.id mathes neither then C
-                                                    return (
-                                                        <div
-                                                            className={
-                                                                user.id ===
-                                                                gig.bookee
-                                                                    ? styles.gigDatesICreated
-                                                                    : user.id ===
-                                                                      gig.chosen_id
-                                                                    ? styles.gigDatesIBooked
-                                                                    : styles.gigDates
-                                                            }
-                                                            onClick={() => {
-                                                                bookGig(gig)
-                                                            }}
-                                                        >
-                                                            <div
-                                                                className={
-                                                                    user.id ===
-                                                                    gig.bookee
-                                                                        ? styles.gigDatesICreatedInner
-                                                                        : user.id ===
-                                                                          gig.chosen_id
-                                                                        ? styles.gigDatesIBookedInner
-                                                                        : styles.gigDatesInner
-                                                                }
-                                                            >
-                                                                {gig.startday}
-                                                            </div>
-                                                            {gig.genres &&
-                                                            gig.genres.length &&
-                                                            gig.genres.length >
-                                                                1 ? (
-                                                                <div
-                                                                    className={
-                                                                        user.id ===
-                                                                        gig.bookee
-                                                                            ? styles.gigDatesICreatedInner
-                                                                            : user.id ===
-                                                                              gig.chosen_id
-                                                                            ? styles.gigDatesIBookedInner
-                                                                            : styles.gigDatesInner
-                                                                    }
-                                                                >
-                                                                    Various
-                                                                </div>
-                                                            ) : (
-                                                                <div
-                                                                    className={
-                                                                        user.id ===
-                                                                        gig.bookee
-                                                                            ? styles.gigDatesICreatedInner
-                                                                            : user.id ===
-                                                                              gig.chosen_id
-                                                                            ? styles.gigDatesIBookedInner
-                                                                            : styles.gigDatesInner
-                                                                    }
-                                                                >
-                                                                    {gig.genres}
-                                                                </div>
-                                                            )}
-                                                            <div
-                                                                className={
-                                                                    user.id ===
-                                                                    gig.bookee
-                                                                        ? styles.gigDatesICreatedInner
-                                                                        : user.id ===
-                                                                          gig.chosen_id
-                                                                        ? styles.gigDatesIBookedInner
-                                                                        : styles.gigDatesInner
-                                                                }
-                                                            >
-                                                                {
-                                                                    gig.postcode.split(
-                                                                        " "
-                                                                    )[0]
-                                                                }
-                                                            </div>
-                                                            <div
-                                                                className={
-                                                                    styles.gigImage
-                                                                }
-                                                            >
-                                                                {gig
-                                                                    .instrumentreq
-                                                                    .length >
-                                                                1 ? (
-                                                                    gig.instrumentreq.map(
-                                                                        (
-                                                                            genre,
-                                                                            index
-                                                                        ) => {
-                                                                            return (
-                                                                                <img
-                                                                                    className={
-                                                                                        styles.gigImage
-                                                                                    }
-                                                                                    src={`images/icons/small${genre}.png`}
-                                                                                    alt={`small${gig.instrumentreq}`}
-                                                                                ></img>
-                                                                            )
-                                                                        }
-                                                                    )
-                                                                ) : (
-                                                                    <img
-                                                                        className={
-                                                                            styles.gigImage
-                                                                        }
-                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
-                                                                        alt={`small${gig.instrumentreq}`}
-                                                                    ></img>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                          : ""}
-                                      <div className={styles.downArrow}>⬇️</div>
-                                  </div>
-                              )
-                          }
-                      })}
+                {Object.keys(visibleMonths).forEach(function (themonth, index) {
+                    // brb
+                    console.log(
+                        "pg + ps: ",
+                        (pageCurrent.current)
+                    )
+                    if (
+                        index >= pageCurrent.current &&
+                        index < (pageCurrent.current + pageSize.current)
+                    ) {
+                        return (
+                            <div className={styles.longMonthBox}>
+                                <div className={styles.month}>{themonth}</div>
+                                <div className={styles.upArrow}>⬆️</div>
+                                {output
+                                    ? output
+                                          .filter(
+                                              (gig) =>
+                                                  gig.startmonth == index &&
+                                                  gig.startyear ==
+                                                      searchCurrentYear
+                                          )
+                                          .map((gig) => {
+                                              // I tried wrapping the whole return statement in some conditional rendering but there was a problem
+                                              // returning twice from within .map so I had to re-write it this way, ugly and repetitive as it is :( - J
+                                              return (
+                                                  <div
+                                                      className={
+                                                          user.id === gig.bookee
+                                                              ? styles.gigDatesICreated
+                                                              : user.id ===
+                                                                gig.chosen_id
+                                                              ? styles.gigDatesIBooked
+                                                              : styles.gigDates
+                                                      }
+                                                      onClick={() => {
+                                                          bookGig(gig)
+                                                      }}
+                                                  >
+                                                      <div
+                                                          className={
+                                                              user.id ===
+                                                              gig.bookee
+                                                                  ? styles.gigDatesICreatedInner
+                                                                  : user.id ===
+                                                                    gig.chosen_id
+                                                                  ? styles.gigDatesIBookedInner
+                                                                  : styles.gigDatesInner
+                                                          }
+                                                      >
+                                                          {gig.startday}
+                                                      </div>
+                                                      {gig.genres &&
+                                                      gig.genres.length &&
+                                                      gig.genres.length > 1 ? (
+                                                          <div
+                                                              className={
+                                                                  user.id ===
+                                                                  gig.bookee
+                                                                      ? styles.gigDatesICreatedInner
+                                                                      : user.id ===
+                                                                        gig.chosen_id
+                                                                      ? styles.gigDatesIBookedInner
+                                                                      : styles.gigDatesInner
+                                                              }
+                                                          >
+                                                              Various
+                                                          </div>
+                                                      ) : (
+                                                          <div
+                                                              className={
+                                                                  user.id ===
+                                                                  gig.bookee
+                                                                      ? styles.gigDatesICreatedInner
+                                                                      : user.id ===
+                                                                        gig.chosen_id
+                                                                      ? styles.gigDatesIBookedInner
+                                                                      : styles.gigDatesInner
+                                                              }
+                                                          >
+                                                              {gig.genres}
+                                                          </div>
+                                                      )}
+                                                      <div
+                                                          className={
+                                                              user.id ===
+                                                              gig.bookee
+                                                                  ? styles.gigDatesICreatedInner
+                                                                  : user.id ===
+                                                                    gig.chosen_id
+                                                                  ? styles.gigDatesIBookedInner
+                                                                  : styles.gigDatesInner
+                                                          }
+                                                      >
+                                                          {
+                                                              gig.postcode.split(
+                                                                  " "
+                                                              )[0]
+                                                          }
+                                                      </div>
+                                                      <div
+                                                          className={
+                                                              styles.gigImage
+                                                          }
+                                                      >
+                                                          {gig.instrumentreq
+                                                              .length > 1 ? (
+                                                              gig.instrumentreq.map(
+                                                                  (
+                                                                      genre,
+                                                                      index
+                                                                  ) => {
+                                                                      return (
+                                                                          <img
+                                                                              className={
+                                                                                  styles.gigImage
+                                                                              }
+                                                                              src={`images/icons/small${genre}.png`}
+                                                                              alt={`small${gig.instrumentreq}`}
+                                                                          ></img>
+                                                                      )
+                                                                  }
+                                                              )
+                                                          ) : (
+                                                              <img
+                                                                  className={
+                                                                      styles.gigImage
+                                                                  }
+                                                                  src={`images/icons/small${gig.instrumentreq}.png`}
+                                                                  alt={`small${gig.instrumentreq}`}
+                                                              ></img>
+                                                          )}
+                                                      </div>
+                                                  </div>
+                                              )
+                                          })
+                                    : ""}
+                                <div className={styles.downArrow}>⬇️</div>
+                            </div>
+                        )
+                    }
+                })}
                 <div
                     onClick={() => {
-                        setMonthPageOne(false)
+                        renderMonths(forwards)
                     }}
                 >
                     ➡️
@@ -679,3 +638,48 @@ export default function GigsDisplay() {
         </>
     )
 }
+
+/* THE OLD WAY!
+* [Variables]
+* We have monthPageOne (boolean state initially set to false)
+* We have the output object containing the gigs of the current year
+* We have the moy array containing the months of the year
+* [Logic] 
+* If monthPageOne is false THEN
+*     map the month of year array and if the index is less than Jun show a bunch of elements
+* If monthPageOne is true THEN
+*     map the month of year array and if the index is more than Jun show a bunch of elements
+*
+* THE NEW WAY!
+* [New Variables]
+* ty, sm, md, lg, xl (five size of viewport) ✅
+* visibleMonths (object) { (may need to be a state) ✅
+    "Jan": true,
+    "Feb": false,
+    etc.
+} (initialised)  ✅
+* pageSize (the number of longMonthBoxes visible) ✅
+*  
+* [Logic]
+* If sm is true and md/lg are false (i.e. we're in the smallest viewport) ✅
+* set however many visibleMonths states we want to be true ✅
+* Similarly, if sm/md is true and lg is false (i.e. we're in the medium viewport) ✅
+* set the appropriate number of visibleMonths states ✅
+* Finally if all sm/md/lg are true (i.e. we're in the large viewport) ✅
+* do the same ✅
+* THEN
+* 
+* iterate through the visibleMonths object
+* if the visibleMonths[index] == true then render the object
+* when the larrow and rarrow onClick functions are written we need to call a function renderMonths
+* renderMonths takes the visibleMonths object, sets the true states to false and sets the following pageSize months to true
+* or possibly the previous pageSize months to true
+*
+* Jan: true
+* Feb: true
+* Mar: false
+* Apr: false
+* May: false
+*
+* ALSO!  When the page is resized we need to trigger a reset of the months being displayed
+*/
