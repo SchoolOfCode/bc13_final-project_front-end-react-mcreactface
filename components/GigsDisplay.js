@@ -189,7 +189,7 @@ export default function GigsDisplay() {
             <h3 className={styles.itemsheader}>
                 {user ? (
                     <>
-                        Finding Gigs:
+                        <h1>Finding Gigs:</h1>
                         {searchGenres.length
                             ? searchGenres.map((genre, key) => (
                                   <div>
@@ -209,7 +209,7 @@ export default function GigsDisplay() {
                               ))
                             : " [All Genres]"}
                         <button className={styles.filterEnd}>➕</button>
-                        Who Are Looking for:
+                        <h1>Who Are Looking for:</h1>
                         {searchInstruments.length
                             ? searchInstruments.map((instrument, key) => (
                                   <div>
@@ -410,6 +410,7 @@ export default function GigsDisplay() {
                       })
                     : moy.map((themonth, index) => {
                           if (index >= 6) {
+                              // unfortunate duplication of code here (needs refactoring)
                               return (
                                   <div className={styles.longMonthBox}>
                                       <div className={styles.month}>
