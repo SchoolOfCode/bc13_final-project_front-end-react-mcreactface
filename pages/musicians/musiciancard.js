@@ -3,11 +3,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Musician(profile) {
-    const instruments = profile.instruments.join(', ')
+    
+    console.log('hello', profile)
+ 
+    const instruments = profile?.instruments.join(', ')
     const spacedinstruments = instruments.split(',  ')
-
-    const genres = profile.genres.join(', ')
+   
+    const genres = profile?.genres.join(', ')
     const spacedgenres = genres.split(',  ')
+
 
     return (
         <div className={styles.musiciancard}>
