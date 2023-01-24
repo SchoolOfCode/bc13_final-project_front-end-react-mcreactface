@@ -183,7 +183,7 @@ h1 .title {
 .bksample {
     background-color: black;
     color: orange;
-    border: 1px solid white;
+    border: 1px solid orange;
 }
 
 .whsample {
@@ -238,9 +238,12 @@ h1 .title {
 }
 
 .year {
-    position: relative;
+    height: 100%;
     font-size: x-large;
-    background-color: #ff5722;
+    background-color: white;
+    color: black;
+    padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 .yarrow {

@@ -257,14 +257,14 @@ export default function GigsDisplay() {
                 >
                     ➡️
                 </div>
+                <div className={[styles.whsample, styles.sample].join(" ")}>
+                    AVAILABLE
+                </div>
                 <div className={[styles.crsample, styles.sample].join(" ")}>
-                    Gigs Created
+                    CREATED
                 </div>
                 <div className={[styles.bksample, styles.sample].join(" ")}>
-                    Gigs Booked
-                </div>
-                <div className={[styles.whsample, styles.sample].join(" ")}>
-                    Gigs Available
+                    BOOKED
                 </div>
             </div>
             <div className={styles.monthParent}>
