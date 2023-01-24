@@ -169,6 +169,28 @@ h1 .title {
     box-shadow:0px 0px 0px 1px black inset;
 }
 
+.sample {
+    padding: 1.5vh;
+
+    margin-right: 2vh;
+}
+
+.crsample {
+    background-color: #ff5722;
+    color: black;
+}
+
+.bksample {
+    background-color: black;
+    color: orange;
+    border: 1px solid white;
+}
+
+.whsample {
+    background-color: white;
+    color: black;
+}
+
 .gigDatesInner {
     color: black;
 }
@@ -218,13 +240,7 @@ h1 .title {
 .year {
     position: relative;
     font-size: x-large;
-    bottom: 0.4vh;
-    border: 2px solid black;
-    background-color: white;
-    color: black;
-
-    padding-left: 1vw;
-    padding-right: 1vw;
+    background-color: #ff5722;
 }
 
 .yarrow {
