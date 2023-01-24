@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import styles from "./GigItem.module.css"
 
-export default function GigItem({gig}) {
+export default function GigItem({ gig, setEditing, setEditingId, setDeleting, setDeletingId }) {
     const [isHovering, setIsHovering] = useState(false)
 
     const handleMouseEnter = () => {
@@ -47,16 +47,19 @@ export default function GigItem({gig}) {
           <div className={styles.cardisHovering}>
             <p>Additional gig information:</p>
             <div className={styles.additional}>
-              <p><b>Gig start time:</b> {gig.starttime}</p>
-              <p><b>Gig end time:</b> {gig.endtime}</p>
-              <p><b>First-line:</b> {gig.address2ndline}, {gig.town}</p>
-              <p><b>Second-line:</b> {gig.region}, {gig.postcode}</p>
+              <p><b>Start-time:</b> {gig.starttime}</p>
+              <p><b>End-time:</b> {gig.endtime}</p>
+              <p><b>Address:</b> {gig.address2ndline}, {gig.town}, {gig.region}, {gig.postcode} </p>
               {/* <li>Is food provided: {gig.foodprovided}</li>
               <li>Veggie option: {gig.veggieoption}</li> */}
-              <p><b>Event type:</b> {gig.eventtype}</p>
+              <p><b>Event-type:</b> {gig.eventtype}</p>
               <p><b>Genre:</b> {gig.genres}</p>
-              <p><b>Length of set:</b> {gig.setlength}mins</p>
+              <p><b>Set length:</b> {gig.setlength}mins</p>
               <p><b>Payment:</b> £{gig.payment}</p>
+              <div className={styles.buttondiv}>
+              <button onClick={()=> {setEditing(true); setEditingId(gig.id)}} className={styles.button}>Edit Gig</button>
+              <button onClick={()=> {setDeleting(true); setDeletingId(gig.id)}} className={styles.button}>Delete Gig</button>
+              </div>
               </div>
           </div>
         )}

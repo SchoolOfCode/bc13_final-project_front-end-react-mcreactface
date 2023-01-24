@@ -9,7 +9,7 @@ export default function GigsBooked({ session }) {
     const user = useUser()
     const [bookedArray, setBookedArray] = useState([])
     const [gigsAvailable, setGigsAvailable] = useState(false)
-    async function getCreatedGigs() {
+    async function getBookedGigs() {
         try {
             let { data: userBookedGigs, error } = await supabase
                 .from("gigs")
@@ -22,7 +22,7 @@ export default function GigsBooked({ session }) {
 
             if (userBookedGigs) {
                 console.log("getCreatedGigs(): gigs: ", userBookedGigs)
-                setCreatedArray([...userBookedGigs])
+                setBookedArray([...userBookedGigs])
                 setGigsAvailable(true)
             } else {
                 console.log("No Data")
@@ -33,17 +33,25 @@ export default function GigsBooked({ session }) {
         }
     }
     useEffect(() => {
-        getCreatedGigs()
-    }, [])
+        getBookedGigs()
+    }, [user])
 
     return (
         <div>
             {gigsAvailable ? (
-                <div>
-                    {createdArray.map((gig) => (
-                        <GigItem gig={gig}></GigItem>
+                <div className={styles.layout}>
+            <button className={styles.scroll} onClick={() => scroll(-500)}>{"<"}</button>
+            <div className={styles.row}>
+                <div ref={ref} className={styles.rowItems}>
+                    {bookedArray.map((gig) => (
+                        <div className={styles.rowItem}>
+                        <GigItem key={gig.id} gig={gig}/>
+                        </div>
                     ))}
                 </div>
+            </div>
+            <button className={styles.scroll} onClick={() => scroll(500)}>{">"}</button>
+            </div>
             ) : (
                 <div>
                     <p>

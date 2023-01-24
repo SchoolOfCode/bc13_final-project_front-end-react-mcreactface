@@ -6,6 +6,7 @@
   margin: 0 auto;
   width: 100%;
   height: 100%;;
+  gap: 50px;
 }
 
 .selection {
@@ -20,7 +21,17 @@
   border-color: antiquewhite;
 }
 
-.selection > button {
+.options {
   width: 50%;
   border: none;
+}
+
+.options:hover {
+  border-bottom: #ff5722 solid 5px;
+}
+
+.clicked {
+  width: 50%;
+  border: none;
+  border-bottom: #ff5722 solid 5px;
 }

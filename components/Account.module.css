@@ -42,11 +42,13 @@
     margin: 10px;
     color: white;
     margin-left: 0;
+    white-space: nowrap;
 }
 .checkedOption > label {
     margin: 10px;
     color: black;
     margin-left: 0;
+    white-space: nowrap;
 }
 .option > input {
     margin: 10px;

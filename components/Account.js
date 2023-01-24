@@ -40,6 +40,7 @@ export default function Account({ session }) {
         Pop: false,
         Jazz: false,
         Blues: false,
+        Acoustic: false,
         Classical: false,
         Folk: false,
         Country: false,
@@ -103,6 +104,15 @@ export default function Account({ session }) {
                     Flute: data.instruments.includes("Flute"),
                     Violin: data.instruments.includes("Violin"),
                     Cello: data.instruments.includes("Cello"),
+                    Rock: data.genres.includes("Rock"),
+                    "Standard Function": data.genres.includes("Standard Function"),
+                    Pop: data.genres.includes("Pop"),
+                    Jazz: data.genres.includes("Jazz"),
+                    Blues: data.genres.includes("Blues"),
+                    Acoustic: data.genres.includes("Acoustic"),
+                    Classical: data.genres.includes("Classical"),
+                    Folk: data.genres.includes("Folk"),
+                    Country: data.genres.includes("Country")
                 })
             }
         } catch (error) {
@@ -175,11 +185,17 @@ export default function Account({ session }) {
     }
 }
     function editGenres(e){
-        e.currentTarget.checked ?
-        setGenres([...genres, e.target.value]) :
+        if (e.currentTarget.checked) {
+        setGenres([...genres, e.target.value]);
+        setBoxChecked({...boxchecked, [e.target.value]: e.currentTarget.checked})
+        console.log("checked log", boxchecked)
+        }
+        else if (!e.currentTarget.checked){
         setGenres(genres.filter((genre) => genre !== e.target.value));
-        console.log(genres)}
-
+        console.log(genres)
+        setBoxChecked({...boxchecked, [e.target.value]: e.currentTarget.checked})
+    }
+}
 
     let guitarChecked = instruments?.includes("Guitar")
     let bassChecked = instruments?.includes("Bass")
@@ -373,26 +389,45 @@ export default function Account({ session }) {
             </div>
 
             <div>
-                <label htmlFor="genres">Genres played</label>
-                <label htmlFor="rock">Rock</label>
+            <label htmlFor="genres">Genres played</label>
+                <div className={styles.container}>
+                <div className={boxchecked.Rock ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="rock" name="genres" value="Rock" checked={rockChecked} onChange={(e)=> editGenres(e)} />
-                <label htmlFor="standard-function">Standard Function</label>
+                <label htmlFor="rock">Rock</label>
+                </div>
+                <div className={boxchecked["Standard Function"] ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="standard-function" name="genres" value="Standard Function" checked={standardFunctionChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="pop">Pop</label>
+                <label htmlFor="standard-function">Standard Function</label>
+                </div>
+                <div className={boxchecked.Pop ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="pop" name="genres" value="Pop" checked={popChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="blues">Blues</label>
+                <label htmlFor="pop">Pop</label>
+                </div>
+                <div className={boxchecked.Blues ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="blues" name="genres" value="Blues" checked={bluesChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="jazz">Jazz</label>
+                <label htmlFor="blues">Blues</label>
+                </div>
+                <div className={boxchecked.Jazz ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="jazz" name="genres" value="Jazz" checked={jazzChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="Acoustic">Acoustic</label>
+                <label htmlFor="jazz">Jazz</label>
+                </div>
+                <div className={boxchecked.Acoustic ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="acoustic" name="genres" value="Acoustic" checked={acousticChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="folk">Folk</label>
+                <label htmlFor="acoustic">Acoustic</label>
+                </div>
+                <div className={boxchecked.Folk ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="folk" name="genres" value="Folk" checked={folkChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="country">Country</label>
-                <input type="checkbox" id="country" name="genres" value="Country" checked={countryChecked} onChange={(e)=> editGenres(e)}/>
-                <label htmlFor="classical">Classical</label>
+                <label htmlFor="folk">Folk</label>
+                </div>
+                <div className={boxchecked.Classical ? styles.checkedOption : styles.option}>
                 <input type="checkbox" id="classical" name="genres" value="Classical" checked={classicalChecked} onChange={(e)=> editGenres(e)}/>
-
+                <label htmlFor="classical">Classical</label>
+                </div>
+                <div className={boxchecked.Country ? styles.checkedOption : styles.option}>
+                <input type="checkbox" id="country" name="genres" value="Country" checked={countryChecked} onChange={(e)=> editGenres(e)}/>
+                <label htmlFor="country">Country</label>
+                </div>
+                </div>
             </div>
 
             <div>

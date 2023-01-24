@@ -1,3 +1,65 @@
 .sliderContainer {
     width: 100%;
 }
+.layout{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.scroll{
+    border: 0;
+    color: white;
+    background-color: #ff5722;
+    font-size: 18px;
+    border-radius: 20px;
+    display: block;
+    position: relative;
+    top: -200px;
+}
+.row{
+    width: 103.5%;
+    height: 700px;
+}
+
+.rowItems {
+    display: flex;
+    height: fit-content;
+    overflow-x: scroll;
+    padding: 40px;
+    padding-left: 10px;
+    scroll-behavior: smooth;
+}
+
+.rowItems::-webkit-scrollbar {
+    background: transparent; /* make scrollbar transparent */
+        -webkit-appearance: none;
+        width: 0;
+        height: 0;
+}
+
+.rowItem {
+    object-fit: contain;
+    height: fit-content;
+    max-width: fit-content;
+    margin-right: 10px;
+    transition: transform 450ms;
+}
+
+.rowItem:hover {
+    transform: scale(1.05);
+}
+
+.row > button {
+    border: 0;
+    color: white;
+    font-size: 24px;
+    margin: 0 8px;
+}
+
+.button {
+    align-self: flex-start;
+}

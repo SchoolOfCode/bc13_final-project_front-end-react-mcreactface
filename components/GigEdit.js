@@ -1,8 +1,8 @@
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import styles from "./GigCreation.module.css";
+import { useState, useEffect } from 'react'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import styles from './GigCreation.module.css'
 
-export default function GigCreation ({ closeModal, id }) {
+export default function GigEdit ({ gigId, id, closeEdit }) {
     const supabase = useSupabaseClient()
     const [address1stline, setAddress1stline] = useState('')
     const [address2ndline, setAddress2ndline] = useState('')
@@ -42,9 +42,83 @@ export default function GigCreation ({ closeModal, id }) {
         Folk: false,
         Country: false
     })
-    async function createGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType }) {
+
+    async function getGig() {
+        let { data, error } = await supabase
+            .from('gigs')
+            .select('*')
+            .eq('id', gigId)
+        if (error) throw error
+        if (data){
+        setAddress1stline(data[0].address1stline)
+        setAddress2ndline(data[0].address2ndline)
+        setTown(data[0].town)
+        setCity(data[0].city)
+        setPostcode(data[0].postcode)
+        setRegion(data[0].region)
+        setInstrumentsReq(data[0].instrumentreq)
+        setStartTime(data[0].starttime)
+        setEndTime(data[0].endtime)
+        setFoodProvided(data[0].foodprovided)
+        setVeggieOption(data[0].veggieoption)
+        setPa(data[0].pa)
+        setPayment(data[0].payment)
+        setNumberOfSets(data[0].numberofsets)
+        setSetLength(data[0].setlength)
+        setGenres(data[0].genres)
+        setEventType(data[0].eventtype)
+        setBoxChecked({
+            Drums: data[0].instrumentreq.includes("Drums"),
+            Guitar: data[0].instrumentreq.includes("Guitar"),
+            Bass: data[0].instrumentreq.includes("Bass"),
+            Keys: data[0].instrumentreq.includes("Keys"),
+            Vocals: data[0].instrumentreq.includes("Vocals"),
+            Saxophone: data[0].instrumentreq.includes("Saxophone"),
+            Trumpet: data[0].instrumentreq.includes("Trumpet"),
+            Flute: data[0].instrumentreq.includes("Flute"),
+            Violin: data[0].instrumentreq.includes("Violin"),
+            Cello: data[0].instrumentreq.includes("Cello"),
+            Rock: data[0].genres.includes("Rock"),
+            "Standard Function": data[0].genres.includes("Standard Function"),
+            Pop: data[0].genres.includes("Pop"),
+            Jazz: data[0].genres.includes("Jazz"),
+            Blues: data[0].genres.includes("Blues"),
+            Acoustic: data[0].genres.includes("Acoustic"),
+            Classical: data[0].genres.includes("Classical"),
+            Folk: data[0].genres.includes("Folk"),
+            Country: data[0].genres.includes("Country")
+            
+        })
+    }
+    }
+
+    let guitarChecked = instrumentsReq.includes("Guitar")
+    let drumsChecked = instrumentsReq.includes("Drums")
+    let bassChecked = instrumentsReq.includes("Bass")
+    let keysChecked = instrumentsReq.includes("Keys")
+    let vocalsChecked = instrumentsReq.includes("Vocals")
+    let saxophoneChecked = instrumentsReq.includes("Saxophone")
+    let trumpetChecked = instrumentsReq.includes("Trumpet")
+    let fluteChecked = instrumentsReq.includes("Flute")
+    let violinChecked = instrumentsReq.includes("Violin")
+    let celloChecked = instrumentsReq.includes("Cello")
+
+    let rockChecked = genres.includes("Rock")
+    let standardFunctionChecked = genres.includes("Standard Function")
+    let popChecked = genres.includes("Pop")
+    let jazzChecked = genres.includes("Jazz")
+    let bluesChecked = genres.includes("Blues")
+    let acousticChecked = genres.includes("Acoustic")
+    let classicalChecked = genres.includes("Classical")
+    let folkChecked = genres.includes("Folk")
+    let countryChecked = genres.includes("Country")
+
+    useEffect(() => {
+        getGig()
+    }, [gigId])
+    async function editGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType }) {
         try {
-        const gig = {
+        const gig = { 
             address1stline,
             address2ndline,
             town,
@@ -65,7 +139,7 @@ export default function GigCreation ({ closeModal, id }) {
             genres,
         }
         console.log(gig)
-    let { error } = await supabase.from('gigs').insert(gig)
+    let { error } = await supabase.from('gigs').update(gig).match({ id: gigId })
       if (error) throw error
       alert('Profile updated!')
     } catch (error) {
@@ -101,7 +175,7 @@ export default function GigCreation ({ closeModal, id }) {
 
     return (
         <div className="form-widget">
-            <h1>Create a Gig</h1>
+            <h1>Edit Gig</h1>
             <div>
             <label htmlFor="address1stline">Address 1st line</label>
             <input
@@ -160,43 +234,43 @@ export default function GigCreation ({ closeModal, id }) {
                 <label htmlFor="instruments">Instruments required</label>
                 <div className={styles.container}>
                 <div className={boxChecked.Guitar ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="guitar" name="instruments" value="Guitar" onChange={(e)=> editInstruments(e)} />
+                <input type="checkbox" id="guitar" name="instruments" value="Guitar" checked={guitarChecked} onChange={(e)=> editInstruments(e)} />
                 <label htmlFor="guitar">Guitar</label>
                 </div>
                 <div className={boxChecked.Bass ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="bass" name="instruments" value="Bass" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="bass" name="instruments" value="Bass" checked={bassChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="bass">Bass</label>
                 </div>
                 <div className={boxChecked.Drums ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="drums" name="instruments" value="Drums" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="drums" name="instruments" value="Drums" checked={drumsChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="drums">Drums</label>
                 </div>
                 <div className={boxChecked.Keys ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="keys" name="instruments" value="Keys"  onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="keys" name="instruments" value="Keys" checked={keysChecked}  onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="keys">Keys</label>
                 </div>
                 <div className={boxChecked.Violin ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="violin" name="instruments" value="Violin" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="violin" name="instruments" value="Violin" checked={violinChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="violin">Violin</label>
                 </div>
                 <div className={boxChecked.Cello ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="cello" name="instruments" value="Cello" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="cello" name="instruments" value="Cello" checked={celloChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="cello">Cello</label>
                 </div>
                 <div className={boxChecked.Trumpet ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="trumpet" name="instruments" value="Trumpet" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="trumpet" name="instruments" value="Trumpet" checked={trumpetChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="trumpet">Trumpet</label>
                 </div>
                 <div className={boxChecked.Saxophone ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="saxophone" name="instruments" value="Saxophone" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="saxophone" name="instruments" value="Saxophone" checked={saxophoneChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="saxophone">Saxophone</label>
                 </div>
                 <div className={boxChecked.Flute ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="flute" name="instruments" value="Flute" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="flute" name="instruments" value="Flute" checked={fluteChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="flute">Flute</label>
                 </div>
                 <div className={boxChecked.Vocals ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="vocals" name="instruments" value="Vocals" onChange={(e)=> editInstruments(e)}/>
+                <input type="checkbox" id="vocals" name="instruments" value="Vocals" checked={vocalsChecked} onChange={(e)=> editInstruments(e)}/>
                 <label htmlFor="vocals">Vocals</label>
                 </div>
                 </div>
@@ -305,45 +379,45 @@ export default function GigCreation ({ closeModal, id }) {
             <label htmlFor="genres">Genres played</label>
                 <div className={styles.container}>
                 <div className={boxChecked.Rock ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="rock" name="genres" value="Rock" onChange={(e)=> editGenres(e)} />
+                <input type="checkbox" id="rock" name="genres" value="Rock" checked={rockChecked} onChange={(e)=> editGenres(e)} />
                 <label htmlFor="rock">Rock</label>
                 </div>
                 <div className={boxChecked["Standard Function"] ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="standard-function" name="genres" value="Standard Function"  onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="standard-function" name="genres" value="Standard Function" checked={standardFunctionChecked}  onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="standard-function">Standard Function</label>
                 </div>
                 <div className={boxChecked.Pop ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="pop" name="genres" value="Pop"  onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="pop" name="genres" value="Pop" checked={popChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="pop">Pop</label>
                 </div>
                 <div className={boxChecked.Blues ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="blues" name="genres" value="Blues" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="blues" name="genres" value="Blues" checked={bluesChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="blues">Blues</label>
                 </div>
                 <div className={boxChecked.Jazz ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="jazz" name="genres" value="Jazz" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="jazz" name="genres" value="Jazz" checked={jazzChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="jazz">Jazz</label>
                 </div>
                 <div className={boxChecked.Acoustic ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="acoustic" name="genres" value="Acoustic" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="acoustic" name="genres" value="Acoustic" checked={acousticChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="acoustic">Acoustic</label>
                 </div>
                 <div className={boxChecked.Folk ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="folk" name="genres" value="Folk" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="folk" name="genres" value="Folk" checked={folkChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="folk">Folk</label>
                 </div>
                 <div className={boxChecked.Classical ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="classical" name="genres" value="Classical" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="classical" name="genres" value="Classical" checked={classicalChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="classical">Classical</label>
                 </div>
                 <div className={boxChecked.Country ? styles.checkedOption : styles.option}>
-                <input type="checkbox" id="country" name="genres" value="Country" onChange={(e)=> editGenres(e)}/>
+                <input type="checkbox" id="country" name="genres" value="Country" checked={countryChecked} onChange={(e)=> editGenres(e)}/>
                 <label htmlFor="country">Country</label>
                 </div>
                 </div>
             </div>
-        <button onClick={() => createGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType })}>Create Gig</button>
-        <button onClick={closeModal}>Close</button>
+        <button onClick={() => editGig({ address1stline, address2ndline, town, city, postcode, region, instrumentsReq, id, startTime, endTime, foodProvided, veggieOption, pa, payment, numberOfSets, setLength, genres, eventType })}>Confirm Edit</button>
+        <button onClick={closeEdit}>Close</button>
     </div>
     )
 }
