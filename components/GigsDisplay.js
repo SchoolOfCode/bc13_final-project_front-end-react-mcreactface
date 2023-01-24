@@ -9,7 +9,7 @@ import {
 } from "@supabase/auth-helpers-react"
 
 import GigItem from "./GigItem.js"
-import styles from "./GigItem.module.css"
+import styles from "./GigsDisplay.module.css"
 
 export default function GigsDisplay() {
     const supabase = useSupabaseClient()
