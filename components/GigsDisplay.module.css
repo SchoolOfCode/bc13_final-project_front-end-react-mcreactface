@@ -1,0 +1,168 @@
+
+.gigCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    --black: #242424;
+    --lightorange: #ff5722;
+    --darkorange: #cc4c4c;
+    --green: #5acb5e;
+    --grey: #9a9a9a;
+    --beige: #ffdec7;
+    background-color: var(--beige);
+    border-radius: 3vh;
+    width: 20vw;
+    height: 20vh;
+}
+
+.gigCard:hover {
+    width: 20vw;
+    outline: 5px solid cyan;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.gigCard ol {
+    margin: 0;
+}
+
+.gigCard li {
+    list-style-type: none;
+}
+
+.gigCard img {
+    min-width: 7vh;
+    min-height: 7vh;
+    max-width: 7vh;
+    max-height: 7vh;
+    border-radius: 3vh;
+}
+
+.gigCardSub {
+    bottom: 0;
+    background-color: var(--lightorange);
+    border-radius: 3vh;
+
+     flex-grow: 1;
+    box-sizing: content-box;}
+
+
+h1 .title {
+    padding: 5vh;
+}
+
+.itemsfooter {
+    margin-left: 3vh;
+}
+
+.itemsheader {
+    margin-left: 5vh;
+    padding-bottom: 3vh;
+    display: flex;
+    align-items: baseline;
+}
+
+.itemsheader button {
+    margin-left: 1vh;
+    color: white;
+    background: grey;
+}
+
+.monthParent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.longMonthBox {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5vw;
+    height: 50vh;
+    background-color: #ff5722;
+    margin: 1.5vw;
+}
+
+.month {
+    width: 11vw;
+    background-color: white;
+    border: 2px solid black;
+    padding: 0.5vw;
+    color: #242424;
+    position: relative;
+    text-align: center;
+}
+
+.gigDates {
+    background-color: white;
+    color: black;
+    margin-bottom: 0.6vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5vh;
+    border: solid black 2px;
+}
+
+.gigDates:hover {
+    border: solid black 4px;
+}
+
+
+.upArrow {
+    display: flex;
+    margin-bottom: auto;
+    justify-content: center;
+}
+.downArrow {
+    display: flex;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.ycomponents {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin-left: 2.5vw;
+}
+
+.year {
+    position: relative;
+    font-size: x-large;
+    bottom: 0.4vh;
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+.yarrow {
+    padding-left: 2vh;
+    padding-right: 2vh;
+}
+
+.gigPostCode {
+    color: black;
+    display: flex;
+    align-items: flex-end;
+}
+
+.gigDay {
+    color: black;
+}
+
+.gigDate {
+    color: black;
+}
+
+.gigType {
+    color: black;
+}
+
+.filterEnd {
+    margin-right: 2vw;
+}

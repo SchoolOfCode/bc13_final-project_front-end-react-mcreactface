@@ -19,7 +19,7 @@ export default function Account({ session }) {
     const [postcode, setPostcode] = useState(null)
     const [travelradius, setTravelRadius] = useState(null)
     const [cashMinimum, setCashMinimum] = useState(null)
-    const [instruments, setInstruments] = useState("null")
+    const [instruments, setInstruments] = useState([])
     const [genres, setGenres] = useState([])
     const [rating, setRating] = useState(null)
     //   const [website, setWebsite] = useState(null)
@@ -66,6 +66,7 @@ export default function Account({ session }) {
             }
 
             if (data) {
+                console.log(data.instruments)
                 setUsername(data.username)
                 setFullname(data.full_name)
                 setPhoneNumber(data.phone_number)
@@ -76,8 +77,20 @@ export default function Account({ session }) {
                 setPostcode(data.postcode)
                 setTravelRadius(data.travelradius)
                 setCashMinimum(data.cash_minimum)
-                setInstruments(data.instruments)
-                setGenres(data.genres)
+                if(
+                    data.instruments !== null
+                )     
+                {setInstruments(data.instruments)}
+                else{
+                    setInstruments([]) 
+                }
+                if (
+                 data.genres !== null
+                )
+                {setGenres(data.genres)}
+                else{
+                    setGenres([])
+                }
                 setAvatarUrl(data.avatar_url)
                 setBoxChecked({
                     Drums: data.instruments.includes("Drums"),
@@ -150,6 +163,7 @@ export default function Account({ session }) {
     }
     function editInstruments(e){
         if (e.currentTarget.checked) {
+            console.log(instruments)
         setInstruments([...instruments, e.target.value]);
         setBoxChecked({...boxchecked, [e.target.value]: e.currentTarget.checked})
         console.log("checked log", boxchecked)
@@ -167,26 +181,26 @@ export default function Account({ session }) {
         console.log(genres)}
 
 
-    let guitarChecked = instruments.includes("Guitar")
-    let bassChecked = instruments.includes("Bass")
-    let drumsChecked = instruments.includes("Drums")
-    let keysChecked = instruments.includes("Keys")
-    let violinChecked = instruments.includes("Violin")
-    let saxophoneChecked = instruments.includes("Saxophone")
-    let trumpetChecked = instruments.includes("Trumpet")
-    let fluteChecked = instruments.includes("Flute")
-    let celloChecked = instruments.includes("Cello")
-    let vocalsChecked = instruments.includes("Vocals")
+    let guitarChecked = instruments?.includes("Guitar")
+    let bassChecked = instruments?.includes("Bass")
+    let drumsChecked = instruments?.includes("Drums")
+    let keysChecked = instruments?.includes("Keys")
+    let violinChecked = instruments?.includes("Violin")
+    let saxophoneChecked = instruments?.includes("Saxophone")
+    let trumpetChecked = instruments?.includes("Trumpet")
+    let fluteChecked = instruments?.includes("Flute")
+    let celloChecked = instruments?.includes("Cello")
+    let vocalsChecked = instruments?.includes("Vocals")
 
-    let rockChecked = genres.includes("Rock")
-    let standardFunctionChecked = genres.includes("Standard Function")
-    let popChecked = genres.includes("Pop")
-    let jazzChecked = genres.includes("Jazz")
-    let bluesChecked = genres.includes("Blues")
-    let acousticChecked = genres.includes("Acoustic")
-    let classicalChecked = genres.includes("Classical")
-    let folkChecked = genres.includes("Folk")
-    let countryChecked = genres.includes("Country")
+    let rockChecked = genres?.includes("Rock")
+    let standardFunctionChecked = genres?.includes("Standard Function")
+    let popChecked = genres?.includes("Pop")
+    let jazzChecked = genres?.includes("Jazz")
+    let bluesChecked = genres?.includes("Blues")
+    let acousticChecked = genres?.includes("Acoustic")
+    let classicalChecked = genres?.includes("Classical")
+    let folkChecked = genres?.includes("Folk")
+    let countryChecked = genres?.includes("Country")
 
 
     return (
