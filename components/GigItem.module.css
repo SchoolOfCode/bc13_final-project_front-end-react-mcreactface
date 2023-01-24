@@ -134,10 +134,10 @@ h1 .title {
     background-color: #ff5722;
     margin: 1.5vw;
     max-width: 25vh;
+    min-width: 25vh;
 }
 
 .month {
-    min-width: 11vw;
     max-width: 100%;
     background-color: white;
     border: 2px solid black;
