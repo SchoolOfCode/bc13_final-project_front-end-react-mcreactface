@@ -27,6 +27,10 @@ export default function GigsDisplay() {
     const [searchCurrentYear, setSearchCurrentYear] = useState()
     const [searchInstruments, setSearchInstruments] = useState([])
     const [searchGenres, setSearchGenres] = useState([])
+    const [showAll, setShowAll] = useState(true)
+    const [triggerBooking, setTriggerBooking] = useState(false)
+    const [triggerCancellation, setTriggerCancellation] = useState(false)
+    const [selectedGig, setSelectedGig] = useState({})
 
     const router = useRouter()
     const data = router.query
@@ -68,6 +72,42 @@ export default function GigsDisplay() {
         getUser()
     }, [])
 
+    useEffect(() => {
+        doBooking(selectedGig)
+        setShowAll(true)
+    }, [triggerBooking])
+
+    useEffect(() => {
+        doCancellation(selectedGig)
+    }, [triggerCancellation])
+
+    function bookGig(gig) {
+        setShowAll(false)
+        setSelectedGig(gig)
+    }
+
+    async function doBooking() {
+        if (user) {
+            let query = supabase
+                .from("gigs")
+                .update({ chosen_id: user.id })
+                .match({ id: selectedGig.id })
+
+            const { data: result, error } = await query
+        }
+    }
+
+    async function doCancellation() {
+        if (user) {
+            let query = supabase
+                .from("gigs")
+                .update({ chosen_id: null })
+                .match({ id: selectedGig.id })
+
+            const { data: result, error } = await query
+        }
+    }
+
     async function getUser(userData) {
         if (user) {
             let { data: profileTable, profileTableError } = await supabase
@@ -81,42 +121,75 @@ export default function GigsDisplay() {
         }
     }
 
+    // If we have no instrument type set but we have a genre then we should see only the gigs with that genre type ✅
+    // If we have no instrument type set but we have multiple genres then we should see all the gigs with any of those genres ✅
+    // If we have a single instrument type set (Guitar) and have a genre (Rock) then we should see ONLY rock gigs that need guitar ✅
+    // If we have a single instrument type set (Guitar) and multiple genres (Rock, Pop) then we should see all the gigs of type Rock/Pop that also have instrument of Guitar ✅
+    // If we have multiple instruments and multiple genres then we should see a matrix of those filter inputs ✅
+
+    // When we click on a gigdate item we either redirect to a new page/component which displays the gig data and asks if you want to book then confirms, writes to the chosen_id and
+    // then takes you back to the GigsDisplay
+    // or we hide everything on the page and do the same thing
+
+    // ycomponent itemsheader monthParent all need to be hidden
+    // new div with styles.confirmBooking set to flex and centered
+
     async function getGigs(userData) {
         if (user) {
-            //  console.log("genres: ", searchGenres)
-            //  console.log("instruments: ", searchInstruments)
+            console.log("genres.length: ", searchGenres.length)
+            console.log("instruments.length: ", searchInstruments.length)
 
-            let { data: gigs, gigsTableError } = await supabase
-                .from("gigs")
-                .select("*")
-                .gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
-                .lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
-                // .eq("instrumentreq", searchInstruments[0])
-                .contains("genres", searchGenres)
-                .contains("instrumentreq", searchInstruments)
+            let query = supabase.from("gigs").select("*")
+
+            query = query.gte(
+                "starttime",
+                `${searchCurrentYear}-01-01 00:00:00`
+            )
+            query = query.lte(
+                "starttime",
+                `${searchCurrentYear}-12-12 23:59:59`
+            )
+
+            if (searchGenres.length || searchInstruments.length) {
+                if (searchGenres.length && searchInstruments.length) {
+                    query = query.overlaps("genres", searchGenres)
+                    query = query.overlaps("instrumentreq", searchInstruments)
+                } else if (searchGenres.length) {
+                    query = query.overlaps("genres", searchGenres)
+                } else if (searchInstruments.length) {
+                    query = query.overlaps("instrumentreq", searchInstruments)
+                }
+            }
+
+            const { data: gigs, error } = await query
 
             if (gigs) {
                 for (let eachGig of gigs) {
                     let newDate = new Date(eachGig.starttime)
+                    eachGig.starthour = newDate.getHours()
+                    if ((eachGig.startmin = newDate.getMinutes()) == 0) {
+                        eachGig.starmin = "00"
+                    }
+
                     eachGig.startday = newDate.getDate()
                     eachGig.startmonth = newDate.getMonth()
                     eachGig.startyear = newDate.getFullYear()
                 }
+
+                setOutput(gigs)
             }
-            
-            setOutput(gigs)
         }
     }
 
     if (loading) return <p>Loading...</p>
     //   if (!userData) return <NoSessionWarn />
 
-    return (
+    return showAll ? (
         <>
             <h3 className={styles.itemsheader}>
                 {user ? (
                     <>
-                        Finding Gigs:
+                        <h1>Finding Gigs:</h1>
                         {searchGenres.length
                             ? searchGenres.map((genre, key) => (
                                   <div>
@@ -136,7 +209,7 @@ export default function GigsDisplay() {
                               ))
                             : " [All Genres]"}
                         <button className={styles.filterEnd}>➕</button>
-                        Who Are Looking for:
+                        <h1>Who Are Looking for:</h1>
                         {searchInstruments.length
                             ? searchInstruments.map((instrument, key) => (
                                   <div>
@@ -156,7 +229,14 @@ export default function GigsDisplay() {
                               ))
                             : " [All Instruments]"}
                         <button className={styles.filterEnd}>➕</button>
-                        <button onClick={() => getUser()}>RESET</button>
+                        <button
+                            onClick={() => {
+                                getUser()
+                                getGigs()
+                            }}
+                        >
+                            RESET
+                        </button>
                     </>
                 ) : (
                     "No filters applied"
@@ -205,32 +285,119 @@ export default function GigsDisplay() {
                                                             searchCurrentYear
                                                 )
                                                 .map((gig) => {
+                                                    // I tried wrapping the whole return statement in some conditional rendering but there was a problem
+                                                    // returning twice from within .map so I had to re-write it this way, ugly and repetitive as it is :( - J
                                                     return (
                                                         <div
                                                             className={
-                                                                styles.gigDates
+                                                                user.id ===
+                                                                gig.bookee
+                                                                    ? styles.gigDatesICreated
+                                                                    : user.id ===
+                                                                      gig.chosen_id
+                                                                    ? styles.gigDatesIBooked
+                                                                    : styles.gigDates
                                                             }
+                                                            onClick={() => {
+                                                                bookGig(gig)
+                                                            }}
                                                         >
                                                             <div
                                                                 className={
-                                                                    styles.gigDay
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {gig.startday}
                                                             </div>
+                                                            {gig.genres &&
+                                                            gig.genres.length &&
+                                                            gig.genres.length >
+                                                                1 ? (
+                                                                <div
+                                                                    className={
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
+                                                                    }
+                                                                >
+                                                                    Various
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    className={
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
+                                                                    }
+                                                                >
+                                                                    {gig.genres}
+                                                                </div>
+                                                            )}
                                                             <div
                                                                 className={
-                                                                    styles.gigType
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
-                                                                {gig.eventtype}
+                                                                {
+                                                                    gig.postcode.split(
+                                                                        " "
+                                                                    )[0]
+                                                                }
                                                             </div>
                                                             <div
                                                                 className={
-                                                                    styles.gigPostCode
+                                                                    styles.gigImage
                                                                 }
                                                             >
-                                                                {gig.postcode}
+                                                                {gig
+                                                                    .instrumentreq
+                                                                    .length >
+                                                                1 ? (
+                                                                    gig.instrumentreq.map(
+                                                                        (
+                                                                            genre,
+                                                                            index
+                                                                        ) => {
+                                                                            return (
+                                                                                <img
+                                                                                    className={
+                                                                                        styles.gigImage
+                                                                                    }
+                                                                                    src={`images/icons/small${genre}.png`}
+                                                                                    alt={`small${gig.instrumentreq}`}
+                                                                                ></img>
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                ) : (
+                                                                    <img
+                                                                        className={
+                                                                            styles.gigImage
+                                                                        }
+                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
+                                                                        alt={`small${gig.instrumentreq}`}
+                                                                    ></img>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     )
@@ -243,6 +410,7 @@ export default function GigsDisplay() {
                       })
                     : moy.map((themonth, index) => {
                           if (index >= 6) {
+                              // unfortunate duplication of code here (needs refactoring)
                               return (
                                   <div className={styles.longMonthBox}>
                                       <div className={styles.month}>
@@ -259,32 +427,120 @@ export default function GigsDisplay() {
                                                             searchCurrentYear
                                                 )
                                                 .map((gig) => {
+                                                    // if the user.id matches gig.bookee then A
+                                                    // if the user.id matches gig.chosen_id then B
+                                                    // if the user.id mathes neither then C
                                                     return (
                                                         <div
                                                             className={
-                                                                styles.gigDates
+                                                                user.id ===
+                                                                gig.bookee
+                                                                    ? styles.gigDatesICreated
+                                                                    : user.id ===
+                                                                      gig.chosen_id
+                                                                    ? styles.gigDatesIBooked
+                                                                    : styles.gigDates
                                                             }
+                                                            onClick={() => {
+                                                                bookGig(gig)
+                                                            }}
                                                         >
                                                             <div
                                                                 className={
-                                                                    styles.gigDay
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
                                                                 {gig.startday}
                                                             </div>
+                                                            {gig.genres &&
+                                                            gig.genres.length &&
+                                                            gig.genres.length >
+                                                                1 ? (
+                                                                <div
+                                                                    className={
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
+                                                                    }
+                                                                >
+                                                                    Various
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    className={
+                                                                        user.id ===
+                                                                        gig.bookee
+                                                                            ? styles.gigDatesICreatedInner
+                                                                            : user.id ===
+                                                                              gig.chosen_id
+                                                                            ? styles.gigDatesIBookedInner
+                                                                            : styles.gigDatesInner
+                                                                    }
+                                                                >
+                                                                    {gig.genres}
+                                                                </div>
+                                                            )}
                                                             <div
                                                                 className={
-                                                                    styles.gigType
+                                                                    user.id ===
+                                                                    gig.bookee
+                                                                        ? styles.gigDatesICreatedInner
+                                                                        : user.id ===
+                                                                          gig.chosen_id
+                                                                        ? styles.gigDatesIBookedInner
+                                                                        : styles.gigDatesInner
                                                                 }
                                                             >
-                                                                {gig.eventtype}
+                                                                {
+                                                                    gig.postcode.split(
+                                                                        " "
+                                                                    )[0]
+                                                                }
                                                             </div>
                                                             <div
                                                                 className={
-                                                                    styles.gigPostCode
+                                                                    styles.gigImage
                                                                 }
                                                             >
-                                                                {gig.postcode}
+                                                                {gig
+                                                                    .instrumentreq
+                                                                    .length >
+                                                                1 ? (
+                                                                    gig.instrumentreq.map(
+                                                                        (
+                                                                            genre,
+                                                                            index
+                                                                        ) => {
+                                                                            return (
+                                                                                <img
+                                                                                    className={
+                                                                                        styles.gigImage
+                                                                                    }
+                                                                                    src={`images/icons/small${genre}.png`}
+                                                                                    alt={`small${gig.instrumentreq}`}
+                                                                                ></img>
+                                                                            )
+                                                                        }
+                                                                    )
+                                                                ) : (
+                                                                    <img
+                                                                        className={
+                                                                            styles.gigImage
+                                                                        }
+                                                                        src={`images/icons/small${gig.instrumentreq}.png`}
+                                                                        alt={`small${gig.instrumentreq}`}
+                                                                    ></img>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     )
@@ -303,18 +559,114 @@ export default function GigsDisplay() {
                     ➡️
                 </div>
             </div>
-            {/*
-                <div className={styles.gigParent}>
-                    {output.map((gig) => (
-                        <GigItem key={gig.id} gig={gig}></GigItem>
-                    ))}
-                </div>
-            */}
-            {/*
-                <h2 className={styles.itemsfooter}>
-                    {output.length ? output.length + " Items" : ""}
-                </h2>
-            */}
+        </>
+    ) : (
+        /* Confirmation of booking code here */
+        <>
+            <div className={styles.bookingData}>
+                <ul>
+                    <li>
+                        ADDRESS 1ST LINE:
+                        <text>{selectedGig.address1stline}</text>
+                    </li>
+                    <li>
+                        ADDRESS 2ND LINE:
+                        <text>{selectedGig.address2ndline}</text>
+                    </li>
+                    <li>
+                        TOWN:<text> {selectedGig.town}</text>
+                    </li>
+                    <li>
+                        CITY:<text> {selectedGig.city}</text>
+                    </li>
+                    <li>
+                        POSTCODE:<text> {selectedGig.postcode}</text>
+                    </li>
+                    <li>
+                        REGION:<text> {selectedGig.region}</text>
+                    </li>
+                    <li>
+                        INSTRUMENTS REQUIRED:
+                        <text> {selectedGig.instrumentreq}</text>
+                    </li>
+                    <li>
+                        START TIME:
+                        <text>
+                            {selectedGig.startmin
+                                ? selectedGig.starthour +
+                                  ":" +
+                                  selectedGig.startmin
+                                : selectedGig.starthour + ":00"}
+                        </text>
+                    </li>
+                    <li>
+                        END TIME:<text> {selectedGig.endtime}</text>
+                    </li>
+                    <li>
+                        FOOD PROVIDED:<text> {selectedGig.foodprovided}</text>
+                    </li>
+                    <li>
+                        VEGGIE OPTION AVAILABLE:
+                        <text> {selectedGig.veggieoption ? "Yes" : "No"}</text>
+                    </li>
+                    <li>
+                        PA REQUIRED:
+                        <text> {selectedGig.pa ? "Yes" : "No"}</text>
+                    </li>
+
+                    <li>
+                        PAYMENT:<text> £{selectedGig.payment}</text>
+                    </li>
+                    <li>
+                        NUMBER OF SETS:<text> {selectedGig.numberofsets}</text>
+                    </li>
+                    <li>
+                        SET LENGTH:<text> {selectedGig.setlength}</text>
+                    </li>
+                    <li>
+                        EVENT TYPE:<text> {selectedGig.eventtype}</text>
+                    </li>
+                    <li>
+                        GENRES:<text> {selectedGig.genres}</text>
+                    </li>
+                </ul>
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        alert(
+                            "Are you sure?  Gigs cannot be unbooked without the mutual agreement of both you and the gig owner!"
+                        )
+                        setTriggerBooking(!triggerBooking)
+                        setTimeout(() => {
+                            router.reload(window.location.pathname)
+                        }, 500)
+                        setShowAll(!showAll)
+                    }}
+                >
+                    CONFIRM BOOKING
+                </button>
+
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        setTriggerCancellation(!triggerCancellation)
+                        setTimeout(() => {
+                            router.reload(window.location.pathname)
+                        }, 500)
+                        setShowAll(!showAll)
+                    }}
+                >
+                    CANCEL BOOKING
+                </button>
+                <button
+                    className={styles.bookButton}
+                    onClick={() => {
+                        setShowAll(!showAll)
+                    }}
+                >
+                    GO BACK
+                </button>
+            </div>
         </>
     )
 }

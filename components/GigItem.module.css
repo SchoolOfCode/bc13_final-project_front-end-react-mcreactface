@@ -57,11 +57,12 @@
     margin-top: 100px;
 }
 
-.expansion{
+.expansion {
     background-color: orangered;
     margin: 0;
     padding: 0;
-  }
+}
+
   .card {    
       overflow: hidden;
       transition: all 0.3s ease-in-out;
@@ -82,7 +83,7 @@
       padding:  0px 10px 0px 10px;
     }
 
-/* 
+
 h1 .title {
     padding: 5vh;
 }
@@ -92,16 +93,36 @@ h1 .title {
 }
 
 .itemsheader {
-    margin-left: 5vh;
+    margin-left: 11vh;
     padding-bottom: 3vh;
     display: flex;
     align-items: baseline;
+}
+
+.itemsheader h1 {
+    font-size: large;
+    margin-left: 2vw;
+    margin-right: 1vw;
 }
 
 .itemsheader button {
     margin-left: 1vh;
     color: white;
     background: grey;
+}
+
+.bookButton {
+    color: white;
+    background: grey;
+}
+
+.itemsheader ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemsheader li {
+    justify-content: space-between;
 }
 
 .monthParent {
@@ -118,10 +139,12 @@ h1 .title {
     height: 50vh;
     background-color: #ff5722;
     margin: 1.5vw;
+    max-width: 25vh;
+    min-width: 25vh;
 }
 
 .month {
-    width: 11vw;
+    max-width: 100%;
     background-color: white;
     border: 2px solid black;
     padding: 0.5vw;
@@ -132,17 +155,45 @@ h1 .title {
 
 .gigDates {
     background-color: white;
-    color: black;
     margin-bottom: 0.6vh;
     display: flex;
     flex-direction: row;
+    align-content: center;
     justify-content: space-between;
     padding: 0.5vh;
     border: solid black 2px;
 }
 
 .gigDates:hover {
+    cursor: pointer;
     border: solid black 4px;
+}
+
+.gigDatesInner {
+    color: black;
+}
+
+.gigDatesIBooked {
+    background-color: black;
+    color: orange;
+    margin-bottom: 0.6vh;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    padding: 0.5vh;
+    border: solid black 2px;
+}
+
+.gigDatesICreated {
+    background-color: --var(--darkorange);
+    margin-bottom: 0.6vh;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    padding: 0.5vh;
+    border: solid black 2px;
 }
 
 
@@ -161,7 +212,7 @@ h1 .title {
     display: flex;
     flex-direction: row;
     padding: 0;
-    margin-left: 2.5vw;
+    margin-left: 6.8vw;
 }
 
 .year {
@@ -181,27 +232,67 @@ h1 .title {
     padding-right: 2vh;
 }
 
-.gigPostCode {
-    color: black;
-    display: flex;
-    align-items: flex-end;
+.gigDatesIBookedInner {
+    --background-color: black;
+    color: orange;
 }
+
+.gigDatesICreatedInner {
+    color: black;
+}
+
 
 .gigDay {
     color: black;
+    padding-right: 1vw;
 }
 
-.gigDate {
-    color: black;
-}
 
 .gigType {
     color: black;
+    padding-right: 1vw;
 }
 
-.filterEnd {
-    margin-right: 2vw;
-} */
+.gigPostCode {
+    color: black;
+}
+
+.gigImage {
+    bottom: 5px;
+    height: 2vh;
+    padding-left: 0vh;
+}
+
+.bookingData {
+    margin-left: auto;
+    margin-right: auto;
+    width: 30vw;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: 1px solid grey;
+    background-color: lightgrey;
+}
+
+.bookingData ul {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2vh 0vh 2vh 0vh;
+    border: 1px solid grey;
+    padding: 3vh;
+    background-color: grey;
+    border: 1px solid black;
+}
+
+.bookingData li {
+    list-style: none;
+
+}
+
+.bookingData text {
+    margin-left: 0.5vw;
+    color: orange;
+}
 
     .text > p > data {
       color:brown
