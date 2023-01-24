@@ -16,16 +16,14 @@ const scope = nock("https://api.github.com")
         },
     })
 
-    
-/*
-describe('GigsDisplay', () => {
-  it('renders a heading', () => {
-    render(<Home />)
+describe("GigsDisplay", () => {
+    it("renders a heading", () => {
+        render(<Home />)
 
-    const heading = screen.getByRole('heading', {
-      name: /welcome to next\.js!/i,
+        const heading = screen.getByRole("heading", {
+            name: /MusoFind/i,
+        })
+
+        expect(heading).toBeInTheDocument()
     })
-
-    expect(heading).toBeInTheDocument()
-  })
-})*/
+})
