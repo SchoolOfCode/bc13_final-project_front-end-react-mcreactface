@@ -66,7 +66,7 @@ export default function Musician(profile) {
             </div>
             </div> 
             <div className={styles.cashAndRate}>
-                <p className={styles.p}>
+                <p className={styles.ratesection}>
                     Rate (from): £{" "} {profile.cash_minimum} 
                 </p>
             </div>

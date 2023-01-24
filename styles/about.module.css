@@ -126,13 +126,19 @@
     align-items: center;
 }
 
-/* 
+
 @media screen and (max-width: 480px) {
   .aboutus {
-    font-size: 16px;
-    position:relative;
-    left: 5vh;
-    right: 30vh;
+    font-size: 60px;
   }
+   .brief {
+     font-size: 16px;
+     max-width: 90vw;
+    }
+    .info {
+        font-size: 16px;
+        max-width: 45vw;
+    }
+ 
 }
- */
+

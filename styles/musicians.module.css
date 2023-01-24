@@ -27,7 +27,11 @@
   /* color: var(--custom-panel-color); */
   /* color: rgb(0, 0, 0); */
   color: rgb(252, 94, 9);
-  width: 10vw;
+  width: 12vw;
+}
+
+.ratesection {
+  color: rgb(252, 94, 9);
 }
 
 .cardcontainer {
@@ -124,4 +128,10 @@
 .contactbutton:hover {
   background-color: #222222;
   color: #ea5a1d;
+}
+
+@media screen and (max-width: 480px) {
+  .musiciancard {
+    width: 370px;
+  }
 }
