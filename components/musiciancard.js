@@ -1,4 +1,5 @@
-import styles from "../../styles/musicians.module.css"
+// import styles from "../styles/musicians.module.css"
+import styles from "../styles/musicians.module.css"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -6,13 +7,6 @@ export default function Musician(profile) {
     
     console.log('hello', profile)
  
-    // const instruments = profile?.instruments.join(', ')
-    // const spacedinstruments = instruments.split(',  ')
-   
-    // const genres = profile?.genres.join(', ')
-    // const spacedgenres = genres.split(',  ')
-
-
     return (
         <div className={styles.musiciancard}>
         <div className= {styles.top}>

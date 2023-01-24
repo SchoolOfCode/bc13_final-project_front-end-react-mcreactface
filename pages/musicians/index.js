@@ -1,6 +1,6 @@
 import Head from "next/head"
 import styles from "../../styles/musicians.module.css"
-import Musician from "./musiciancard"
+import Musician from "../../components/musiciancard"
 import useGetMusicians from "../../utils/musicians.js"
 
 export default function Musicians() {
