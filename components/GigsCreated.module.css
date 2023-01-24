@@ -22,6 +22,7 @@
 }
 .row{
     width: 103.5%;
+    height: 700px;
 }
 
 .rowItems {
@@ -42,7 +43,7 @@
 
 .rowItem {
     object-fit: contain;
-    height: 600px;
+    height: fit-content;
     max-width: fit-content;
     margin-right: 10px;
     transition: transform 450ms;
@@ -57,4 +58,8 @@
     color: white;
     font-size: 24px;
     margin: 0 8px;
+}
+
+.button {
+    align-self: flex-start;
 }

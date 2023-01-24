@@ -4,6 +4,7 @@ import GigCreation from "./GigCreation"
 import GigItem from "./GigItem"
 import { SimpleSlider } from "./SimpleSlider/carousel"
 import styles from './GigsCreated.module.css'
+import GigEdit from "./GigEdit"
 
 export default function GigsCreated({ session }) {
     const supabase = useSupabaseClient()
@@ -11,7 +12,10 @@ export default function GigsCreated({ session }) {
     const [createdArray, setCreatedArray] = useState([])
     const [gigsAvailable, setGigsAvailable] = useState(false)
     const [creatingGig, setCreatingGig] = useState(false)
-    const scrl = useRef(null); // For scrolling
+    const [editing, setEditing] = useState(false)
+    const [editingId, setEditingId] = useState(null)
+    const [deleting, setDeleting] = useState(false)
+    const [deletingId, setDeletingId] = useState(null)
 
     async function getCreatedGigs() {
         try {
@@ -40,6 +44,23 @@ export default function GigsCreated({ session }) {
         getCreatedGigs()
     }, [user])
     
+    async function deleteGig(gigId) {
+        try {
+            console.log("deleteGig(): gigId: ", gigId)
+            let { data, error } = await supabase
+                .from("gigs")
+                .delete()
+                .eq("id", gigId)
+            if (error) {
+                throw error
+            }
+            if (data) {
+                console.log("Gig Deleted", data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     //Controls scroll buttons for cards
   const ref = useRef(null);
@@ -47,32 +68,57 @@ export default function GigsCreated({ session }) {
     ref.current.scrollLeft += scrollOffset;
   }
 
-    if (user) {
-        return (<>
-            <div className={styles.layout}>
-            <button className={styles.scroll} onClick={() => scroll(-500)}>{"<"}</button>
-            <div className={styles.row}>
-                <div ref={ref} className={styles.rowItems}>
-                    {createdArray.map((gig) => (
-                        <div className={styles.rowItem}>
-                        <GigItem key={gig.id} gig={gig}/>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <button className={styles.scroll} onClick={() => scroll(500)}>{">"}</button>
-            </div>
-            <div className={styles.button}>
-                    <button
-                        onClick={() => {
-                            setCreatingGig(true)
+    if (user && !creatingGig) {
+        if (editing) {
+            return (
+                <div>
+                    <GigEdit
+                        id={user.id}
+                        gigId={editingId}
+                        closeEdit={() => {
+                            setEditing(false)
                         }}
-                    >
-                        Create a Gig
-                    </button>
+                    />
                 </div>
-                </>
-        )
+            )
+        }
+     else {
+            return (<><div className={styles.button}>
+            <h2>Need a dep for your gig?</h2>
+            <h3>Give us the details and let us help you find someone</h3>
+                <button
+                    onClick={() => {
+                        setCreatingGig(true)
+                    }}
+                >
+                    Create a Gig
+                </button>
+            </div>
+            <div className={styles.layout}>
+
+<div className={deleting ? "modalOpen" : "modalClosed"}>
+  <div class="modal-content">
+    <span onClick={()=> setDeleting(false)} class="close">&times;</span>
+    <p>Are you sure you want to delete this Gig?</p>
+    <div className="modal-buttons">
+    <button className="cancel" onClick={()=> setDeleting(false)}>Cancel</button>
+    <button className="delete" onClick={()=> {deleteGig(deletingId); console.log(deletingId); setDeleting(false)}}>Delete</button>
+    </div>
+  </div>
+</div>
+        <button className={styles.scroll} onClick={() => scroll(-500)}>{"<"}</button>
+        <div className={styles.row}>
+            <div ref={ref} className={styles.rowItems}>
+                {createdArray.map((gig) => (
+                    <div className={styles.rowItem}>
+                    <GigItem key={gig.id} gig={gig} setEditing={setEditing} setEditingId={setEditingId} setDeleting={setDeleting} setDeletingId={setDeletingId}/>
+                    </div>
+                ))}
+            </div>
+        </div>
+        <button className={styles.scroll} onClick={() => scroll(500)}>{">"}</button>
+        </div>
+        </>) }
     } else if (creatingGig && user) {
         return (
             <div>

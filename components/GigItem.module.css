@@ -240,11 +240,12 @@ h1 .title {
     }
   
     .additional > p {
-      color: black;
+      color: white;
       font-size: 18px;
     }
   
     .additional > p > b {
-      color: rgb(38, 39, 68);
+      color: black;
       font-size: 18px;
     }
+/* color: rgb(38, 39, 68) */
