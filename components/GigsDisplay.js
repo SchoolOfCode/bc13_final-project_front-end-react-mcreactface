@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { useState, useEffect, useRef, useMemo } from "react"
+import Link from "next/link"
 
 import { useRouter } from "next/router"
 import {
@@ -32,9 +32,10 @@ export default function GigsDisplay() {
     const [triggerCancellation, setTriggerCancellation] = useState(false)
     const [selectedGig, setSelectedGig] = useState({})
     const [visibleMonths, setVisibleMonths] = useState({})
+    const [pageSize, setPageSize] = useState(0)
+    const [pageCurrent, setPageCurrent] = useState(1)
     const { ty, sm, md, lg, xl } = useMediaQueries()
-    let pageSize = useRef(0)
-    let pageCurrent = useRef(0)
+
     const back = 0
     const forwards = 1
 
@@ -78,39 +79,48 @@ export default function GigsDisplay() {
             Dec: false,
         }
 
-        if (xl) {
-            pageSize.current = 6
-            cloneVisibleMonths.Jan = true,
-            cloneVisibleMonths.Feb = true,
-            cloneVisibleMonths.Mar = true,
-            cloneVisibleMonths.Apr = true,
-            cloneVisibleMonths.May = true,
+        console.log(
+            "sizes - ty: ",
+            ty,
+            "sm: ",
+            sm,
+            "md: ",
+            md,
+            "lg: ",
+            lg,
+            "xl: ",
+            xl
+        )
+
+        if (ty && sm && md && lg && xl) {
+            setPageSize(6)
+            cloneVisibleMonths.Jan = true
+            cloneVisibleMonths.Feb = true
+            cloneVisibleMonths.Mar = true
+            cloneVisibleMonths.Apr = true
+            cloneVisibleMonths.May = true
             cloneVisibleMonths.Jun = true
         } else if (lg && !xl) {
-            pageSize.current = 4
-            cloneVisibleMonths.Jan = true,
-            cloneVisibleMonths.Feb = true,
-            cloneVisibleMonths.Mar = true,
+            setPageSize(4)
+            cloneVisibleMonths.Jan = true
+            cloneVisibleMonths.Feb = true
+            cloneVisibleMonths.Mar = true
             cloneVisibleMonths.Apr = true
         } else if (md && !lg) {
-            pageSize.current = 3
-                cloneVisibleMonths.Jan = true,
-                cloneVisibleMonths.Feb = true,
-                cloneVisibleMonths.Mar = true
+            setPageSize(3)
+            cloneVisibleMonths.Jan = true
+            cloneVisibleMonths.Feb = true
+            cloneVisibleMonths.Mar = true
         } else if (sm && !md) {
-            pageSize.current = 2
-            cloneVisibleMonths.Jan = true,
+            setPageSize(2)
+            cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
         } else if (ty && !sm) {
-            pageSize.current = 1
-            cloneVisibleMonths.Jan = true
-        } else {
-            pageSize.current = 1
+            setPageSize(1)
             cloneVisibleMonths.Jan = true
         }
 
-        console.log("visibleMonths: ",visibleMonths)
-        console.log("pageSize.current: ",pageSize.current)
+        setPageCurrent(1)
         setVisibleMonths(cloneVisibleMonths)
     }, [ty, sm, md, lg, xl])
 
@@ -193,28 +203,28 @@ export default function GigsDisplay() {
     /* effectively this is a sort of pagination for the long month boxes */
     function renderMonths(direction) {
         const cloneVisibleMonths = JSON.parse(JSON.stringify(visibleMonths))
-        let oldPage = pageCurrent.current
-        let lastPage = 12 / pageSize.current
+        let oldPage = pageCurrent
+        let lastPage = 12 / pageSize
 
         if (direction == back) {
-            if (pageCurrent.current !== 0) {
-                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+            if (pageCurrent !== 1) {
+                for (let i = pageCurrent; i < pageSize; i++) {
                     cloneVisibleMonths[i] = false
                 }
-                pageCurrent.current -= pageSize.current
+                setPageCurrent(pageCurrent - 1)
 
-                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                for (let i = pageCurrent; i < pageSize; i++) {
                     cloneVisibleMonths[i] = true
                 }
             }
         } else if (direction == forwards) {
-            if (pageCurrent.current !== lastPage.current) {
-                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+            if (pageCurrent !== lastPage) {
+                for (let i = pageCurrent; i < pageSize; i++) {
                     cloneVisibleMonths[i] = false
                 }
-                pageCurrent.current += pageSize.current
+                setPageCurrent(pageCurrent + 1)
 
-                for (let i = pageCurrent.current; i < pageSize.current; i++) {
+                for (let i = pageCurrent; i < pageSize; i++) {
                     cloneVisibleMonths[i] = true
                 }
             }
@@ -238,9 +248,6 @@ export default function GigsDisplay() {
 
     async function getGigs(userData) {
         if (user) {
-            console.log("genres.length: ", searchGenres.length)
-            console.log("instruments.length: ", searchInstruments.length)
-
             let query = supabase.from("gigs").select("*")
 
             query = query.gte(
@@ -285,6 +292,10 @@ export default function GigsDisplay() {
 
     if (loading) return <p>Loading...</p>
     //   if (!userData) return <NoSessionWarn />
+
+    const asArray = Object.entries(visibleMonths)
+    const filteredMonths = asArray.filter(([key, value]) => value === true)
+    console.log("filteredMonths", filteredMonths)
 
     return showAll ? (
         <>
@@ -377,16 +388,29 @@ export default function GigsDisplay() {
                 >
                     ⬅️
                 </div>
-                {Object.keys(visibleMonths).forEach(function (themonth, index) {
-                    // brb
+                {filteredMonths.forEach((themonth, index) => {
+                    // console.log(index, themonth)
                     console.log(
-                        "pg + ps: ",
-                        (pageCurrent.current)
+                        "(BEFORE) themonth: ",
+                        themonth,
+                        "index: ",
+                        index,
+                        "pageCurrent: ",
+                        pageCurrent,
+                        "pageSize: ",
+                        pageSize
                     )
-                    if (
-                        index >= pageCurrent.current &&
-                        index < (pageCurrent.current + pageSize.current)
-                    ) {
+                     {
+                        console.log(
+                            "(AFTER) themonth: ",
+                            themonth,
+                            "index: ",
+                            index,
+                            "pageCurrent: ",
+                            pageCurrent,
+                            "pageSize: ",
+                            pageSize
+                        )
                         return (
                             <div className={styles.longMonthBox}>
                                 <div className={styles.month}>{themonth}</div>
@@ -513,7 +537,7 @@ export default function GigsDisplay() {
                                                   </div>
                                               )
                                           })
-                                    : ""}
+                                    : "Oops"}
                                 <div className={styles.downArrow}>⬇️</div>
                             </div>
                         )
