@@ -35,6 +35,7 @@ export default function GigsDisplay() {
     const [pageSize, setPageSize] = useState(0)
     const { ty, sm, md, lg, xl } = useMediaQueries()
     let pageCurrent = useRef(1)
+    let multiplier = useRef(0)
 
     const moy = [
         "Jan",
@@ -143,8 +144,8 @@ export default function GigsDisplay() {
             cloneVisibleMonths.Feb = true
             cloneVisibleMonths.Mar = true
             cloneVisibleMonths.Apr = true
-            cloneVisibleMonths.May = true
-            cloneVisibleMonths.Jun = true
+            cloneVisibleMonths.May = false
+            cloneVisibleMonths.Jun = false
             cloneVisibleMonths.Jul = false
             cloneVisibleMonths.Aug = false
             cloneVisibleMonths.Sep = false
@@ -394,7 +395,16 @@ export default function GigsDisplay() {
 
     const asArray = Object.entries(visibleMonths)
     const filteredMonths = asArray.filter(([key, value]) => value === true)
+    //const filteredMonths = asArray.filter(([key, value]) => true)
+
+    if (pageCurrent.current != 1) {
+        multiplier.current = pageSize * pageCurrent.current - pageSize
+    } else {
+        multiplier.current = 0
+    }
+
     console.log("filteredMonths", filteredMonths)
+    console.log("multiplier: ",multiplier.current)
 
     return showAll ? (
         <>
@@ -488,13 +498,11 @@ export default function GigsDisplay() {
                 >
                     ⬅️
                 </div>
-                {console.log(
-                    "pageCurrent: ",
-                    pageCurrent.current,
-                    "pageSize: ",
-                    pageSize
-                )}
-              //  {filteredMonths.map((themonth, index) => {
+                {filteredMonths.map((themonth, index) => {
+                    console.log(
+                        "fm: ",
+                        moy.indexOf(filteredMonths[0]) + 1 + index
+                    )
                     return (
                         <div className={styles.longMonthBox}>
                             <div className={styles.month}>{themonth}</div>
@@ -503,7 +511,13 @@ export default function GigsDisplay() {
                                 ? output
                                       .filter(
                                           (gig) =>
-                                              gig.startmonth == index &&
+                                              gig.startmonth ==
+                                                  moy.indexOf(
+                                                      filteredMonths[0]
+                                                  ) +
+                                                      1 +
+                                                      index +
+                                                      multiplier.current &&
                                               gig.startyear == searchCurrentYear
                                       )
                                       .map((gig) => {
@@ -533,7 +547,9 @@ export default function GigsDisplay() {
                                                               : styles.gigDatesInner
                                                       }
                                                   >
-                                                      {gig.startday}
+                                                      {gig.startday +
+                                                          "/" +
+                                                          (gig.startmonth + 1)}
                                                   </div>
                                                   {gig.genres &&
                                                   gig.genres.length &&

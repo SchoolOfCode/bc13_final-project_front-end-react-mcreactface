@@ -363,7 +363,7 @@
 
 
 
-
+/*
 
 
         @media (min-width: 800px) {
@@ -410,9 +410,6 @@
                 bottom: 0;
                 background-color: var(--lightorange);
                 border-radius: 3vh;
-            
-                /*  flex-grow: 1;
-                box-sizing: content-box;*/
             }
             
             
@@ -438,7 +435,7 @@
                   padding:  5px 5px 5px 5px;
                   border-radius: 10px;
                 }
-                .cardcontent{ /*smallercard*/
+                .cardcontent{
                   background-color:rgb(253, 202, 188);
                   border-radius: 10px;
                   margin: 0;
@@ -775,9 +772,6 @@
                     bottom: 0;
                     background-color: var(--lightorange);
                     border-radius: 3vh;
-                
-                    /*  flex-grow: 1;
-                    box-sizing: content-box;*/
                 }
                 
                 
@@ -803,7 +797,7 @@
                       padding:  5px 5px 5px 5px;
                       border-radius: 10px;
                     }
-                    .cardcontent{ /*smallercard*/
+                    .cardcontent{
                       background-color:rgb(253, 202, 188);
                       border-radius: 10px;
                       margin: 0;
@@ -1096,3 +1090,4 @@
 
 
 
+*/
