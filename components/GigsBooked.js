@@ -40,18 +40,28 @@ export default function GigsBooked({ session }) {
         <div>
             {gigsAvailable ? (
                 <div className={styles.layout}>
-            <button className={styles.scroll} onClick={() => scroll(-500)}>{"<"}</button>
-            <div className={styles.row}>
-                <div ref={ref} className={styles.rowItems}>
-                    {bookedArray.map((gig) => (
-                        <div className={styles.rowItem}>
-                        <GigItem key={gig.id} gig={gig}/>
+                    <button
+                        className={styles.scroll}
+                        onClick={() => scroll(-500)}
+                    >
+                        {"<"}
+                    </button>
+                    <div className={styles.row}>
+                        <div ref={ref} className={styles.rowItems}>
+                            {bookedArray.map((gig) => (
+                                <div className={styles.rowItem}>
+                                    <GigItem key={gig.id} gig={gig} />
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+                    <button
+                        className={styles.scroll}
+                        onClick={() => scroll(500)}
+                    >
+                        {">"}
+                    </button>
                 </div>
-            </div>
-            <button className={styles.scroll} onClick={() => scroll(500)}>{">"}</button>
-            </div>
             ) : (
                 <div>
                     <p>
