@@ -29,8 +29,24 @@ export const SimpleSlider = ({ gigarray }) => {
       slidesToShow: 3,
       slidesToScroll: 1,
       adaptiveHeight: true,
-
-   
+      responsive: [
+        {
+            breakpoint: 920,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2,
+              infinite: true,
+              dots: true
+            }
+          },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: true
+          }}]
     };
  
 //  fade: true,

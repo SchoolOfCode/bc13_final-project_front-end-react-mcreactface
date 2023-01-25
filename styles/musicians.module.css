@@ -134,4 +134,15 @@
   .musiciancard {
     width: 365px;
   }
+  .ratingnumber{
+    width:50px;
+  } 
+}
+@media screen and (max-width: 370px) {
+  .musiciancard {
+    width: 350px;
+  }
+  .ratingnumber{
+    width:50px;
+  } 
 }
