@@ -107,7 +107,7 @@ export default function Navbar() {
             </div>
             <ul
                 className={`${styles.ul} ${
-                    isNavExpanded ? styles.display : styles.hide
+                    isNavExpanded ? styles.menuDisplay : styles.hide
                 }`}
             >
                 <li className={styles.li}>
