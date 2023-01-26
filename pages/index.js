@@ -74,17 +74,17 @@ export default function Home() {
                     <div className={styles.sideby}>
                         <div className={styles.sidetext}>
                             <p>
-                                Looking for a gig? Book your gig with ease.
+                                <b>Looking for a gig? Book your gig with ease.
                                 MusoFind has a simple booking system that allows
                                 you to book gigs with just a few clicks. No more
                                 hassle of emailing back and forth. Just book
-                                your gig and get to playing. The My Gigs page
+                                your gig and get to playing.</b> <b className={styles.presponsivechange}>The My Gigs page
                                 allows you to see all the gigs you have booked
                                 and created. You can even edit or delete your
                                 gigs from this page. All with sleek and simple
                                 interface that makes it easy to use. Have
                                 complete control of your gigs and your schedule
-                                at your fingertips.
+                                at your fingertips.</b>
                             </p>
                         </div>
                         <div className={styles.sideimage}>

@@ -21,7 +21,7 @@ body {
     padding: 0;
     margin: 0;
     font-family: var(--custom-font-family);
-    background-color: var(--custom-bg-color);
+    background: radial-gradient(circle, rgba(36,35,35,1) 0%, rgba(46,44,44,1) 54%, rgba(17,17,17,1) 88%, rgba(0,0,0,1) 100%);
 }
 
 ::placeholder {
