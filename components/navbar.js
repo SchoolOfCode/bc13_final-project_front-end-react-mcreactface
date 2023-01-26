@@ -215,9 +215,9 @@ export default function Navbar() {
                             <Link
                                 onClick={() => {
                                     setIsNavExpanded(!isNavExpanded)
+                                    supabase.auth.signOut()
                                 }}
                                 href="/"
-                                onClick={() => supabase.auth.signOut()}
                                 className={
                                     asPath == "/" ? styles.activelink : ""
                                 }
