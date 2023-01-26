@@ -229,9 +229,9 @@ export default function Account({ session }) {
 
     return (
         <div className="form-widget">
-            <div>
-                <Link href="/">
-                    <button className="primary">Back to Hompage</button>
+            <div className="back_button">
+                <Link href="/gigs">
+                    <button className="primary" style={{width: 150}}>Back</button>
                 </Link>
             </div>
             <Avatar

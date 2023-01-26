@@ -600,3 +600,7 @@ button.primary,
     cursor: pointer;
     color: #ccc;
 }
+
+.back_button {
+    margin-bottom: 0.5rem;
+}
