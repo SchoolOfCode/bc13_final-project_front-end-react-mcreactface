@@ -91,7 +91,16 @@
     }
 
     .display {
+        z-index: 1;
         display: block;
+    }
+
+    .menuDisplay {
+        z-index: 1;
+        display: block;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding: 2vh 0vh 2vh 0vh;
     }
 
     .li {
