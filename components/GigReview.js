@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import styles from './GigReview.module.css'
 import StarRating from './StarRating'
-export default function GigReview({ gigBeingReviewed, reviewee, setReviewing, setThanks }) {
+export default function GigReview({ gigBeingReviewed, reviewee, setReviewing, setThanks, thanks }) {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [depp, setDepp] = useState({});
