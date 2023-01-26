@@ -10,6 +10,7 @@ export default function GigsCompleted() {
     const [reviewingId, setReviewingId] = useState(null)
     const [gigBeingReviewed, setGigBeingReviewed] = useState(null)
     const [reviewee, setReviewee] = useState(null)
+    const [thanks, setThanks] = useState(false);
     const supabase = useSupabaseClient();
     const ref = useRef(null)
     function scroll(scrollOffset) {
@@ -48,14 +49,13 @@ export default function GigsCompleted() {
                         <div className="modalOpen">
                             <div class="modal-content2">
                             <span
-                                    onClick={() => {setReviewing(false); console.log(reviewing)}}
+                                    onClick={() => {setReviewing(false); console.log(reviewing); setThanks(false)}}
                                     class="close"
                                 >
                                     &times;
                                 </span>
-                             {reviewee !== null ? <GigReview gigBeingReviewed={gigBeingReviewed} reviewee={reviewee}/> : <h2>This gig was not booked</h2>}  
+                             {reviewee !== null ? <GigReview setThanks={setThanks} setReviewing={setReviewing} gigBeingReviewed={gigBeingReviewed} reviewee={reviewee}/> : <h2>This gig was not booked</h2>}  
                             </div>
-                            <button></button>
                         </div> : null}
                         <button
                             className={styles.scroll}

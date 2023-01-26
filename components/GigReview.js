@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import styles from './GigReview.module.css'
 import StarRating from './StarRating'
-export default function GigReview({ gigBeingReviewed, reviewee }) {
+export default function GigReview({ gigBeingReviewed, reviewee, setReviewing, setThanks }) {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
-    const [depp, setDepp] = useState({})
+    const [depp, setDepp] = useState({});
     const supabase = useSupabaseClient()
     
     const imageUrl = supabase.storage.from("avatars").getPublicUrl(reviewee[0]?.avatar_url)
@@ -42,13 +42,15 @@ export default function GigReview({ gigBeingReviewed, reviewee }) {
 
     
     return (
-        <div>
+        !thanks ? 
+        (<div className={styles.card}>
             <h1>Gig Review</h1>
-            <figure>
-                <img src={imageUrl.data.publicUrl} alt={`Image of depp`}  style={{ height: 50, width: 50 }}/>
-                <h2>{reviewee[0].full_name}</h2>
-                <h3>{gigBeingReviewed.instrumentreq[0]}</h3>
-            </figure>
+            <div className={styles.card__border}>
+                <img className={styles.card__img} src={imageUrl.data.publicUrl} alt={`Image of depp`}  />
+                <h2 className={styles.card__name}>{reviewee[0].full_name}</h2>
+                <h3 className={styles.card__profession}>{gigBeingReviewed.instrumentreq[0]}</h3>
+            </div>
+        <div className={styles.card__social}>
         <div className={styles.rate}>
         <input onClick={()=>{setRating(5); console.log(rating)}} type="radio" id="star5" name="rate" value="5" />
         <label for="star5" title="text">5 stars</label>
@@ -60,14 +62,16 @@ export default function GigReview({ gigBeingReviewed, reviewee }) {
         <label for="star2" title="text">2 stars</label>
         <input onClick={()=>setRating(1)} type="radio" id="star1" name="rate" value="1" />
         <label for="star1" title="text">1 star</label>
-      </div>
-
-      <div>
-        <button onClick={submitReview}>
+        </div>
+        <div>
+        <button onClick={()=>{submitReview(); setThanks(true)}}>
             Submit rating
         </button>
-      </div>
-
         </div>
+        </div>
+        </div>)
+        : (<div className={styles.card}>
+            <h1>Thanks for your review!</h1>
+            </div>)
     )
 }

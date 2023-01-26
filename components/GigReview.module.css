@@ -47,3 +47,87 @@
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
 }
+
+.review {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 0;
+    width: fit-content;
+    border-radius: 5px;
+    background-color: #ff5722;
+    color: #101010;
+    height: fit-content;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+}
+.sub {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+}
+.card {
+    position: relative;
+    width: fit-content;
+    background-color: var(--black-color);
+    padding: 1.25rem 2rem 3rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 16px hsla(29, 75%, 8%, 0.2);
+  }
+  
+  .card__img {
+    width: 96px;
+    border-radius: 50%;
+  }
+  
+  .card__border {
+    width: 110px;
+    height: fit-content;
+    border: 2px solid var(--first-color);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 0.75rem;
+  }
+  
+  .card__name {
+    color: var(--first-color);
+    font-size: var(--h3-font-size);
+    font-weight: 500;
+  }
+  
+  .card__profession {
+    color: var(--text-color);
+    font-size: var(--smaller-font-size);
+    font-weight: 500;
+  }
+  
+  .card__social {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.25rem;
+    width: fit-content;
+    gap: 1.25rem;
+  }

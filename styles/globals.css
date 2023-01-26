@@ -545,7 +545,7 @@ button.primary,
     border: 1px solid #888;
     width: 40vw; /* Could be more or less, depending on screen size */
     color: #101010;
-    height: 70vh;
+    height: fit-content;
   }
 
   .modal-content > span {
