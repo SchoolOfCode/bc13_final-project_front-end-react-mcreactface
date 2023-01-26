@@ -269,7 +269,8 @@ export default function GigsDisplay() {
                 console.log(
                     "pageCurrent.current: ",
                     pageCurrent.current,
-                    "pageSize: ",pageSize,
+                    "pageSize: ",
+                    pageSize,
                     "previousMonthsStart: ",
                     previousMonthsStart,
                     "pagecurrent*pageSize: ",
@@ -347,7 +348,7 @@ export default function GigsDisplay() {
     }
 
     if (loading) return <p>Loading...</p>
-    if (!userData) return <NoSessionWarn />
+    //if (!userData) return <NoSessionWarn />
 
     /* this code is to make the left and right buttons work properly when paging through months */
     const asArray = Object.entries(visibleMonths)
