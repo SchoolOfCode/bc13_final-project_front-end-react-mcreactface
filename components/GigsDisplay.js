@@ -24,7 +24,9 @@ export default function GigsDisplay() {
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [monthPageOne, setMonthPageOne] = useState(true)
-    const [searchCurrentYear, setSearchCurrentYear] = useState()
+    const [searchCurrentYear, setSearchCurrentYear] = useState(
+        new Date().getFullYear()
+    )
     const [searchInstruments, setSearchInstruments] = useState([])
     const [searchGenres, setSearchGenres] = useState([])
     const [showAll, setShowAll] = useState(true)
@@ -64,11 +66,6 @@ export default function GigsDisplay() {
             setLoading(false)
         })
 
-        let theYear = new Date().getFullYear()
-        if (!searchCurrentYear) {
-            setSearchCurrentYear(theYear)
-        }
-
         getUser(userData)
         getGigs(userData)
     }, [user])
@@ -78,6 +75,7 @@ export default function GigsDisplay() {
     }, [searchGenres, searchInstruments])
 
     useEffect(() => {
+        getGigs()
         getUser()
         initialiseMonths()
     }, [])
@@ -304,46 +302,38 @@ export default function GigsDisplay() {
     // new div with styles.confirmBooking set to flex and centered
 
     async function getGigs(userData) {
-        if (user) {
-            let query = supabase.from("gigs").select("*")
+        let query = supabase.from("gigs").select("*")
 
-            query = query.gte(
-                "starttime",
-                `${searchCurrentYear}-01-01 00:00:00`
-            )
-            query = query.lte(
-                "starttime",
-                `${searchCurrentYear}-12-12 23:59:59`
-            )
+        query = query.gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
+        query = query.lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
 
-            if (searchGenres.length || searchInstruments.length) {
-                if (searchGenres.length && searchInstruments.length) {
-                    query = query.overlaps("genres", searchGenres)
-                    query = query.overlaps("instrumentreq", searchInstruments)
-                } else if (searchGenres.length) {
-                    query = query.overlaps("genres", searchGenres)
-                } else if (searchInstruments.length) {
-                    query = query.overlaps("instrumentreq", searchInstruments)
-                }
+        if (searchGenres.length || searchInstruments.length) {
+            if (searchGenres.length && searchInstruments.length) {
+                query = query.overlaps("genres", searchGenres)
+                query = query.overlaps("instrumentreq", searchInstruments)
+            } else if (searchGenres.length) {
+                query = query.overlaps("genres", searchGenres)
+            } else if (searchInstruments.length) {
+                query = query.overlaps("instrumentreq", searchInstruments)
             }
+        }
 
-            const { data: gigs, error } = await query
+        const { data: gigs, error } = await query
 
-            if (gigs) {
-                for (let eachGig of gigs) {
-                    let newDate = new Date(eachGig.starttime)
-                    eachGig.starthour = newDate.getHours()
-                    if ((eachGig.startmin = newDate.getMinutes()) == 0) {
-                        eachGig.starmin = "00"
-                    }
-
-                    eachGig.startday = newDate.getDate()
-                    eachGig.startmonth = newDate.getMonth()
-                    eachGig.startyear = newDate.getFullYear()
+        if (gigs) {
+            for (let eachGig of gigs) {
+                let newDate = new Date(eachGig.starttime)
+                eachGig.starthour = newDate.getHours()
+                if ((eachGig.startmin = newDate.getMinutes()) == 0) {
+                    eachGig.starmin = "00"
                 }
 
-                setOutput(gigs)
+                eachGig.startday = newDate.getDate()
+                eachGig.startmonth = newDate.getMonth()
+                eachGig.startyear = newDate.getFullYear()
             }
+
+            setOutput(gigs)
         }
     }
 
@@ -476,9 +466,10 @@ export default function GigsDisplay() {
                                           return (
                                               <div
                                                   className={
+                                                      user &&
                                                       user.id === gig.bookee
                                                           ? styles.gigDatesICreated
-                                                          : user.id ===
+                                                          : user && user.id ===
                                                             gig.chosen_id
                                                           ? styles.gigDatesIBooked
                                                           : styles.gigDates
@@ -489,9 +480,10 @@ export default function GigsDisplay() {
                                               >
                                                   <div
                                                       className={
+                                                        user &&
                                                           user.id === gig.bookee
                                                               ? styles.gigDatesICreatedInner
-                                                              : user.id ===
+                                                              :user && user.id ===
                                                                 gig.chosen_id
                                                               ? styles.gigDatesIBookedInner
                                                               : styles.gigDatesInner
@@ -506,10 +498,10 @@ export default function GigsDisplay() {
                                                   gig.genres.length > 1 ? (
                                                       <div
                                                           className={
-                                                              user.id ===
+                                                              user && user.id ===
                                                               gig.bookee
                                                                   ? styles.gigDatesICreatedInner
-                                                                  : user.id ===
+                                                                  : user && user.id ===
                                                                     gig.chosen_id
                                                                   ? styles.gigDatesIBookedInner
                                                                   : styles.gigDatesInner
@@ -520,10 +512,10 @@ export default function GigsDisplay() {
                                                   ) : (
                                                       <div
                                                           className={
-                                                              user.id ===
+                                                              user && user.id ===
                                                               gig.bookee
                                                                   ? styles.gigDatesICreatedInner
-                                                                  : user.id ===
+                                                                  : user && user.id ===
                                                                     gig.chosen_id
                                                                   ? styles.gigDatesIBookedInner
                                                                   : styles.gigDatesInner
@@ -534,9 +526,9 @@ export default function GigsDisplay() {
                                                   )}
                                                   <div
                                                       className={
-                                                          user.id === gig.bookee
+                                                          user && user.id === gig.bookee
                                                               ? styles.gigDatesICreatedInner
-                                                              : user.id ===
+                                                              : user && user.id ===
                                                                 gig.chosen_id
                                                               ? styles.gigDatesIBookedInner
                                                               : styles.gigDatesInner
