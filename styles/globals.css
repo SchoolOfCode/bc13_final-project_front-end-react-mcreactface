@@ -535,6 +535,18 @@ button.primary,
     color: #101010;
     height: 18%;
   }
+  .modal-content2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #101010;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40vw; /* Could be more or less, depending on screen size */
+    color: #101010;
+    height: fit-content;
+  }
 
   .modal-content > span {
     width: fit-content;
@@ -574,3 +586,21 @@ button.primary,
     height: 20%;
     margin: 10px;
   }
+
+.on {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #ff5722;
+}
+.off {
+    
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.back_button {
+    margin-bottom: 0.5rem;
+}

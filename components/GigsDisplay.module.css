@@ -140,6 +140,7 @@
         margin: 1.5vw;
         max-width: 25vh;
         min-width: 25vh;
+        border-radius: 4px;
     }
     
     .month {
@@ -150,6 +151,7 @@
         color: #242424;
         position: relative;
         text-align: center;
+        border-radius: 4px;
     }
     
     .gigDates {
@@ -161,6 +163,7 @@
         justify-content: space-between;
         padding: 0.5vh;
         border: solid black 2px;
+        border-radius: 4px;
     }
     
     .gigDates:hover {
@@ -170,24 +173,27 @@
     
     .sample {
         padding: 1.5vh;
-    
+        border-radius: 4px;
         margin-right: 2vh;
     }
     
     .crsample {
         background-color: #ff5722;
         color: black;
+        border-radius: 4px;
     }
     
     .bksample {
         background-color: black;
         color: orange;
         border: 1px solid orange;
+        border-radius: 4px;
     }
     
     .whsample {
         background-color: white;
         color: black;
+        border-radius: 4px;
     }
     
     .gigDatesInner {
@@ -204,6 +210,7 @@
         justify-content: space-between;
         padding: 0.5vh;
         border: solid black 2px;
+        border-radius: 4px;
     }
     
     .gigDatesICreated {
@@ -215,6 +222,7 @@
         justify-content: space-between;
         padding: 0.5vh;
         border: solid black 2px;
+        border-radius: 4px;
     }
     
     
@@ -284,7 +292,7 @@
     .bookingData {
         margin-left: auto;
         margin-right: auto;
-        width: 30vw;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         flex-direction: column;
@@ -309,7 +317,8 @@
     
     .bookingData text {
         margin-left: 0.5vw;
-        color: orange;
+        color: rgb(255, 144, 88);
+        text-shadow: 2px 1px black;
     }
     
         .text > p > data {
@@ -362,7 +371,13 @@
             opacity: 70%;
         }
 
+        .hidden {
+            visibility: none;
+        }
 
+        .shown {
+            visibility: visible;
+        }
 
 
 
