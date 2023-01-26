@@ -35,6 +35,7 @@ export default function GigsDisplay() {
     const [selectedGig, setSelectedGig] = useState({})
     const [visibleMonths, setVisibleMonths] = useState({})
     const [pageSize, setPageSize] = useState(0)
+    const [shrinkFilters, setShrinkFilters] = useState(false)
     const { ty, sm, md, lg, xl } = useMediaQueries()
     let pageCurrent = useRef(1)
     let multiplier = useRef(0)
@@ -116,24 +117,29 @@ export default function GigsDisplay() {
             cloneVisibleMonths.Apr = true
             cloneVisibleMonths.May = true
             cloneVisibleMonths.Jun = true
+            setShrinkFilters(false)
         } else if (lg && !xl) {
             setPageSize(4)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
             cloneVisibleMonths.Mar = true
             cloneVisibleMonths.Apr = true
+            setShrinkFilters(false)
         } else if (md && !lg) {
             setPageSize(3)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
             cloneVisibleMonths.Mar = true
+            setShrinkFilters(false)
         } else if (sm && !md) {
             setPageSize(2)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
+            setShrinkFilters(false)
         } else if (ty && !sm) {
             setPageSize(1)
             cloneVisibleMonths.Jan = true
+            setShrinkFilters(true)
         }
 
         setVisibleMonths(cloneVisibleMonths)
@@ -158,10 +164,10 @@ export default function GigsDisplay() {
 
     function useMediaQueries() {
         const ty = useMediaQuery("(min-width: 300px)")
-        const sm = useMediaQuery("(min-width: 500px)")
-        const md = useMediaQuery("(min-width: 800px)")
-        const lg = useMediaQuery("(min-width: 1000px)")
-        const xl = useMediaQuery("(min-width: 1560px)")
+        const sm = useMediaQuery("(min-width: 600px)")
+        const md = useMediaQuery("(min-width: 1000px)")
+        const lg = useMediaQuery("(min-width: 1100px)")
+        const xl = useMediaQuery("(min-width: 1850px) and (max-height: 1250px)")
 
         return { ty, sm, md, lg, xl }
     }
@@ -282,6 +288,12 @@ export default function GigsDisplay() {
         query = query.gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
         query = query.lte("starttime", `${searchCurrentYear}-12-12 23:59:59`)
 
+        if (!user) {
+            query = query.filter("chosen_id", "is", "null")
+        }
+        if (user) {
+        }
+
         if (searchGenres.length || searchInstruments.length) {
             if (searchGenres.length && searchInstruments.length) {
                 query = query.overlaps("genres", searchGenres)
@@ -327,62 +339,86 @@ export default function GigsDisplay() {
 
     return showAll ? (
         <>
-            <h3 className={styles.itemsheader}>
-                {user ? (
-                    <>
-                        <h1>Finding Gigs:</h1>
-                        {searchGenres.length
-                            ? searchGenres.map((genre, key) => (
-                                  <div>
-                                      <button
-                                          onClick={(e) => {
-                                              setSearchGenres(
-                                                  searchGenres.filter(
-                                                      (genre, gkey) =>
-                                                          key !== gkey
+            {shrinkFilters ? (
+                ""
+            ) : (
+                <h3 className={styles.itemsheader}>
+                    {user ? (
+                        <>
+                            <h1
+                                className={
+                                    shrinkFilters
+                                        ? styles.hidden
+                                        : styles.shown
+                                }
+                            >
+                                Finding:
+                            </h1>
+                            {searchGenres.length
+                                ? searchGenres.map((genre, key) => (
+                                      <div>
+                                          <button
+                                              onClick={(e) => {
+                                                  setSearchGenres(
+                                                      searchGenres.filter(
+                                                          (genre, gkey) =>
+                                                              key !== gkey
+                                                      )
                                                   )
-                                              )
-                                          }}
-                                      >
-                                          {genre} ✖️
-                                      </button>
-                                  </div>
-                              ))
-                            : " [All Genres]"}
-                        <button className={styles.filterEnd}>➕</button>
-                        <h1>Who Are Looking for:</h1>
-                        {searchInstruments.length
-                            ? searchInstruments.map((instrument, key) => (
-                                  <div>
-                                      <button
-                                          onClick={(e) => {
-                                              setSearchInstruments(
-                                                  searchInstruments.filter(
-                                                      (instrument, gkey) =>
-                                                          key !== gkey
+                                              }}
+                                          >
+                                              {genre} ✖️
+                                          </button>
+                                      </div>
+                                  ))
+                                : " [All Genres]"}
+                            <Link href="/login#instruments">
+                                <button className={styles.filterEnd}>➕</button>
+                            </Link>
+                            <h1
+                                className={
+                                    shrinkFilters
+                                        ? styles.visible
+                                        : styles.shown
+                                }
+                            >
+                                Who Are Looking for:
+                            </h1>
+                            {searchInstruments.length
+                                ? searchInstruments.map((instrument, key) => (
+                                      <div>
+                                          <button
+                                              onClick={(e) => {
+                                                  setSearchInstruments(
+                                                      searchInstruments.filter(
+                                                          (instrument, gkey) =>
+                                                              key !== gkey
+                                                      )
                                                   )
-                                              )
-                                          }}
-                                      >
-                                          {instrument} ✖️
-                                      </button>
-                                  </div>
-                              ))
-                            : " [All Instruments]"}
-                        <button className={styles.filterEnd}>➕</button>
-                        <button
-                            onClick={() => {
-                                getUser()
-                                getGigs()
-                            }}
-                        >
-                            RESET
-                        </button>
-                    </>
-                ) : (
-                    "No filters applied"
-                )}
-            </h3>
+                                              }}
+                                          >
+                                              {instrument} ✖️
+                                          </button>
+                                      </div>
+                                  ))
+                                : " [All Instruments]"}
+                            <Link href="/login#instruments">
+                                <button className={styles.filterEnd}>➕</button>
+                            </Link>
+                            <button
+                                onClick={() => {
+                                    getUser()
+                                    getGigs()
+                                }}
+                            >
+                                RESET
+                            </button>
+                        </>
+                    ) : (
+                        "No filters applied"
+                    )}
+                </h3>
+            )}
 
             <div className={styles.ycomponents}>
                 <div
@@ -412,7 +448,7 @@ export default function GigsDisplay() {
                 <div
                     onClick={() => {
                         renderMonths(backwards)
-                        console.log("after filter: ", filteredMonths)
+                        //  console.log("after filter: ", filteredMonths)
                     }}
                 >
                     ⬅️
@@ -424,6 +460,7 @@ export default function GigsDisplay() {
                             <div className={styles.upArrow}>⬆️</div>
                             {output
                                 ? output
+
                                       .filter(
                                           (gig) =>
                                               gig.startmonth ==
@@ -567,7 +604,7 @@ export default function GigsDisplay() {
                 <div
                     onClick={() => {
                         renderMonths(forwards)
-                        console.log("after filter: ", filteredMonths)
+                        // console.log("after filter: ", filteredMonths)
                     }}
                 >
                     ➡️
