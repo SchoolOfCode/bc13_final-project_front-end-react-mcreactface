@@ -24,7 +24,6 @@ export default function Navbar() {
     const router = useRouter()
 
     async function getUsername() {
-
         try {
             let { data, error } = await supabase
                 .from("profiles")
@@ -113,6 +112,9 @@ export default function Navbar() {
             >
                 <li className={styles.li}>
                     <Link
+                        onClick={() => {
+                            setIsNavExpanded(!isNavExpanded)
+                        }}
                         href={"/"}
                         className={asPath == "/" ? styles.activelink : ""}
                     >
@@ -121,6 +123,9 @@ export default function Navbar() {
                 </li>
                 <li className={styles.li}>
                     <Link
+                        onClick={() => {
+                            setIsNavExpanded(!isNavExpanded)
+                        }}
                         href={"/gigs"}
                         className={asPath == "/gigs" ? styles.activelink : ""}
                     >
@@ -129,6 +134,9 @@ export default function Navbar() {
                 </li>
                 <li className={styles.li}>
                     <Link
+                        onClick={() => {
+                            setIsNavExpanded(!isNavExpanded)
+                        }}
                         href={"/musicians"}
                         className={
                             asPath == "/musicians" ? styles.activelink : ""
@@ -139,6 +147,9 @@ export default function Navbar() {
                 </li>
                 <li className={styles.li}>
                     <Link
+                        onClick={() => {
+                            setIsNavExpanded(!isNavExpanded)
+                        }}
                         href={"/about"}
                         className={asPath == "/about" ? styles.activelink : ""}
                     >
@@ -147,6 +158,9 @@ export default function Navbar() {
                 </li>
                 <li className={styles.li}>
                     <Link
+                        onClick={() => {
+                            setIsNavExpanded(!isNavExpanded)
+                        }}
                         href={"/contact"}
                         className={
                             asPath == "/contact" ? styles.activelink : ""
@@ -158,6 +172,9 @@ export default function Navbar() {
                 {!session ? (
                     <li className={styles.li}>
                         <Link
+                            onClick={() => {
+                                setIsNavExpanded(!isNavExpanded)
+                            }}
                             href={"/login"}
                             className={
                                 asPath == "/login" ? styles.activelink : ""
@@ -169,19 +186,23 @@ export default function Navbar() {
                 ) : (
                     <>
                         <li className={`${styles.avataricon} ${styles.li}`}>
-
                             <Link
+                                onClick={() => {
+                                    setIsNavExpanded(!isNavExpanded)
+                                }}
                                 href={"/login"}
                                 className={
                                     asPath == "/login" ? styles.activelink : ""
                                 }
                             >
                                 <AvatarIcon size={50} avatarUrl={avatarUrl} />
-
                             </Link>
                         </li>
                         <li className={styles.li}>
                             <Link
+                                onClick={() => {
+                                    setIsNavExpanded(!isNavExpanded)
+                                }}
                                 href={"/mygigs"}
                                 className={
                                     asPath == "/mygigs" ? styles.activelink : ""
@@ -192,6 +213,9 @@ export default function Navbar() {
                         </li>
                         <li className={styles.li}>
                             <Link
+                                onClick={() => {
+                                    setIsNavExpanded(!isNavExpanded)
+                                }}
                                 href="/"
                                 onClick={() => supabase.auth.signOut()}
                                 className={
