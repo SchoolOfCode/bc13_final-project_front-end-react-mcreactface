@@ -9,7 +9,10 @@ export default function GigItem({
     setEditingId,
     setDeleting,
     setDeletingId,
-    reviewed
+    setReviewing,
+    setReviewingId,
+    reviewingId,
+    setGigBeingReviewed,
 }) {
     const [isHovering, setIsHovering] = useState(false)
 
@@ -21,10 +24,10 @@ export default function GigItem({
         setIsHovering(false)
     }
 
-    console.log("GigItem: ", gig)
-    console.log(gig.address1stline)
-
     let thedate = new Date(gig.starttime)
+    let ts = new Date();
+    let ts2 = ts.toISOString();
+
 
     //let mystart = new Date(gig.starttime).toLocaleString('uk');
     let myend = new Date(gig.endtime).toLocaleString("uk")
@@ -35,6 +38,9 @@ export default function GigItem({
         (thedate.getMonth() + 1) +
         "/" +
         thedate.getFullYear()
+    
+
+  
 
     return (
         <div className={styles.gigCard}>
@@ -114,7 +120,7 @@ export default function GigItem({
                                     >
                                         Delete Gig
                                     </button>
-                                    {!reviewed ? (<button onClick={()=> {setReviewing(true);setGigReviewed(gig.id)}}>Review Gig</button>) : null}
+                                    {!gig.reviewed && (gig.endtime < ts2)  ? (<button onClick={()=>{setReviewing(true); setReviewingId(gig.chosen_id); setGigBeingReviewed(gig); console.log(reviewingId)}}>Review Gig</button>) : null}
                                 </div>
                             </div>
                         </div>

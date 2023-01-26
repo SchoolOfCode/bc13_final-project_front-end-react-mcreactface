@@ -1,14 +1,19 @@
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import GigItem from "./GigItem"
 import GigCreation from "./GigCreation"
+import styles from "./GigsCreated.module.css"
 
 export default function GigsBooked({ session }) {
     const supabase = useSupabaseClient()
     const user = useUser()
     const [bookedArray, setBookedArray] = useState([])
     const [gigsAvailable, setGigsAvailable] = useState(false)
+    const ref = useRef(null)
+    function scroll(scrollOffset) {
+        ref.current.scrollLeft += scrollOffset
+    }
     async function getBookedGigs() {
         try {
             let { data: userBookedGigs, error } = await supabase
