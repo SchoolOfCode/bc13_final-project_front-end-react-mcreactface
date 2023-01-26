@@ -52,7 +52,7 @@ export default function GigsDisplay() {
         "Dec",
     ]
 
-    const back = 0
+    const backwards = 0
     const forwards = 1
 
     const router = useRouter()
@@ -124,7 +124,7 @@ export default function GigsDisplay() {
             xl
         )
 
-        if (ty && sm && md && lg && xl) {
+        if (xl) {
             setPageSize(6)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
@@ -132,68 +132,24 @@ export default function GigsDisplay() {
             cloneVisibleMonths.Apr = true
             cloneVisibleMonths.May = true
             cloneVisibleMonths.Jun = true
-            cloneVisibleMonths.Jul = false
-            cloneVisibleMonths.Aug = false
-            cloneVisibleMonths.Sep = false
-            cloneVisibleMonths.Oct = false
-            cloneVisibleMonths.Nov = false
-            cloneVisibleMonths.Dec = false
         } else if (lg && !xl) {
             setPageSize(4)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
             cloneVisibleMonths.Mar = true
             cloneVisibleMonths.Apr = true
-            cloneVisibleMonths.May = false
-            cloneVisibleMonths.Jun = false
-            cloneVisibleMonths.Jul = false
-            cloneVisibleMonths.Aug = false
-            cloneVisibleMonths.Sep = false
-            cloneVisibleMonths.Oct = false
-            cloneVisibleMonths.Nov = false
-            cloneVisibleMonths.Dec = false
         } else if (md && !lg) {
             setPageSize(3)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
             cloneVisibleMonths.Mar = true
-            cloneVisibleMonths.Apr = false
-            cloneVisibleMonths.May = false
-            cloneVisibleMonths.Jun = false
-            cloneVisibleMonths.Jul = false
-            cloneVisibleMonths.Aug = false
-            cloneVisibleMonths.Sep = false
-            cloneVisibleMonths.Oct = false
-            cloneVisibleMonths.Nov = false
-            cloneVisibleMonths.Dec = false
         } else if (sm && !md) {
             setPageSize(2)
             cloneVisibleMonths.Jan = true
             cloneVisibleMonths.Feb = true
-            cloneVisibleMonths.Mar = false
-            cloneVisibleMonths.Apr = false
-            cloneVisibleMonths.May = false
-            cloneVisibleMonths.Jun = false
-            cloneVisibleMonths.Jul = false
-            cloneVisibleMonths.Aug = false
-            cloneVisibleMonths.Sep = false
-            cloneVisibleMonths.Oct = false
-            cloneVisibleMonths.Nov = false
-            cloneVisibleMonths.Dec = false
         } else if (ty && !sm) {
             setPageSize(1)
             cloneVisibleMonths.Jan = true
-            cloneVisibleMonths.Feb = false
-            cloneVisibleMonths.Mar = false
-            cloneVisibleMonths.Apr = false
-            cloneVisibleMonths.May = false
-            cloneVisibleMonths.Jun = false
-            cloneVisibleMonths.Jul = false
-            cloneVisibleMonths.Aug = false
-            cloneVisibleMonths.Sep = false
-            cloneVisibleMonths.Oct = false
-            cloneVisibleMonths.Nov = false
-            cloneVisibleMonths.Dec = false
         }
 
         setVisibleMonths(cloneVisibleMonths)
@@ -266,8 +222,8 @@ export default function GigsDisplay() {
         }
     }
 
-    /* badly named - should be setMonths but then there'd be setSetMonths and we already have setVisibleMonths */
-    /* effectively this is a sort of pagination for the long month boxes */
+    /* possibly badly named - should be setMonths but then there'd be setSetMonths and we already have setVisibleMonths */
+    /* calculate which months to show and which ones to hide based on which way we're scrolling, which page you're on and on the media query affecting pageSize  */
     function renderMonths(direction) {
         let cloneVisibleMonths = Object.assign({}, visibleMonths)
         let lastPage = 12 / pageSize
@@ -278,7 +234,7 @@ export default function GigsDisplay() {
         let previousMonthsStop
         let i
 
-        if (pageCurrent.current == 1 && direction == back) {
+        if (pageCurrent.current == 1 && direction == backwards) {
             return
         } else if (pageCurrent.current == lastPage && direction == forwards) {
             return
@@ -286,10 +242,6 @@ export default function GigsDisplay() {
             for (i = 0; i < 12; i++) {
                 cloneVisibleMonths[moy[i]] = false
             }
-
-            // Start on page 2 and pagesize is 3
-            // so I'm showing months Apr/May/Jun or 3,4,5
-            // if I click forwards I want 6,7,8
 
             nextMonthsStart = pageCurrent.current * pageSize
             nextMonthsStop = nextMonthsStart + pageSize
@@ -311,8 +263,13 @@ export default function GigsDisplay() {
                 pageCurrent.current += 1
             }
 
-            if (direction === back) {
+            if (direction === backwards) {
+                pageCurrent.current -= 1
+
                 console.log(
+                    "pageCurrent.current: ",
+                    pageCurrent.current,
+                    "pageSize: ",pageSize,
                     "previousMonthsStart: ",
                     previousMonthsStart,
                     "pagecurrent*pageSize: ",
@@ -321,12 +278,11 @@ export default function GigsDisplay() {
 
                 for (
                     i = previousMonthsStart;
-                    i < (pageCurrent.current - 1) * pageSize;
+                    i < pageCurrent.current * pageSize;
                     i++
                 ) {
                     cloneVisibleMonths[moy[i]] = true
                 }
-                pageCurrent.current -= 1
             }
 
             setVisibleMonths(cloneVisibleMonths)
@@ -391,20 +347,17 @@ export default function GigsDisplay() {
     }
 
     if (loading) return <p>Loading...</p>
-    //   if (!userData) return <NoSessionWarn />
+    if (!userData) return <NoSessionWarn />
 
+    /* this code is to make the left and right buttons work properly when paging through months */
     const asArray = Object.entries(visibleMonths)
     const filteredMonths = asArray.filter(([key, value]) => value === true)
-    //const filteredMonths = asArray.filter(([key, value]) => true)
 
     if (pageCurrent.current != 1) {
         multiplier.current = pageSize * pageCurrent.current - pageSize
     } else {
         multiplier.current = 0
     }
-
-    console.log("filteredMonths", filteredMonths)
-    console.log("multiplier: ",multiplier.current)
 
     return showAll ? (
         <>
@@ -492,17 +445,13 @@ export default function GigsDisplay() {
             <div className={styles.monthParent}>
                 <div
                     onClick={() => {
-                        renderMonths(back)
+                        renderMonths(backwards)
                         console.log("after filter: ", filteredMonths)
                     }}
                 >
                     ⬅️
                 </div>
                 {filteredMonths.map((themonth, index) => {
-                    console.log(
-                        "fm: ",
-                        moy.indexOf(filteredMonths[0]) + 1 + index
-                    )
                     return (
                         <div className={styles.longMonthBox}>
                             <div className={styles.month}>{themonth}</div>
@@ -790,11 +739,11 @@ export default function GigsDisplay() {
 * do the same ✅
 * THEN
 * 
-* iterate through the visibleMonths object
-* if the visibleMonths[index] == true then render the object
-* when the larrow and rarrow onClick functions are written we need to call a function renderMonths
-* renderMonths takes the visibleMonths object, sets the true states to false and sets the following pageSize months to true
-* or possibly the previous pageSize months to true
+* iterate through the visibleMonths object ✅
+* if the visibleMonths[index] == true then render the object ✅
+* when the larrow and rarrow onClick functions are written we need to call a function renderMonths ✅
+* renderMonths takes the visibleMonths object, sets the true states to false and sets the following pageSize months to true ✅
+* or possibly the previous pageSize months to true ✅
 *
 * Jan: true
 * Feb: true
@@ -802,5 +751,5 @@ export default function GigsDisplay() {
 * Apr: false
 * May: false
 *
-* ALSO!  When the page is resized we need to trigger a reset of the months being displayed
+* ALSO!  When the page is resized we need to trigger a reset of the months being displayed ✅
 */
