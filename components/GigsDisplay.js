@@ -76,7 +76,6 @@ export default function GigsDisplay() {
 
     useEffect(() => {
         getGigs()
-        getUser()
         initialiseMonths()
     }, [])
 
@@ -108,19 +107,6 @@ export default function GigsDisplay() {
             Nov: false,
             Dec: false,
         }
-
-        console.log(
-            "sizes - ty: ",
-            ty,
-            "sm: ",
-            sm,
-            "md: ",
-            md,
-            "lg: ",
-            lg,
-            "xl: ",
-            xl
-        )
 
         if (xl) {
             setPageSize(6)
@@ -264,19 +250,8 @@ export default function GigsDisplay() {
             if (direction === backwards) {
                 pageCurrent.current -= 1
 
-                console.log(
-                    "pageCurrent.current: ",
-                    pageCurrent.current,
-                    "pageSize: ",
-                    pageSize,
-                    "previousMonthsStart: ",
-                    previousMonthsStart,
-                    "pagecurrent*pageSize: ",
-                    pageCurrent.current * pageSize
-                )
-
                 for (
-                    i = previousMonthsStart;
+                    i = (pageCurrent.current - 1) * pageSize;
                     i < pageCurrent.current * pageSize;
                     i++
                 ) {
@@ -469,8 +444,9 @@ export default function GigsDisplay() {
                                                       user &&
                                                       user.id === gig.bookee
                                                           ? styles.gigDatesICreated
-                                                          : user && user.id ===
-                                                            gig.chosen_id
+                                                          : user &&
+                                                            user.id ===
+                                                                gig.chosen_id
                                                           ? styles.gigDatesIBooked
                                                           : styles.gigDates
                                                   }
@@ -480,11 +456,12 @@ export default function GigsDisplay() {
                                               >
                                                   <div
                                                       className={
-                                                        user &&
+                                                          user &&
                                                           user.id === gig.bookee
                                                               ? styles.gigDatesICreatedInner
-                                                              :user && user.id ===
-                                                                gig.chosen_id
+                                                              : user &&
+                                                                user.id ===
+                                                                    gig.chosen_id
                                                               ? styles.gigDatesIBookedInner
                                                               : styles.gigDatesInner
                                                       }
@@ -498,11 +475,13 @@ export default function GigsDisplay() {
                                                   gig.genres.length > 1 ? (
                                                       <div
                                                           className={
-                                                              user && user.id ===
-                                                              gig.bookee
+                                                              user &&
+                                                              user.id ===
+                                                                  gig.bookee
                                                                   ? styles.gigDatesICreatedInner
-                                                                  : user && user.id ===
-                                                                    gig.chosen_id
+                                                                  : user &&
+                                                                    user.id ===
+                                                                        gig.chosen_id
                                                                   ? styles.gigDatesIBookedInner
                                                                   : styles.gigDatesInner
                                                           }
@@ -512,11 +491,13 @@ export default function GigsDisplay() {
                                                   ) : (
                                                       <div
                                                           className={
-                                                              user && user.id ===
-                                                              gig.bookee
+                                                              user &&
+                                                              user.id ===
+                                                                  gig.bookee
                                                                   ? styles.gigDatesICreatedInner
-                                                                  : user && user.id ===
-                                                                    gig.chosen_id
+                                                                  : user &&
+                                                                    user.id ===
+                                                                        gig.chosen_id
                                                                   ? styles.gigDatesIBookedInner
                                                                   : styles.gigDatesInner
                                                           }
@@ -526,10 +507,12 @@ export default function GigsDisplay() {
                                                   )}
                                                   <div
                                                       className={
-                                                          user && user.id === gig.bookee
+                                                          user &&
+                                                          user.id === gig.bookee
                                                               ? styles.gigDatesICreatedInner
-                                                              : user && user.id ===
-                                                                gig.chosen_id
+                                                              : user &&
+                                                                user.id ===
+                                                                    gig.chosen_id
                                                               ? styles.gigDatesIBookedInner
                                                               : styles.gigDatesInner
                                                       }
