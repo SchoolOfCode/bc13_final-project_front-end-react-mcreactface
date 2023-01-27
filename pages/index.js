@@ -55,11 +55,12 @@ export default function Home() {
                     </p>
                 </div>
                 <div className={styles.minipage}>
-                    <h2>Find Gigs</h2>
+                    <h2>Find And Book Gigs</h2>
                     <p>
-                        Find gigs in your area that match your skill set and
-                        style. With a simple search system, you can find gigs
-                        that are looking for a band or just want to jam.
+                        Are you a professional player looking to fill in those
+                        empty dates in your calendar? Musofind helps you quickly
+                        and easily find bands looking for a replacement that
+                        matches your playing style and repertoire.
                     </p>
                     <img
                         className={styles.miniimage}
@@ -68,20 +69,26 @@ export default function Home() {
                     ></img>
                 </div>
                 <div className={styles.minipage2}>
-                    <h2>Management made easy</h2>
-                    <div className={styles.sidetext}>
+                    <h2>Find And Book Players</h2>
+                    <div className={styles.minipage}>
                         <p>
-                            <b>Looking for a gig? Book your gig with ease.
-                                MusoFind has a simple booking system that allows
-                                you to book gigs with just a few clicks. No more
-                                hassle of emailing back and forth. Just book
-                                your gig and get to playing.</b> <b className={styles.presponsivechange}>The My Gigs page
-                                    allows you to see all the gigs you have booked
-                                    and created. You can even edit or delete your
-                                    gigs from this page. All with sleek and simple
-                                    interface that makes it easy to use. Have
-                                    complete control of your gigs and your schedule
-                                    at your fingertips.</b>
+
+                                Your regular drummer/guitarist/singer pulls out
+                                of a show at the last minute. Disaster? Fear
+                                not! MusoFind are here to help with a booking
+                                system that allows you to find reliable,
+                                professional players in just a few clicks. No
+                                more amateurs turning up late and unprepared.
+                                Our system of trust establishes that who you
+                                book will get the job done and done well.
+                                {" "}
+                            <p>
+                                Your personal "My Gigs" page lets you
+                                effortlessly manage your calendar and rate
+                                performances. Now you can have complete control
+                                of your gigs and your schedule at your
+                                fingertips.
+                            </p>
                         </p>
                     </div>
                     <div>
