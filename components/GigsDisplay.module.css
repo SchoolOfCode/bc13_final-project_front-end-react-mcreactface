@@ -297,7 +297,7 @@
         justify-content: space-between;
         flex-direction: column;
         border: 1px solid grey;
-        background-color: lightgrey;
+        background-color: rgb(81, 81, 81);
     }
     
     .bookingData ul {
@@ -317,8 +317,14 @@
     
     .bookingData text {
         margin-left: 0.5vw;
-        color: rgb(255, 144, 88);
+        color: orange;
         text-shadow: 2px 1px black;
+        padding: 1vh;
+    }
+
+    .bookingData a {
+        text-decoration: none;
+        font-size: x-large;
     }
     
         .text > p > data {

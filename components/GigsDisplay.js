@@ -36,6 +36,7 @@ export default function GigsDisplay() {
     const [visibleMonths, setVisibleMonths] = useState({})
     const [pageSize, setPageSize] = useState(0)
     const [shrinkFilters, setShrinkFilters] = useState(false)
+    const [showCancel, setShowCancel] = useState(false)
     const { ty, sm, md, lg, xl } = useMediaQueries()
     let pageCurrent = useRef(1)
     let multiplier = useRef(0)
@@ -347,9 +348,7 @@ export default function GigsDisplay() {
                         <>
                             <h1
                                 className={
-                                    shrinkFilters
-                                        ? styles.hidden
-                                        : styles.shown
+                                    shrinkFilters ? styles.hidden : styles.shown
                                 }
                             >
                                 Finding:
@@ -487,9 +486,18 @@ export default function GigsDisplay() {
                                                           ? styles.gigDatesIBooked
                                                           : styles.gigDates
                                                   }
-                                                  onClick={() => {
-                                                      bookGig(gig)
-                                                  }}
+                                                  onClick={
+                                                      user &&
+                                                      user.id === gig.bookee
+                                                          ? () => {
+                                                                router.push(
+                                                                    "mygigs"
+                                                                )
+                                                            }
+                                                          : () => {
+                                                                bookGig(gig)
+                                                            }
+                                                  }
                                               >
                                                   <div
                                                       className={
@@ -614,110 +622,129 @@ export default function GigsDisplay() {
     ) : (
         /* Confirmation of booking code here */
         <>
-            <div className={styles.bookingData}>
-                <ul>
-                    <li>
-                        ADDRESS 1ST LINE:
-                        <text>{selectedGig.address1stline}</text>
-                    </li>
-                    <li>
-                        ADDRESS 2ND LINE:
-                        <text>{selectedGig.address2ndline}</text>
-                    </li>
-                    <li>
-                        TOWN:<text> {selectedGig.town}</text>
-                    </li>
-                    <li>
-                        CITY:<text> {selectedGig.city}</text>
-                    </li>
-                    <li>
-                        POSTCODE:<text> {selectedGig.postcode}</text>
-                    </li>
-                    <li>
-                        REGION:<text> {selectedGig.region}</text>
-                    </li>
-                    <li>
-                        INSTRUMENTS REQUIRED:
-                        <text> {selectedGig.instrumentreq}</text>
-                    </li>
-                    <li>
-                        START TIME:
+            {user ? (
+                <div className={styles.bookingData}>
+                    <ul>
+                        <li>
+                            ADDRESS 1ST LINE:
+                            <text>{selectedGig.address1stline}</text>
+                        </li>
+                        <li>
+                            ADDRESS 2ND LINE:
+                            <text>{selectedGig.address2ndline}</text>
+                        </li>
+                        <li>
+                            TOWN:<text> {selectedGig.town}</text>
+                        </li>
+                        <li>
+                            CITY:<text> {selectedGig.city}</text>
+                        </li>
+                        <li>
+                            POSTCODE:<text> {selectedGig.postcode}</text>
+                        </li>
+                        <li>
+                            REGION:<text> {selectedGig.region}</text>
+                        </li>
+                        <li>
+                            INSTRUMENTS REQUIRED:
+                            <text> {selectedGig.instrumentreq}</text>
+                        </li>
+                        <li>
+                            START TIME:
+                            <text>
+                                {selectedGig.startmin
+                                    ? selectedGig.starthour +
+                                      ":" +
+                                      selectedGig.startmin
+                                    : selectedGig.starthour + ":00"}
+                            </text>
+                        </li>
+                        <li>
+                            END TIME:<text> {selectedGig.endtime}</text>
+                        </li>
+                        <li>
+                            FOOD PROVIDED:
+                            <text> {selectedGig.foodprovided}</text>
+                        </li>
+                        <li>
+                            VEGGIE OPTION AVAILABLE:
+                            <text>
+                                {" "}
+                                {selectedGig.veggieoption ? "Yes" : "No"}
+                            </text>
+                        </li>
+                        <li>
+                            PA REQUIRED:
+                            <text> {selectedGig.pa ? "Yes" : "No"}</text>
+                        </li>
+
+                        <li>
+                            PAYMENT:<text> £{selectedGig.payment}</text>
+                        </li>
+                        <li>
+                            NUMBER OF SETS:
+                            <text> {selectedGig.numberofsets}</text>
+                        </li>
+                        <li>
+                            SET LENGTH:<text> {selectedGig.setlength}</text>
+                        </li>
+                        <li>
+                            EVENT TYPE:<text> {selectedGig.eventtype}</text>
+                        </li>
+                        <li>
+                            GENRES:<text> {selectedGig.genres}</text>
+                        </li>
+                    </ul>
+                    {user.id != selectedGig.chosen_id && (
+                        <button
+                            className={styles.bookButton}
+                            onClick={() => {
+                                alert(
+                                    "Are you sure?  Once booked you should not cancel or it may affect your rating..."
+                                )
+                                setTriggerBooking(!triggerBooking)
+                                setTimeout(() => {
+                                    router.reload(window.location.pathname)
+                                }, 500)
+                                setShowAll(!showAll)
+                            }}
+                        >
+                            CONFIRM BOOKING
+                        </button>
+                    )}
+
+                    {user.id == selectedGig.chosen_id && (
+                        <button
+                            className={styles.bookButton}
+                            onClick={() => {
+                                setTriggerCancellation(!triggerCancellation)
+                                setTimeout(() => {
+                                    router.reload(window.location.pathname)
+                                }, 500)
+                                setShowAll(!showAll)
+                            }}
+                        >
+                            CANCEL BOOKING
+                        </button>
+                    )}
+                    <button
+                        className={styles.bookButton}
+                        onClick={() => {
+                            setShowAll(!showAll)
+                        }}
+                    >
+                        GO BACK
+                    </button>
+                </div>
+            ) : (
+                <div className={styles.bookingData}>
+                    <Link href="login">
                         <text>
-                            {selectedGig.startmin
-                                ? selectedGig.starthour +
-                                  ":" +
-                                  selectedGig.startmin
-                                : selectedGig.starthour + ":00"}
+                            Create a Profile/Log in to see more details!
                         </text>
-                    </li>
-                    <li>
-                        END TIME:<text> {selectedGig.endtime}</text>
-                    </li>
-                    <li>
-                        FOOD PROVIDED:<text> {selectedGig.foodprovided}</text>
-                    </li>
-                    <li>
-                        VEGGIE OPTION AVAILABLE:
-                        <text> {selectedGig.veggieoption ? "Yes" : "No"}</text>
-                    </li>
-                    <li>
-                        PA REQUIRED:
-                        <text> {selectedGig.pa ? "Yes" : "No"}</text>
-                    </li>
-
-                    <li>
-                        PAYMENT:<text> £{selectedGig.payment}</text>
-                    </li>
-                    <li>
-                        NUMBER OF SETS:<text> {selectedGig.numberofsets}</text>
-                    </li>
-                    <li>
-                        SET LENGTH:<text> {selectedGig.setlength}</text>
-                    </li>
-                    <li>
-                        EVENT TYPE:<text> {selectedGig.eventtype}</text>
-                    </li>
-                    <li>
-                        GENRES:<text> {selectedGig.genres}</text>
-                    </li>
-                </ul>
-                <button
-                    className={styles.bookButton}
-                    onClick={() => {
-                        alert(
-                            "Are you sure?  Gigs cannot be unbooked without the mutual agreement of both you and the gig owner!"
-                        )
-                        setTriggerBooking(!triggerBooking)
-                        setTimeout(() => {
-                            router.reload(window.location.pathname)
-                        }, 500)
-                        setShowAll(!showAll)
-                    }}
-                >
-                    CONFIRM BOOKING
-                </button>
-
-                <button
-                    className={styles.bookButton}
-                    onClick={() => {
-                        setTriggerCancellation(!triggerCancellation)
-                        setTimeout(() => {
-                            router.reload(window.location.pathname)
-                        }, 500)
-                        setShowAll(!showAll)
-                    }}
-                >
-                    CANCEL BOOKING
-                </button>
-                <button
-                    className={styles.bookButton}
-                    onClick={() => {
-                        setShowAll(!showAll)
-                    }}
-                >
-                    GO BACK
-                </button>
-            </div>
+                    </Link>
+                </div>
+            )}
         </>
     )
 }
