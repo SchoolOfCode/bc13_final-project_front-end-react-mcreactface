@@ -14,8 +14,8 @@ jobs:
               with:
                   project: ./site
                   browser: chrome
-                  build: npm build
-                  start: npm start
+                  build: npm next build
+                  start: npm next start
                   wait-on: "http://localhost:3000"
               env:
                   NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
