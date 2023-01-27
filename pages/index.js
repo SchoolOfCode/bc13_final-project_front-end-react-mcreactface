@@ -61,17 +61,14 @@ export default function Home() {
                         style. With a simple search system, you can find gigs
                         that are looking for a band or just want to jam.
                     </p>
-                    {gigs ? (
-                        <div className={styles.sliderContainer}>
-                            <SimpleSlider gigarray={gigs} />
-                        </div>
-                    ) : (
-                        <p>loading</p>
-                    )}
+                    <img
+                        className={styles.miniimage}
+                        src={`images/GigsDisplay.jpg`}
+                        alt="gig search"
+                    ></img>
                 </div>
                 <div className={styles.minipage2}>
                     <h2>Management made easy</h2>
-                    <div className={styles.sideby}>
                         <div className={styles.sidetext}>
                             <p>
                                 <b>Looking for a gig? Book your gig with ease.
@@ -87,13 +84,14 @@ export default function Home() {
                                 at your fingertips.</b>
                             </p>
                         </div>
-                        <div className={styles.sideimage}>
-                            <img
-                                className={styles.gigImage}
-                                src="gigImage.png"
-                                alt="Gig image"
-                            ></img>
+                        <div>
+                        {gigs ? (
+                        <div className={styles.sliderContainer}>
+                            <SimpleSlider gigarray={gigs} />
                         </div>
+                    ) : (
+                        <p>loading</p>
+                    )}
                     </div>
                 </div>
                 <div className={styles.minipage3}>
