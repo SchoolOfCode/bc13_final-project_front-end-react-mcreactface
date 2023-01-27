@@ -33,7 +33,7 @@ export default function MyGigs() {
                     <button className={!createdList && !bookedList ? styles.clicked : styles.options} onClick={()=> {setCreatedList(false); setBookedList(false)}}>Gig Completed</button>
                 </div>
                 {createdList && <GigsCreated /> }
-                {bookedList && <GigsBooked />}
+                {bookedList && <GigsBooked bookedList={bookedList} />}
                 {!createdList && !bookedList && <GigsCompleted />}
             </div>
         </div>

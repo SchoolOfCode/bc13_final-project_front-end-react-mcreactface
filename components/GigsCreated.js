@@ -2,7 +2,6 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { useState, useEffect, useRef } from "react"
 import GigCreation from "./GigCreation"
 import GigItem from "./GigItem"
-import { SimpleSlider } from "./SimpleSlider/carousel"
 import styles from "./GigsCreated.module.css"
 import GigEdit from "./GigEdit"
 
