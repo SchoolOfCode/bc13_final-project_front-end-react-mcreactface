@@ -1,13 +1,19 @@
 .contactcontainer {
     width: 100%;
-    height: screen;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px 20px 20px 20px;
     text-align: center;
     /* background-color: rgb(30, 29, 29); */
-    background: radial-gradient(circle, rgba(36,35,35,1) 0%, rgba(46,44,44,1) 54%, rgba(17,17,17,1) 88%, rgba(0,0,0,1) 100%);
+    background: radial-gradient(
+        circle,
+        rgba(36, 35, 35, 1) 0%,
+        rgba(46, 44, 44, 1) 54%,
+        rgba(17, 17, 17, 1) 88%,
+        rgba(0, 0, 0, 1) 100%
+    );
 }
 
 .formcontainer {
