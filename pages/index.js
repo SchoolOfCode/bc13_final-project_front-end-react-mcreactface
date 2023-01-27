@@ -82,6 +82,7 @@ export default function Home() {
                                 Our system of trust establishes that who you
                                 book will get the job done and done well.
                                 {" "}
+                        </p>
                             <p>
                                 Your personal "My Gigs" page lets you
                                 effortlessly manage your calendar and rate
@@ -89,7 +90,6 @@ export default function Home() {
                                 of your gigs and your schedule at your
                                 fingertips.
                             </p>
-                        </p>
                     </div>
                     <div>
                         {gigs ? (
