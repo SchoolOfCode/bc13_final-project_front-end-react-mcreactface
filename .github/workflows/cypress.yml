@@ -1,3 +1,5 @@
+name: Cypress Testing
+
 on: [push]
 
 jobs:
@@ -10,10 +12,9 @@ jobs:
             - name: Cypress run
               uses: cypress-io/github-action@v3
               with:
-                  project: ./site
                   browser: chrome
-                  build: yarn build
-                  start: yarn start
+                  build: npm run build
+                  start: npm start
                   wait-on: "http://localhost:3000"
               env:
                   NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
