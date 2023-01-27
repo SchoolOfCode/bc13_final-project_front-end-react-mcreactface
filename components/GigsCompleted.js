@@ -54,7 +54,7 @@ export default function GigsCompleted() {
                                 >
                                     &times;
                                 </span>
-                             {reviewee !== null ? <GigReview setThanks={setThanks} setReviewing={setReviewing} gigBeingReviewed={gigBeingReviewed} reviewee={reviewee}/> : <h2>This gig was not booked</h2>}  
+                             {reviewee !== null ? <GigReview thanks={thanks} setThanks={setThanks} setReviewing={setReviewing} gigBeingReviewed={gigBeingReviewed} reviewee={reviewee}/> : <h2>This gig was not booked</h2>}  
                             </div>
                         </div> : null}
                         <button
