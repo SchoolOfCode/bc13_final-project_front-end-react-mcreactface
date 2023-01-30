@@ -456,7 +456,7 @@ export default function GigsDisplay() {
                     return (
                         <div className={styles.longMonthBox}>
                             <div className={styles.month}>{themonth}</div>
-                            <div className={styles.upArrow}>⬆️</div>
+                            <div className={styles.upArrow}></div>
                             {output
                                 ? output
 
@@ -605,7 +605,7 @@ export default function GigsDisplay() {
                                           )
                                       })
                                 : "Oops"}
-                            <div className={styles.downArrow}>⬇️</div>
+                            <div className={styles.downArrow}></div>
                         </div>
                     )
                 })}
