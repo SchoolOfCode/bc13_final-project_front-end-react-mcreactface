@@ -26,7 +26,7 @@ export default function GigCreation({ closeModal, id }) {
         Guitar: false,
         Bass: false,
         Keys: false,
-        Vocals: false,
+        Vocal: false,
         Saxophone: false,
         Trumpet: false,
         Flute: false,
@@ -330,19 +330,19 @@ export default function GigCreation({ closeModal, id }) {
                     </div>
                     <div
                         className={
-                            boxChecked.Vocals
+                            boxChecked.Vocal
                                 ? styles.checkedOption
                                 : styles.option
                         }
                     >
                         <input
                             type="checkbox"
-                            id="vocals"
+                            id="vocal"
                             name="instruments"
-                            value="Vocals"
+                            value="Vocal"
                             onChange={(e) => editInstruments(e)}
                         />
-                        <label htmlFor="vocals">Vocals</label>
+                        <label htmlFor="vocal">Vocal</label>
                     </div>
                 </div>
             </div>

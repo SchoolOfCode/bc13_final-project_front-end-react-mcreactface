@@ -29,7 +29,7 @@ export default function Account({ session }) {
         Guitar: false,
         Bass: false,
         Keys: false,
-        Vocals: false,
+        Vocal: false,
         Saxophone: false,
         Trumpet: false,
         Flute: false,
@@ -94,7 +94,7 @@ export default function Account({ session }) {
                     Guitar: data.instruments.includes("Guitar"),
                     Bass: data.instruments.includes("Bass"),
                     Keys: data.instruments.includes("Keys"),
-                    Vocals: data.instruments.includes("Vocals"),
+                    Vocal: data.instruments.includes("Vocal"),
                     Saxophone: data.instruments.includes("Saxophone"),
                     Trumpet: data.instruments.includes("Trumpet"),
                     Flute: data.instruments.includes("Flute"),
@@ -215,7 +215,7 @@ export default function Account({ session }) {
     let trumpetChecked = instruments?.includes("Trumpet")
     let fluteChecked = instruments?.includes("Flute")
     let celloChecked = instruments?.includes("Cello")
-    let vocalsChecked = instruments?.includes("Vocals")
+    let vocalChecked = instruments?.includes("Vocal")
 
     let rockChecked = genres?.includes("Rock")
     let standardFunctionChecked = genres?.includes("Standard Function")
@@ -231,7 +231,9 @@ export default function Account({ session }) {
         <div className="form-widget">
             <div className="back_button">
                 <Link href="/gigs">
-                    <button className="primary" style={{width: 150}}>Back</button>
+                    <button className="primary" style={{ width: 150 }}>
+                        Back
+                    </button>
                 </Link>
             </div>
             <Avatar
@@ -508,20 +510,20 @@ export default function Account({ session }) {
                     </div>
                     <div
                         className={
-                            boxchecked.Vocals
+                            boxchecked.Vocal
                                 ? styles.checkedOption
                                 : styles.option
                         }
                     >
                         <input
                             type="checkbox"
-                            id="vocals"
+                            id="vocal"
                             name="instruments"
-                            value="Vocals"
-                            checked={vocalsChecked}
+                            value="Vocal"
+                            checked={vocalChecked}
                             onChange={(e) => editInstruments(e)}
                         />
-                        <label htmlFor="vocals">Vocals</label>
+                        <label htmlFor="vocal">Vocal</label>
                     </div>
                 </div>
             </div>
