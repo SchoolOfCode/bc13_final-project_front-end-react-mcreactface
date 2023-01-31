@@ -107,13 +107,13 @@ export default function Navbar() {
             </div>
             <ul
                 className={`${styles.ul} ${
-                    isNavExpanded ? styles.menuDisplay : styles.hide
+                    isNavExpanded ? styles.display : styles.hide
                 }`}
             >
                 <li className={styles.li}>
                     <Link
                         onClick={() => {
-                            setIsNavExpanded(!isNavExpanded)
+                            setIsNavExpanded(false)
                         }}
                         href={"/"}
                         className={asPath == "/" ? styles.activelink : ""}
@@ -124,7 +124,7 @@ export default function Navbar() {
                 <li className={styles.li}>
                     <Link
                         onClick={() => {
-                            setIsNavExpanded(!isNavExpanded)
+                            setIsNavExpanded(false)
                         }}
                         href={"/gigs"}
                         className={asPath == "/gigs" ? styles.activelink : ""}
