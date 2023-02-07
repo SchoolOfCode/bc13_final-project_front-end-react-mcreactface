@@ -484,6 +484,7 @@ export default function GigsDisplay() {
                                                       multiplier.current &&
                                               gig.startyear == searchCurrentYear
                                       )
+                                      .sort((a, b) => (a.startday > b.startday) ? 1 : ((b.startday > a.startday) ? -1 : 0))
                                       .map((gig) => {
                                           // I tried wrapping the whole return statement in some conditional rendering but there was a problem
                                           // returning twice from within .map so I had to re-write it this way, ugly and repetitive as it is :( - J
@@ -560,7 +561,10 @@ export default function GigsDisplay() {
                                                                   : styles.gigDatesInner
                                                           }
                                                       >
-                                                          {gig.genres}
+                                                          {gig.genres ==
+                                                          "Standard Function"
+                                                              ? "Function"
+                                                              : gig.genres}
                                                       </div>
                                                   )}
                                                   <div
@@ -588,22 +592,13 @@ export default function GigsDisplay() {
                                                   >
                                                       {gig.instrumentreq
                                                           .length > 1 ? (
-                                                          gig.instrumentreq.map(
-                                                              (
-                                                                  genre,
-                                                                  index
-                                                              ) => {
-                                                                  return (
-                                                                      <img
-                                                                          className={
-                                                                              styles.gigImage
-                                                                          }
-                                                                          src={`images/icons/small${genre}.png`}
-                                                                          alt={`small${gig.instrumentreq}`}
-                                                                      ></img>
-                                                                  )
+                                                          <img
+                                                              className={
+                                                                  styles.gigImage
                                                               }
-                                                          )
+                                                              src={`images/icons/smallMultiple.png`}
+                                                              alt={`smallMultiple}`}
+                                                          ></img>
                                                       ) : (
                                                           <img
                                                               className={
