@@ -410,8 +410,21 @@ export default function GigsDisplay() {
                                     getGigs()
                                 }}
                             >
-                                RESET
+                                MY PREFS
                             </button>
+                            {searchInstruments.length || searchGenres.length ? (
+                                <button
+                                    onClick={() => {
+                                        setSearchInstruments([])
+                                        setSearchGenres([])
+                                        getGigs()
+                                    }}
+                                >
+                                    CLEAR
+                                </button>
+                            ) : (
+                                ""
+                            )}
                         </>
                     ) : (
                         "No filters applied"

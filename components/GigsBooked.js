@@ -62,7 +62,7 @@ export default function GigsBooked({ bookedList }) {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div>x
                     <button
                         className={styles.scroll}
                         onClick={() => scroll(500)}

@@ -11,10 +11,20 @@ import GigsDisplay from "../components/GigsDisplay"
 import Router from "next/router"
 import { useEffect } from "react"
 
+export async function getServerSideProps(context) {
+    return {
+      props: {}, // will be passed to the page component as props
+    }
+  }
+
 const Login = () => {
     const session = useSession()
     const supabase = useSupabaseClient()
     const user = useUser()
+
+
+    
+
     /*
     useEffect(() => {
         Router.push({

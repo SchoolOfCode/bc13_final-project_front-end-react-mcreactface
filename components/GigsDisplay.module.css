@@ -164,6 +164,7 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
     
     .gigDates:hover {
@@ -198,6 +199,7 @@
     
     .gigDatesInner {
         color: black;
+
     }
     
     .gigDatesIBooked {
@@ -211,6 +213,7 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
     
     .gigDatesICreated {
@@ -223,6 +226,7 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
     
     
