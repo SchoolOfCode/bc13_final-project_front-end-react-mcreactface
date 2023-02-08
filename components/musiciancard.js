@@ -7,13 +7,15 @@ export default function Musician(profile) {
     console.log("pic: ", profile.avatar_url)
     let duffImage
 
+
+    //this is very slow and probably should be pre-rendered somehow
     function imageExists(image_url) {
         var http = new XMLHttpRequest()
 
         http.open("HEAD", image_url, false)
 
         try {
-            http.send()
+        http.send()
         } catch {
             return false
         }

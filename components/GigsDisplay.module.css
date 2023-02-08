@@ -200,6 +200,7 @@
     .gigDatesInner {
         color: black;
         width: 5vw;
+        padding-top: 0.2vh;
     }
     
     .gigDatesIBooked {
@@ -277,11 +278,13 @@
         --background-color: black;
         color: orange;
         width: 5vw;
+        padding-top: 0.2vh;
     }
     
     .gigDatesICreatedInner {
         color: black;
         width: 5vw;
+        padding-top: 0.2vh;
     }
     
     
@@ -301,7 +304,7 @@
     }
     
     .gigImage {
-        bottom: 5px;
+
         height: 2vh;
         padding-left: 0vh;
     }
@@ -407,14 +410,25 @@
     width: 3vw;
 }
 
+.gigDatesInner:nth-child(2) {
+    width: 4vw;
+}
+
 .gigDatesIBookedInner:first-child{
     width: 3vw;
+}
+
+.gigDatesIBookedInner:nth-child(2) {
+    width: 4vw;
 }
 
 .gigDatesICreatedInner:first-child {
     width: 3vw;
 }
 
+.gigDatesICreatedInner:nth-child(2) {
+    width: 4vw;
+}
 
 
 /*
