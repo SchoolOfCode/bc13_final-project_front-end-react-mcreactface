@@ -159,11 +159,11 @@
         margin-bottom: 0.6vh;
         display: flex;
         flex-direction: row;
-        align-content: center;
         justify-content: space-between;
-        padding: 0.5vh;
+        padding: 0.5vh 0.5vh 0.5vh 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
     
     .gigDates:hover {
@@ -198,6 +198,7 @@
     
     .gigDatesInner {
         color: black;
+        width: 5vw;
     }
     
     .gigDatesIBooked {
@@ -211,7 +212,14 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
+
+    .gigDatesIBooked:hover {
+        cursor: pointer;
+        box-shadow:0px 0px 0px 1px orange inset;
+    }
+    
     
     .gigDatesICreated {
         background-color: --var(--darkorange);
@@ -223,14 +231,20 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
+        overflow: hidden;
     }
-    
+
+    .gigDatesICreated:hover {
+        cursor: pointer;
+        box-shadow:0px 0px 0px 1px black inset;
+    }
     
     .upArrow {
         display: flex;
         margin-bottom: auto;
         justify-content: center;
     }
+
     .downArrow {
         display: flex;
         margin-top: auto;
@@ -261,10 +275,12 @@
     .gigDatesIBookedInner {
         --background-color: black;
         color: orange;
+        width: 5vw;
     }
     
     .gigDatesICreatedInner {
         color: black;
+        width: 5vw;
     }
     
     

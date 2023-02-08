@@ -410,8 +410,21 @@ export default function GigsDisplay() {
                                     getGigs()
                                 }}
                             >
-                                RESET
+                                MY PREFS
                             </button>
+                            {searchInstruments.length || searchGenres.length ? (
+                                <button
+                                    onClick={() => {
+                                        setSearchInstruments([])
+                                        setSearchGenres([])
+                                        getGigs()
+                                    }}
+                                >
+                                    CLEAR
+                                </button>
+                            ) : (
+                                ""
+                            )}
                         </>
                     ) : (
                         "No filters applied"
@@ -470,6 +483,13 @@ export default function GigsDisplay() {
                                                       index +
                                                       multiplier.current &&
                                               gig.startyear == searchCurrentYear
+                                      )
+                                      .sort((a, b) =>
+                                          a.startday > b.startday
+                                              ? 1
+                                              : b.startday > a.startday
+                                              ? -1
+                                              : 0
                                       )
                                       .map((gig) => {
                                           // I tried wrapping the whole return statement in some conditional rendering but there was a problem
@@ -547,7 +567,10 @@ export default function GigsDisplay() {
                                                                   : styles.gigDatesInner
                                                           }
                                                       >
-                                                          {gig.genres}
+                                                          {gig.genres ==
+                                                          "Standard Function"
+                                                              ? "Function"
+                                                              : gig.genres}
                                                       </div>
                                                   )}
                                                   <div
@@ -575,22 +598,13 @@ export default function GigsDisplay() {
                                                   >
                                                       {gig.instrumentreq
                                                           .length > 1 ? (
-                                                          gig.instrumentreq.map(
-                                                              (
-                                                                  genre,
-                                                                  index
-                                                              ) => {
-                                                                  return (
-                                                                      <img
-                                                                          className={
-                                                                              styles.gigImage
-                                                                          }
-                                                                          src={`images/icons/small${genre}.png`}
-                                                                          alt={`small${gig.instrumentreq}`}
-                                                                      ></img>
-                                                                  )
+                                                          <img
+                                                              className={
+                                                                  styles.gigImage
                                                               }
-                                                          )
+                                                              src={`images/icons/smallMultiple.png`}
+                                                              alt={`smallMultiple}`}
+                                                          ></img>
                                                       ) : (
                                                           <img
                                                               className={

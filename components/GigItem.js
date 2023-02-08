@@ -25,9 +25,8 @@ export default function GigItem({
     }
 
     let thedate = new Date(gig.starttime)
-    let ts = new Date();
-    let ts2 = ts.toISOString();
-
+    let ts = new Date()
+    let ts2 = ts.toISOString()
 
     //let mystart = new Date(gig.starttime).toLocaleString('uk');
     let myend = new Date(gig.endtime).toLocaleString("uk")
@@ -38,9 +37,6 @@ export default function GigItem({
         (thedate.getMonth() + 1) +
         "/" +
         thedate.getFullYear()
-    
-
-  
 
     return (
         <div className={styles.gigCard}>
@@ -51,9 +47,14 @@ export default function GigItem({
             >
                 <div className={styles.cardcontent}>
                     <div className={styles.cardTitleImage}>
-                        {gig.instrumentreq && (
+                        {gig.instrumentreq && gig.instrumentreq.length > 1 ? (
                             <img
-                                src={`images/icons/${gig.instrumentreq}.jpg`}
+                                src={`images/icons/Multiple.png`}
+                                alt="imagehere"
+                            ></img>
+                        ) : (
+                            <img
+                                src={`images/icons/${gig.instrumentreq}.png`}
                                 alt="imagehere"
                             ></img>
                         )}
@@ -120,7 +121,18 @@ export default function GigItem({
                                     >
                                         Delete Gig
                                     </button>
-                                    {!gig.reviewed && (gig.endtime < ts2)  ? (<button onClick={()=>{setReviewing(true); setReviewingId(gig.chosen_id); setGigBeingReviewed(gig); console.log(reviewingId)}}>Review Gig</button>) : null}
+                                    {!gig.reviewed && gig.endtime < ts2 ? (
+                                        <button
+                                            onClick={() => {
+                                                setReviewing(true)
+                                                setReviewingId(gig.chosen_id)
+                                                setGigBeingReviewed(gig)
+                                                console.log(reviewingId)
+                                            }}
+                                        >
+                                            Review Gig
+                                        </button>
+                                    ) : null}
                                 </div>
                             </div>
                         </div>

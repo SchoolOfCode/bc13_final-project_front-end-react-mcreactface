@@ -4,6 +4,27 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Musician(profile) {
+    console.log("pic: ", profile.avatar_url)
+    let duffImage
+
+    function imageExists(image_url) {
+        var http = new XMLHttpRequest()
+
+        http.open("HEAD", image_url, false)
+
+        try {
+            http.send()
+        } catch {
+            return false
+        }
+
+        return http.status != 404
+    }
+
+    if (!imageExists(profile.avatar_url)) {
+        duffImage = "images/icons/offwhiteavatar.png"
+    }
+
     return (
         <div className={styles.musiciancard}>
             <div className={styles.top}>
@@ -24,12 +45,28 @@ export default function Musician(profile) {
             </div>
             <div className={styles.avatarcontainer}>
                 {profile.avatar_url ? (
-                    <Image
-                        src={`https://mrtlmherhdiqarnmtiyx.supabase.co/storage/v1/object/public/avatars/${profile.avatar_url}`}
-                        alt="Logo"
-                        width={100}
-                        height={100}
-                    />
+                    profile.avatar_url.indexOf("http") == -1 ? (
+                        <Image
+                            src={`https://mrtlmherhdiqarnmtiyx.supabase.co/storage/v1/object/public/avatars/${profile.avatar_url}`}
+                            alt="Logo"
+                            width={100}
+                            height={100}
+                        />
+                    ) : duffImage ? (
+                        <img
+                            src={"images/icons/offwhiteavatar.png"}
+                            alt="Logo"
+                            width={100}
+                            height={100}
+                        />
+                    ) : (
+                        <img
+                            src={`${profile.avatar_url}`}
+                            alt="Logo"
+                            width={100}
+                            height={100}
+                        />
+                    )
                 ) : (
                     <img
                         src={"images/icons/offwhiteavatar.png"}
