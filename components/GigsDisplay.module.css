@@ -199,7 +199,7 @@
     
     .gigDatesInner {
         color: black;
-        width: 5vw;
+        width: 2vw;
         padding-top: 0.2vh;
     }
     
@@ -277,13 +277,13 @@
     .gigDatesIBookedInner {
         --background-color: black;
         color: orange;
-        width: 5vw;
+        width: 2vw;
         padding-top: 0.2vh;
     }
     
     .gigDatesICreatedInner {
         color: black;
-        width: 5vw;
+        width: 2vw;
         padding-top: 0.2vh;
     }
     
@@ -304,9 +304,7 @@
     }
     
     .gigImage {
-
         height: 2vh;
-        padding-left: 0vh;
     }
     
     .bookingData {
