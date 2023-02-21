@@ -37,6 +37,8 @@ export default function GigsDisplay() {
     const [pageSize, setPageSize] = useState(0)
     const [shrinkFilters, setShrinkFilters] = useState(false)
     const [showCancel, setShowCancel] = useState(false)
+    const [showContent, setShowContent] = useState(false)
+    const [prevPath, setPrevPath] = useState("")
     const { ty, sm, md, lg, xl } = useMediaQueries()
     let pageCurrent = useRef(1)
     let multiplier = useRef(0)
@@ -68,8 +70,10 @@ export default function GigsDisplay() {
             setLoading(false)
         })
 
+        // Somewhere in this useEffect is the solution (I think) to keeping content the same if we switch tabs.
+
         getUser(userData)
-        getGigs(userData)
+        //   getGigs(userData)
     }, [user])
 
     useEffect(() => {
@@ -77,22 +81,17 @@ export default function GigsDisplay() {
     }, [searchGenres, searchInstruments])
 
     useEffect(() => {
-        getGigs()
-        initialiseMonths()
+        console.log("router.pathname: ", router.pathname)
+        if (router.pathname == undefined) {
+            setPrevPath(router.pathname)
+            getGigs()
+            initialiseMonths()
+        }
     }, [])
 
     useEffect(() => {
         initialiseMonths()
     }, [ty, sm, md, lg, xl])
-
-    useEffect(() => {
-        doBooking(selectedGig)
-        setShowAll(true)
-    }, [triggerBooking])
-
-    useEffect(() => {
-        doCancellation(selectedGig)
-    }, [triggerCancellation])
 
     function initialiseMonths() {
         const cloneVisibleMonths = {
@@ -297,6 +296,13 @@ export default function GigsDisplay() {
 
         if (searchGenres.length || searchInstruments.length) {
             if (searchGenres.length && searchInstruments.length) {
+                console.log(
+                    "querying with a filter (searchGenres: ",
+                    searchGenres,
+                    ") (searchInstruments: ",
+                    searchInstruments,
+                    ")"
+                )
                 query = query.overlaps("genres", searchGenres)
                 query = query.overlaps("instrumentreq", searchInstruments)
             } else if (searchGenres.length) {
@@ -358,6 +364,7 @@ export default function GigsDisplay() {
                                       <div>
                                           <button
                                               onClick={(e) => {
+                                                  e.preventDefault()
                                                   setSearchGenres(
                                                       searchGenres.filter(
                                                           (genre, gkey) =>
@@ -388,6 +395,7 @@ export default function GigsDisplay() {
                                       <div>
                                           <button
                                               onClick={(e) => {
+                                                  e.preventDefault()
                                                   setSearchInstruments(
                                                       searchInstruments.filter(
                                                           (instrument, gkey) =>
@@ -405,19 +413,20 @@ export default function GigsDisplay() {
                                 <button className={styles.filterEnd}>➕</button>
                             </Link>
                             <button
-                                onClick={() => {
+                                onClick={(e) => {
                                     getUser()
                                     getGigs()
+                                    e.preventDefault()
                                 }}
                             >
                                 MY PREFS
                             </button>
                             {searchInstruments.length || searchGenres.length ? (
                                 <button
-                                    onClick={() => {
-                                        setSearchInstruments([])
+                                    onClick={(e) => {
                                         setSearchGenres([])
-                                        getGigs()
+                                        setSearchInstruments([])
+                                        e.preventDefault()
                                     }}
                                 >
                                     CLEAR
@@ -716,7 +725,8 @@ export default function GigsDisplay() {
                                 alert(
                                     "Are you sure?  Once booked you should not cancel or it may affect your rating..."
                                 )
-                                setTriggerBooking(!triggerBooking)
+                                doBooking(selectedGig)
+                                setShowAll(true)
                                 setTimeout(() => {
                                     router.reload(window.location.pathname)
                                 }, 500)
@@ -731,7 +741,7 @@ export default function GigsDisplay() {
                         <button
                             className={styles.bookButton}
                             onClick={() => {
-                                setTriggerCancellation(!triggerCancellation)
+                                doCancellation(selectedGig)
                                 setTimeout(() => {
                                     router.reload(window.location.pathname)
                                 }, 500)
