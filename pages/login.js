@@ -10,20 +10,13 @@ import { AccountPage } from "../components/AccountPage"
 import GigsDisplay from "../components/GigsDisplay"
 import Router from "next/router"
 import { useEffect } from "react"
-
-export async function getServerSideProps(context) {
-    return {
-      props: {}, // will be passed to the page component as props
-    }
-  }
+import { useRouter } from "next/router"
 
 const Login = () => {
     const session = useSession()
     const supabase = useSupabaseClient()
     const user = useUser()
-
-
-    
+    const router = useRouter()
 
     /*
     useEffect(() => {
@@ -42,17 +35,21 @@ const Login = () => {
                     providers={["apple", "google", "github"]}
                     supabaseClient={supabase}
                     theme="dark"
-                    redirectTo={"http://localhost:3000/gigs/"}
+                    redirectTo="http://localhost:3000/"
                     appearance={{
                         theme: ThemeSupa,
                         style: {
-                            button: { background: "#ff5722", color: "black" },
+                            button: {
+                                background: "#ff5722",
+                                color: "black",
+                            },
                             anchor: { color: "grey" },
                         },
                     }}
                 />
             ) : (
                 <Account session={session} />
+                // <GigsDisplay />
             )}
         </div>
     )

@@ -129,10 +129,11 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+
     }
     
     .longMonthBox {
-        display: flex;
+
         flex-direction: column;
         padding: 0.5vw;
         height: 50vh;
@@ -141,17 +142,32 @@
         max-width: 25vh;
         min-width: 25vh;
         border-radius: 4px;
+        overflow: hidden;
     }
+
+    .longMonthBox::-webkit-scrollbar {
+        width: 0 !important
+        }
+
+    .gigDatesContainer::-webkit-scrollbar {
+        width: 0 !important
+        }
     
     .month {
         max-width: 100%;
         background-color: white;
         border: 2px solid black;
         padding: 0.5vw;
+        margin-bottom: 0.5vw;
         color: #242424;
         position: relative;
         text-align: center;
         border-radius: 4px;
+    }
+
+    .gigDatesContainer {
+        height: 100%;
+        overflow-y: scroll;
     }
     
     .gigDates {
@@ -163,7 +179,7 @@
         padding: 0.5vh 0.5vh 0.5vh 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
-        overflow: hidden;
+
     }
 
 
@@ -214,7 +230,7 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
-        overflow: hidden;
+
     }
 
     .gigDatesIBooked:hover {
@@ -233,7 +249,7 @@
         padding: 0.5vh;
         border: solid black 2px;
         border-radius: 4px;
-        overflow: hidden;
+
     }
 
     .gigDatesICreated:hover {

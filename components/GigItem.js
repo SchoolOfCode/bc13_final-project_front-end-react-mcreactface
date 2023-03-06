@@ -127,7 +127,7 @@ export default function GigItem({
                                                 setReviewing(true)
                                                 setReviewingId(gig.chosen_id)
                                                 setGigBeingReviewed(gig)
-                                                console.log(reviewingId)
+                                                // console.log(reviewingId)
                                             }}
                                         >
                                             Review Gig
