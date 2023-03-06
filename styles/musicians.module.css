@@ -1,0 +1,148 @@
+.pagecontainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right:auto;
+  flex-wrap: wrap;
+  max-width: 1600px;
+  justify-content: space-around;
+  background: radial-gradient(circle, rgba(36,35,35,1) 0%, rgba(46,44,44,1) 54%, rgba(17,17,17,1) 88%, rgba(0,0,0,1) 100%);
+}
+
+.h1 {
+  margin: auto;
+  min-width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.h2 {
+  color: var(--custom-panel-color);
+  border-bottom: 2px solid black;
+  min-height: 32.4px;
+}
+
+.p {
+  /* color: var(--custom-panel-color); */
+  /* color: rgb(0, 0, 0); */
+  color: rgb(252, 94, 9);
+  width: 100%;
+}
+
+.ratesection {
+  color: rgb(252, 94, 9);
+}
+
+.cardcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  gap: 20px;
+  justify-content: center;
+}
+
+.musiciancard:hover {
+  background-color: #f9e6d1;
+}
+
+.musiciancard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 400px;
+  min-height: 200px;
+  padding: 5px;
+  background-color: #f3f3f3;
+  /* background-color: #ffb76a; */
+  border-radius: 6px;
+}
+
+.top{
+  display: flex;
+}
+
+.titlecontainer {
+  width: 340px;
+}
+.ratingnumber{
+  font-size: 20px;
+  color: black;
+}
+
+/* .ratingcontainer{
+  width:40px;
+} */
+
+.instrumentsection{
+  display: flex;
+  flex-direction: column;
+}
+.creatingsections{
+  display: flex;
+  justify-content: space-between ;
+}
+
+.makingsectionscolumn{
+  min-width: 195px;
+}
+
+.avatarcontainer {
+  height: 100px;
+}
+.infosection {
+  min-height: 150px;
+}
+
+.reqs{ 
+  color: rgb(25, 25, 25);
+  font-size: 20px;
+  width: 100%;
+  text-decoration: underline;
+}
+.cashAndRate {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+}
+
+.contactbutton {
+  background-color: #ea5a1d;
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.contactbutton:hover {
+  background-color: #222222;
+  color: #ea5a1d;
+}
+
+.pageButton {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5vh;
+  background-color: #ea5a1d;
+  width: 10%;
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
+}
+
+@media screen and (max-width: 480px) {
+  .musiciancard {
+    width: 365px;
+  }
+}

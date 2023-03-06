@@ -1,0 +1,65 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+}
+
+.option {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 0;
+    width: fit-content;
+    border-radius: 5px;
+    height: 40px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+}
+
+.checkedOption {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    padding: 0;
+    width: fit-content;
+    border-radius: 5px;
+    background-color: #ff5722;
+    height: 40px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+}
+
+.option > label {
+    margin: 10px;
+    color: white;
+    margin-left: 0;
+    white-space: nowrap;
+}
+.checkedOption > label {
+    margin: 10px;
+    color: black;
+    margin-left: 0;
+    white-space: nowrap;
+}
+.option > input {
+    margin: 10px;
+    padding: 6px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.checkedOption > input {
+    margin: 10px;
+    padding: 6px;
+    border-radius: 5px;
+    background-color: white;
+}

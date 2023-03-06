@@ -1,0 +1,83 @@
+.contactcontainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px 20px 20px;
+    text-align: center;
+    /* background-color: rgb(30, 29, 29); */
+    background: radial-gradient(
+        circle,
+        rgba(36, 35, 35, 1) 0%,
+        rgba(46, 44, 44, 1) 54%,
+        rgba(17, 17, 17, 1) 88%,
+        rgba(0, 0, 0, 1) 100%
+    );
+}
+
+.formcontainer {
+    display: flex;
+    max-width: 600px;
+    width: 100%;
+    display: inline-block;
+}
+
+.padbtm {
+    padding-bottom: 8px;
+}
+
+.headingcontainer {
+    font-size: 40px;
+    font: bold;
+    border-bottom: 4px;
+}
+.pcontainer {
+    font-size: 20px;
+    padding-top: 8px;
+}
+.namecontainer {
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    padding: 2px;
+    margin-bottom: 10px;
+}
+.emailcontainer {
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    padding: 2px;
+    margin-bottom: 10px;
+    margin-top: 2px;
+}
+.textcontainer {
+    font-size: 20px;
+    color: black;
+    background-color: white;
+    padding: 2px;
+    margin-top: 2px;
+    width: 100%;
+}
+.buttoncontainer {
+    font-size: 16px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    background-color: #ea5a1d;
+    border: 2px solid black;
+    padding: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttoncontainer:hover {
+    background-color: #282727;
+    color: white;
+    border: 2px solid #ea5a1d;
+}

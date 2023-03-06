@@ -1,0 +1,120 @@
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--custom-color-brand);
+    padding: 10px 20px 10px 20px;
+    border-bottom: 8px solid black;
+    position: relative;
+}
+
+.logotitle {
+    display: flex;
+    gap: 30px;
+    font-size: 30px;
+}
+
+
+.ul {
+    display: flex;
+
+}
+
+.li a:hover {
+    border-bottom: 1px solid;
+
+}
+
+.li a {
+    text-decoration: none;
+}
+
+.li {
+    list-style: none;
+    font-size: 25px;
+    padding: 8px 5px 0px 10px;
+}
+
+.activelink {
+    border-bottom: 3px solid;
+}
+
+.icon {
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+
+.avataricon {
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .ul {
+        display: flex;
+        position: absolute;
+        top: 99px;
+        left: 0px;
+        flex-direction: column;
+        margin: 0px;
+        width: 100vw;
+        background-color: var(--custom-color-brand);
+    }
+
+
+    .hide {
+        display: none;
+    }
+
+    .display {
+        z-index: 1;
+        display: block;
+    }
+
+    .menuDisplay {
+        z-index: 1;
+        display: block;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding: 2vh 0vh 2vh 0vh;
+    }
+
+    .li {
+        display: flex;
+
+        padding-bottom: 3px;
+    }
+
+    .avataricon {
+        display: none;
+    }
+
+    .logotitle {
+
+        gap: 20px;
+    }
+}
