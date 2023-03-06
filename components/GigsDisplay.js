@@ -28,6 +28,7 @@ export default function GigsDisplay() {
     const [visibleMonths, setVisibleMonths] = useState({})
     const [pageSize, setPageSize] = useState(0)
     const [shrinkFilters, setShrinkFilters] = useState(false)
+    const [showMyGigs, setShowMyGigs] = useState(true)
     const { ty, sm, md, lg, xl } = useMediaQueries()
     let pageCurrent = useRef(1)
     let multiplier = useRef(0)
@@ -64,8 +65,8 @@ export default function GigsDisplay() {
 
         // Somewhere in this useEffect is the solution (I think) to keeping content the same if we switch tabs.
         // Uncommenting this line (below) will fix the tab switching but introduces a bug when you book gigs
-        setFilters(userData)
-        //   getGigs(userData)
+        //setFilters(userData)
+        //getGigs(userData)
     }, [user])
 
     useEffect(() => {
@@ -82,6 +83,28 @@ export default function GigsDisplay() {
     useEffect(() => {
         calculateWhichMonthsToShow()
     }, [ty, sm, md, lg, xl])
+
+    useEffect(() => {
+        if (!showMyGigs) {
+            filterOutMyGigs()
+        } else {
+            getGigs()
+        }
+    }, [showMyGigs])
+
+    function filterOutMyGigs() {
+        let newOut = output
+            .filter((gig) => {
+                return gig.chosen_id !== user.id
+            })
+            .filter((gig) => {
+                return gig.bookee !== user.id
+            })
+
+        console.log("Before: ", output)
+        setOutput(newOut)
+        console.log("After: ", newOut)
+    }
 
     /* calculate which months to show based on the media query currently active */
     function calculateWhichMonthsToShow() {
@@ -265,6 +288,8 @@ export default function GigsDisplay() {
 
     /* gets the gig */
     async function getGigs(userData) {
+        //   console.log("userid: ", user.id)
+        let builtQuery = ""
         let query = supabase.from("gigs").select("*")
 
         query = query.gte("starttime", `${searchCurrentYear}-01-01 00:00:00`)
@@ -272,8 +297,6 @@ export default function GigsDisplay() {
 
         if (!user) {
             query = query.filter("chosen_id", "is", "null")
-        }
-        if (user) {
         }
 
         if (searchGenres.length || searchInstruments.length) {
@@ -287,11 +310,55 @@ export default function GigsDisplay() {
                 )*/
                 query = query.overlaps("genres", searchGenres)
                 query = query.overlaps("instrumentreq", searchInstruments)
+
+                // I can't seem to make it do filtering here to remove chosen_id or bookee when it's the same as the user.id
+                // So I tried to build an .or filter string but that didn't work either.  So I'll do it in the rendering part instead
+
+                // query = query.filter("chosen_id", "neq", user.id)
+                /*
+                if (searchGenres.length > 1) {
+                    for (let individualGenre of searchGenres) {
+                        builtQuery += `genres.eq.${individualGenre}`
+                        if (
+                            individualGenre !==
+                            searchGenres[searchGenres.length]
+                        ) {
+                            builtQuery += ","
+                        }
+                    }
+                } else {
+                    builtQuery += `genres.eq.${searchGenres[0]}`
+                }
+                if (searchInstruments.length > 1) {
+                    builtQuery += ","
+                    for (let individualInstrument of searchInstruments) {
+                        builtQuery += `instrumentreq.eq.${individualInstrument}`
+                        if (
+                            individualInstrument !==
+                            searchInstruments[searchInstruments.length]
+                        ) {
+                            builtQuery += ","
+                        }
+                    }
+                } else {
+                    builtQuery += `instrumentreq.eq.${searchInstruments[0]}`
+                }
+                console.log("builtQuery: ", builtQuery)
+                query = query.or(builtQuery)
+                */
             } else if (searchGenres.length) {
                 query = query.overlaps("genres", searchGenres)
             } else if (searchInstruments.length) {
                 query = query.overlaps("instrumentreq", searchInstruments)
             }
+        }
+
+        if (user) {
+            /* remove booked gigs to avoid duplicates - necessary because we're doing two queries */
+            // query = query.not("bookee", "is", user.id)
+            // query = query.not("chosen_id", "is", user.id)
+            //  query = query.filter("chosen_id", "eq", user.id)
+            // query = query.filter("bookee", "eq", user.id)
         }
 
         const { data: gigs, error } = await query
@@ -398,11 +465,28 @@ export default function GigsDisplay() {
                         ) : (
                             ""
                         )}
+                        <ShowMyGigs />
                     </>
                 ) : (
                     "No filters applied"
                 )}
             </h3>
+        )
+    }
+
+    function ShowMyGigs() {
+        return (
+            <div className={styles.gigsheader}>
+                <div className={styles.showgigs}>
+                    Show My Gigs
+                    <input
+                        id="box"
+                        type="checkbox"
+                        checked={showMyGigs}
+                        onChange={() => setShowMyGigs(!showMyGigs)}
+                    />
+                </div>
+            </div>
         )
     }
 
@@ -436,6 +520,7 @@ export default function GigsDisplay() {
     }
 
     function ShowGigData() {
+        const newOutput = output
         /* this block is to make the left and right buttons work properly when paging through months */
         const filteredMonths = Object.entries(visibleMonths).filter(
             ([key, value]) => value === true
@@ -722,6 +807,7 @@ export default function GigsDisplay() {
                                 className={styles.bookButton}
                                 onClick={() => {
                                     doBooking(selectedGig)
+                                    getGigs()
                                     setShowCalendar(true)
                                     setTimeout(() => {
                                         router.reload(window.location.pathname)
@@ -738,7 +824,8 @@ export default function GigsDisplay() {
                                 className={styles.bookButton}
                                 onClick={() => {
                                     doCancellation(selectedGig)
-                                    setShowCalendar(!showCalendar)
+                                    getGigs()
+                                    setShowCalendar(false)
                                     setTimeout(() => {
                                         router.reload(window.location.pathname)
                                     }, 500)
