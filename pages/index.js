@@ -64,7 +64,7 @@ export default function Home() {
                     </p>
                     <img
                         className={styles.miniimage}
-                        src={`images/GigsDisplay.jpg`}
+                        src={`images/GigsDisplay.png`}
                         alt="gig search"
                     ></img>
                 </div>

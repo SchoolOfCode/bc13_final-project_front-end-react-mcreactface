@@ -63,7 +63,8 @@ export default function GigsDisplay() {
         setLoading(false)
 
         // Somewhere in this useEffect is the solution (I think) to keeping content the same if we switch tabs.
-        // setFilters(userData)
+        // Uncommenting this line (below) will fix the tab switching but introduces a bug when you book gigs
+        setFilters(userData)
         //   getGigs(userData)
     }, [user])
 
