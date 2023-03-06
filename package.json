@@ -1,37 +1,36 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "jest",
-    "test:ci": "jest --ci",
-    "cypress": "cypress open"
-  },
-  "dependencies": {
-    "@next/swc-darwin-x64": "^13.2.3",
-    "@supabase/auth-helpers-nextjs": "^0.5.2",
-    "@supabase/auth-helpers-react": "^0.3.1",
-    "@supabase/auth-ui-react": "^0.2.6",
-    "@supabase/gotrue-js": "^2.12.1",
-    "@supabase/supabase-js": "^2.2.3",
-    "next": "13.1.1",
-    "prettier": "^2.8.2",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "5.16.4",
-    "@testing-library/react": "13.2.0",
-    "@testing-library/user-event": "14.2.0",
-    "@types/react": "18.0.9",
-    "@types/testing-library__jest-dom": "5.14.5",
-    "cypress": "^12.4.0",
-    "eslint": "^8.31.0",
-    "jest": "28.1.0",
-    "jest-environment-jsdom": "28.1.0",
-    "nock": "^13.3.0"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "test": "jest",
+        "test:ci": "jest --ci",
+        "cypress": "cypress open"
+    },
+    "dependencies": {
+        "@supabase/auth-helpers-nextjs": "^0.5.2",
+        "@supabase/auth-helpers-react": "^0.3.1",
+        "@supabase/auth-ui-react": "^0.2.6",
+        "@supabase/gotrue-js": "^2.12.1",
+        "@supabase/supabase-js": "^2.2.3",
+        "next": "13.1.1",
+        "prettier": "^2.8.2",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-slick": "^0.29.0",
+        "slick-carousel": "^1.8.1"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "5.16.4",
+        "@testing-library/react": "13.2.0",
+        "@testing-library/user-event": "14.2.0",
+        "@types/react": "18.0.9",
+        "@types/testing-library__jest-dom": "5.14.5",
+        "cypress": "^12.4.0",
+        "eslint": "^8.31.0",
+        "jest": "28.1.0",
+        "jest-environment-jsdom": "28.1.0",
+        "nock": "^13.3.0"
+    }
 }
