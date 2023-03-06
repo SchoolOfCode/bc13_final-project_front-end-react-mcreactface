@@ -15,9 +15,21 @@ const scope = nock("https://api.github.com")
             node_id: "MDc6TGljZW5zZTEz",
         },
     })
-
+/*
 describe("GigsDisplay", () => {
     it("renders a heading", () => {
+        render(<Home />)
+
+        const heading = screen.getByRole("heading", {
+            name: /MusoFind/i,
+        })
+
+        expect(heading).toBeInTheDocument()
+    })
+})
+*/
+describe("GigsDisplay", () => {
+    test("renders a heading", () => {
         render(<Home />)
 
         const heading = screen.getByRole("heading", {

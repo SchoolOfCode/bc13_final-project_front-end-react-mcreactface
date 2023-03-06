@@ -4,18 +4,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function Musician(profile) {
-    console.log("pic: ", profile.avatar_url)
+    //  console.log("pic: ", profile.avatar_url)
     let duffImage
-
 
     //this is very slow and probably should be pre-rendered somehow
     function imageExists(image_url) {
-        var http = new XMLHttpRequest()
-
-        http.open("HEAD", image_url, false)
-
         try {
-        http.send()
+            var http = new XMLHttpRequest()
+            http.open("HEAD", image_url, false)
+            http.send()
         } catch {
             return false
         }
